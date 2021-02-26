@@ -1,0 +1,45 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+  font-family:sans-serif,Arial,helvetica;
+}
+
+body {
+  background-color: #2b2d42;
+  color: #edf2f4;
+  margin: 0;
+  min-height: 100%;
+}
+
+.navbar {
+  width: 100%;
+  background-color: #EF233C;
+  overflow: auto;
+}
+
+.navbar a {
+  float: left;
+  text-align: center;
+  padding: 12px;
+  color: white;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.navbar a:hover {
+  background-color: #D90429;
+}
+
+.nav-right {
+  float: right;
+}
+
+@media screen and (max-width: 500px) {
+  .navbar a {
+    float: none;
+    display: block;
+  }
+}
