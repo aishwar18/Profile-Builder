@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profile Builder</title>
     <link rel="icon" type="image/jpg" href="../images/pb_logo.jpg">
-      
+
     <!--Google Fonts-->
     <link
       href="https://fonts.googleapis.com/css?family=Montserrat:900&display=swap"
@@ -26,13 +26,13 @@
       integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
       crossorigin="anonymous"
     ></script>
-      
+
     <script
       src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
       integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
       crossorigin="anonymous"
     ></script>
-      
+
     <script
       src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
       integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
@@ -49,13 +49,13 @@
     <link rel="stylesheet" href="../CSS/signup.css" />
 
 
-      
+
     <!--JS-->
     <script src="../JS/signup.js"></script>
-      
+
   </head>
-    
-    
+
+
   <body>
         <div class="container-fluid">
           <div class="row">
@@ -64,14 +64,14 @@
                 <div class="reg-form" id="reg-form">
                   <div class = "text_su"><h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sign Up</h3></div><br>
                   <form>
-                    
+
                     <div class="form-group">
                     <div class="row">
                       <div class="small-12 medium-2 large-2 columns">
                         <div class="circle">
                           <!-- User Profile Image -->
                           <img class="profile-pic" src="../Images/avatar_teacher.jpg">
-                   
+
                           <!-- Default Image -->
                           <!-- <i class="fa fa-user fa-5x"></i> -->
                         </div>
@@ -82,23 +82,23 @@
                         </div>
                      </div>
                    </div>
-                  </div> 
+                  </div>
                   <br><br><br><br><br><br>
                       <div class="form-group">
                           <label for="first_name">First Name</label>
                           <i class="fa fa-pencil"></i>
-                          <input type="text" class="form-control" id="first_name" placeholder="Enter the First Name" required>     
+                          <input type="text" class="form-control" id="first_name" placeholder="Enter the First Name" required>
                       </div>
 
                       <div class="form-group">
                         <label for="last_name">Last Name</label>
                         <i class="fa fa-pencil"></i>
-                        <input type="text" class="form-control" id="last_name" placeholder="Enter the Last Name" required>     
+                        <input type="text" class="form-control" id="last_name" placeholder="Enter the Last Name" required>
                     </div>
 
                     <!--<div class="form-group">
                         <label for="dob">Date of Birth</label>
-                        <input type="date" class="form-control" id="dob" placeholder="Enter the date of birth">     
+                        <input type="date" class="form-control" id="dob" placeholder="Enter the date of birth">
                     </div>
 
                     <div class="form-group">
@@ -126,35 +126,35 @@
                         <select onchange="print_city('state', this.selectedIndex);" id="sts" name ="stt" class="form-control" required></select>
                          <select id ="state" class="form-control" required name="sc"></select>
                          <script language="javascript">print_state("sts");</script>
-                  </div>     
+                  </div>
 
                     <div class="form-group">
                       <label for="mail_id">Mail ID</label>
                       <i class="fa fa-envelope"></i>
-                      <input oninput="email_check()" type="email" class="form-control" id="mail_id" placeholder="Enter the Mail ID" pattern="^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$" data-toggle="tooltip" data-placement="right" data-html="true" title="" required>     
+                      <input oninput="email_check()" type="email" class="form-control" id="mail_id" placeholder="Enter the Mail ID" pattern="^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$" data-toggle="tooltip" data-placement="right" data-html="true" title="" required>
                   </div>
 
                   <div class="form-group">
                     <label for="username">Username</label>
                     <i class="fa fa-user"></i>
-                    <input type="text" class="form-control" id="username" placeholder="Enter the Username" required>     
+                    <input type="text" class="form-control" id="username" placeholder="Enter the Username" required>
                 </div>
 
                   <div class="form-group">
                     <label for="password">Password</label>
                     <i onclick="password_visibility(this)" class="fa fa-eye"></i>
-                    <input oninput="password_check()" type="password" class="form-control" id="password" placeholder="Enter the Password" data-toggle="tooltip" data-placement="right" data-html="true" title="Password requirement : <br> 1 upper case character <br> 1 lower case character <br> 1 number <br> minimum length 8" 
-                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"  required>     
+                    <input oninput="password_check()" type="password" class="form-control" id="password" placeholder="Enter the Password" data-toggle="tooltip" data-placement="right" data-html="true" title="Password requirement : <br> 1 upper case character <br> 1 lower case character <br> 1 number <br> minimum length 8"
+                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"  required>
                 </div>
 
                 <div class="form-group">
-                  
+
                   <label for="confirm_password">Confirm Password</label>
                   <i onclick="confirm_password_visibility(this)" class="fa fa-eye"></i>
-                  <input oninput="confirm_password_check()" type="password" class="form-control" id="confirm_password" placeholder="Renter the Password again" data-toggle="tooltip" data-placement="right" title="Enter the same password" 
-                  required> 
+                  <input oninput="confirm_password_check()" type="password" class="form-control" id="confirm_password" placeholder="Renter the Password again" data-toggle="tooltip" data-placement="right" title="Enter the same password"
+                  required>
                 </div>
-            
+
 
                       <div class="form-group form-check">
                           <input type="checkbox" class="form-check-input" id="exampleCheck1" required>
@@ -168,6 +168,6 @@
               </div>
             </div>
           </div>
-        </div> 
+        </div>
   </body>
 </html>

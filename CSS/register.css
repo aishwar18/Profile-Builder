@@ -1,28 +1,28 @@
 * {
     box-sizing: border-box;
   }
-  
-  
+
+
   body {
     background-color: #2b2d42;
     color: #edf2f4;
     margin: 0;
     min-height: 100%;
   }
-  
+
   .column {
     float: left;
     width: 50%;
     padding: 5px;
   }
-  
+
   /* Clearfix (clear floats) */
   .row::after {
     content: "";
     clear: both;
     display: table;
   }
-  
+
   /* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
   @media screen and (max-width: 500px) {
     .column {
@@ -35,13 +35,13 @@
     width: 450px;
     height: 300px;
   }
-  
+
   .image {
     display: block;
     width: 400px;
     height: 300px;
   }
-  
+
   .text
   {
     font-size: 20px;
@@ -64,7 +64,7 @@
     background-color: #008CBA;
     vertical-align: middle;
   }
-  
+
   .container:hover .overlay {
     opacity: 1;
   }

@@ -12,7 +12,7 @@ html,body
   width:450px;
   margin-left: 30%;
   /*64.7%;*/
-  /*margin-top: 7%;*/  
+  /*margin-top: 7%;*/
 }
 
 .reg-form
@@ -80,7 +80,7 @@ button {
       max-height: 200px;
       display: block;
   }
-  
+
   .file-upload {
       display: none;
   }
@@ -110,7 +110,7 @@ button {
   .upload-button {
     font-size: 1.2em;
   }
-  
+
   .upload-button:hover {
     transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
     color: #999;

@@ -38,7 +38,7 @@ function print_degree(degree_id){
 
 function print_branch(branch_id, branch_index){
 	var option_str = document.getElementById(branch_id);
-	option_str.length=0;	
+	option_str.length=0;
 	option_str.options[0] = new Option('Select Branch','');
 	option_str.selectedIndex = 0;
 	var branch_arr = b_a[branch_index].split("|");
@@ -79,7 +79,7 @@ function password_visibility(y) {
   }
 
 
- 
+
 
 var state_arr = new Array("Andaman & Nicobar", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chandigarh", "Chhattisgarh", "Dadra & Nagar Haveli", "Daman & Diu", "Delhi", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jammu & Kashmir", "Jharkhand", "Karnataka", "Kerala", "Lakshadweep", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Orissa", "Pondicherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Tripura", "Uttar Pradesh", "Uttaranchal", "West Bengal");
 
@@ -148,7 +148,7 @@ function print_city(city_id, city_index){
 
 $(document).ready(function() {
 
-    
+
     var readURL = function(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -156,16 +156,16 @@ $(document).ready(function() {
             reader.onload = function (e) {
                 $('.profile-pic').attr('src', e.target.result);
             }
-    
+
             reader.readAsDataURL(input.files[0]);
         }
     }
-    
+
 
     $(".file-upload").on('change', function(){
         readURL(this);
     });
-    
+
     $(".upload-button").on('click', function() {
        $(".file-upload").click();
     });
@@ -179,26 +179,26 @@ $(function () {
 
   function email_check()
   {
-	
+
 	var myInput = document.getElementById("mail_id").value;
 	var y  = "<br>";
 	var z = "Mail ID should include:";
 	var at = /[@]/g;
-	if(!myInput.match(at)) {  
+	if(!myInput.match(at)) {
 		z+=y+"@ symbol";
-	} 
-	
+	}
+
 	// Validate capital letters
 	var dot = /[.]/g;
-	if(!myInput.match(dot)) {  
+	if(!myInput.match(dot)) {
 	  z+=y+". symbol";
-	} 
-   
+	}
+
 	if(z=="Mail ID should include:")
 	{
 		z="";
 	}
-  
+
 	$("#mail_id").tooltip('hide')
 		.attr('data-original-title',z)
 		.tooltip('show');
@@ -211,22 +211,22 @@ function password_check()
   var y  = "<br>";
   var z = "Password should include:";
   var lowerCaseLetters = /[a-z]/g;
-  if(!myInput.match(lowerCaseLetters)) {  
+  if(!myInput.match(lowerCaseLetters)) {
 	  z+=y+"1 lower case character";
-  } 
-  
+  }
+
   // Validate capital letters
   var upperCaseLetters = /[A-Z]/g;
-  if(!myInput.match(upperCaseLetters)) {  
+  if(!myInput.match(upperCaseLetters)) {
 	z+=y+"1 upper case character";
-  } 
+  }
 
   // Validate numbers
   var numbers = /[0-9]/g;
-  if(!myInput.match(numbers)) {  
+  if(!myInput.match(numbers)) {
 	z+=y+"1 number";
   }
-  
+
   // Validate length
   if(myInput.length < 8) {
 	z+=y+"minimum 8 characters";
@@ -277,9 +277,8 @@ function form_submission() {
 	if (confirm("Do you want to submit?")) {
 		window.open("../html/signup_teachers.html",target='_self');
 		return true;
-	} 
+	}
 	else{
 		return false;
 	}
 }
-
