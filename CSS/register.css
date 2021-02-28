@@ -16,6 +16,10 @@
     padding: 5px;
   }
 
+  .row{
+      margin-left: auto;
+      margin-right: auto;
+  }
   /* Clearfix (clear floats) */
   .row::after {
     content: "";
