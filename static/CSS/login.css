@@ -1,0 +1,137 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+  font-family:sans-serif,Arial,helvetica;
+}
+
+body {
+  background-color: #2b2d42;
+  color: #edf2f4;
+  margin: 0;
+  min-height: 100%;
+  width: 100%;
+}
+
+.align {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  margin: 9.5% 0;
+}
+
+.align__item {
+      align-self:center;
+      margin: 5% 0;
+}
+
+input {
+  border: 0;
+  font: inherit;
+  color: #edf2f4;
+}
+ input::placeholder {
+    color: #8d99ae;
+  }
+
+
+.form input{
+    outline: 0;
+    padding: .5rem 1rem;
+}
+.form__field{
+    margin-bottom: 1rem;
+}
+
+.grid {
+  margin: 0 auto;
+  max-width: 25rem;
+  width: 100%;
+}
+
+h2 {
+  font-size: 2.75rem;
+  font-weight: 100;
+  margin: 0 0 1rem;
+  text-transform: uppercase;
+}
+
+a {
+  color: #edf2f4;
+}
+
+.login {
+  box-shadow: 0 0 100px #14151e;
+  text-align: center;
+  padding: 4rem 2rem;
+}
+.login .input_field{
+    border: 1px solid #D90429;
+    border-radius: 999px;
+    background-color: transparent;
+    text-align: center;
+}
+
+.login input{
+    background-color: transparent;
+    text-align: center;
+}
+
+.login_button{
+    border: 1px solid #D90429;
+    background-color: #EF233C;
+    border-radius:999px;
+    text-align: center;
+}
+.login_button:hover{
+    cursor: pointer;
+    border: 1px solid #D90429;
+    background-color: #D90429;
+}
+.login_button input:hover{
+    cursor: pointer;
+}
+.navbar {
+  width: 100%;
+  background-color: #EF233C;
+  overflow: auto;
+}
+
+.navbar a {
+  float: left;
+  text-align: center;
+  padding: 12px;
+  color: white;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.navbar a:hover {
+  background-color: #D90429;
+}
+
+.nav-right {
+  float: right;
+}
+
+@media only screen and (max-width: 600px) {
+    .navbar a {
+      float: none;
+      display: block;
+      font-size: 14px;
+    }
+    .nav-right{
+        float: none;
+    }
+  .login{
+      font-size:0.8rem;
+  }
+  .login h2{
+      font-size: 2.2rem;
+  }
+  .grid{
+      width: 20rem;
+  }
+}

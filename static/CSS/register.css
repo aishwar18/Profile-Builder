@@ -1,0 +1,114 @@
+* {
+    box-sizing: border-box;
+  }
+
+  html {
+    height: 100%;
+    font-family:sans-serif,Arial,helvetica;
+  }
+
+  body {
+    background-color: #2b2d42;
+    color: #edf2f4;
+    margin: 0;
+    min-height: 100%;
+  }
+
+  .reg-title{
+      display: flex;
+      justify-content: center;
+  }
+  .column {
+    float: left;
+    width: 50%;
+    padding: 5px;
+  }
+
+  .row{
+      margin-left: auto;
+      margin-right: auto;
+  }
+  /* Clearfix (clear floats) */
+  .row::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+  .navbar {
+    width: 100%;
+    background-color: #EF233C;
+    overflow: auto;
+    padding: 0;
+    font-family:sans-serif,Arial,helvetica;
+  }
+  .navbar a {
+    float: left;
+    text-align: center;
+    padding: 12px;
+    color: white;
+    text-decoration: none;
+    font-size: 17px;
+  }
+
+  .navbar a:hover {
+    background-color: #D90429;
+  }
+
+  .nav-right {
+    float: right;
+  }
+
+  /* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+  @media screen and (max-width: 500px) {
+    .column {
+      width: 80%;
+    }
+    .navbar a {
+      float: none;
+      display: block;
+      font-size: 14px;
+    }
+    .nav-right{
+        float: none;
+    }
+  }
+
+  .container {
+    position: relative;
+    width: 450px;
+    height: 300px;
+  }
+
+  .image {
+    display: block;
+    width: 400px;
+    height: 300px;
+  }
+
+  .text
+  {
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    background-color: #008CBA;
+    vertical-align: middle;
+  }
+
+  .container:hover .overlay {
+    opacity: 1;
+  }
