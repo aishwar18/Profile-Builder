@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="{% static 'CSS/login.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+  <link rel="icon" type="image/jpg" href="{% static 'Images/pb_logo.jpg' %}">
+</head>
+<body>
+    <div class="navbar">
+        <a href="{% url 'index' %}"><i class="fa fa-home"></i> Home</a>
+        <div class="nav-right">
+        <a href="{% url 'login' %}"><i class="fa fa-sign-in-alt"></i> Login</a>
+        <a href="{% url 'register' %}"><i class="fa fa-user"></i> Register</a>
+        </div>
+    </div>
+  <div class="align">
+      <div class="grid align__item">
+          <div class="login">
+      <h2>Login</h2>
+      <form action="" method="post" class="form">
+        <div class="form__field">
+          <input class="input_field" type="email" placeholder="Email" required>
+        </div>
+        <div class="form__field">
+          <input class="input_field" type="password" placeholder="Password" required>
+        </div>
+        <div class="login_button">
+          <input type="submit" value="Login">
+        </div>
+      </form>
+      <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+    </div>
+      </div>
+  </div>
+</body>
+</html>
