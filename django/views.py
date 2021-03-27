@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib import messages
-#from django.contrib.auth.models import Students,user,auth
+from django.contrib.auth.models import Users,auth
 from . models import Students,State,Teachers
 # Create your views here.
 
@@ -9,7 +9,18 @@ def index(request):
     return render(request,"index.html")
 
 def login(request):
-    return render(request,"html/login.html")
+    if( request.method == 'POST'):
+        email = request.POST['email']
+        password = request.POST['password']
+        user = auth.authenticate(email= email, password=password)
+        if(user is not None):
+            auth.login(request,user)
+            return redirect("/")
+        else:
+            messages.info(request,"Invalid Credentials!")
+            return redirect("login")
+    else:
+        return render(request,"html/login.html")
 
 def register(request):
     return render(request,"html/register.html")
@@ -28,7 +39,7 @@ def signup_students(request):
         mailid = request.POST['mail_id']
         username = request.POST['username']
         password = request.POST['password']
-        
+
         if Students.objects.filter(username=username).exists():
             messages.info(request,'Username Already Exists..Choose different Username')
             return redirect('signup_students')
@@ -57,7 +68,7 @@ def signup_teachers(request):
         mailid = request.POST['mail_id']
         username = request.POST['username']
         password = request.POST['password']
-        
+
         if Teachers.objects.filter(username=username).exists():
             messages.info(request,'Username Already Exists..Choose different Username')
             return redirect('signup_teachers')
