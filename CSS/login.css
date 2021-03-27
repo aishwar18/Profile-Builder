@@ -93,6 +93,20 @@ a {
 .login_button input:hover{
     cursor: pointer;
 }
+.PR_button{
+    border: 1px solid #D90429;
+    background-color: #EF233C;
+    border-radius:999px;
+    text-align: center;
+}
+.PR_button:hover{
+    cursor: pointer;
+    border: 1px solid #D90429;
+    background-color: #D90429;
+}
+.PR_button input:hover{
+    cursor: pointer;
+}
 .navbar {
   width: 100%;
   background-color: #EF233C;
