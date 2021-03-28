@@ -28,3 +28,10 @@ class Teachers(models.Model):
     mailid = models.TextField()
     username =  models.CharField(max_length=100)
     password =  models.CharField(max_length=100)
+    
+class Teachers_scrapped_data(models.Model):
+    name_of_faculty = models.TextField()
+    position_of_faculty = models.TextField()
+    bio_of_faculty = models.TextField()
+    mail_of_faculty = models.TextField()
+    faculty_research_interest = models.TextField()
