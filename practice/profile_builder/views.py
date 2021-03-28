@@ -28,9 +28,7 @@ def login(request):
         email = request.POST['email']
         password = request.POST['password']
         print(email,password)
-        #user = auth.authenticate(mailid= email, password=password)
         if (Students.objects.filter(mailid= email, password=password).exists() or Teachers.objects.filter(mailid= email, password=password).exists()):
-            messages.info(request,"Found!")
             return redirect("/")
         else:
             messages.info(request,"Invalid Credentials!")
