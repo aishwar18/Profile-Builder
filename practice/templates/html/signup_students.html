@@ -1,0 +1,186 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile Builder</title>
+    <link rel="icon" type="image/jpg" href="{% static 'Images/pb_logo.jpg' %}">
+
+    <!--Google Fonts-->
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat:900&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+
+    <!--Bootstrap-->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+
+    <!--Font Awesome-->
+    <script
+      src="https://kit.fontawesome.com/04a54148ef.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <!--CSS-->
+    <link rel="stylesheet" href="{% static 'CSS/signup.css' %}" />
+
+
+
+    <!--JS-->
+    <script src="{% static 'JS/signup.js' %}"></script>
+
+  </head>
+
+
+  <body>
+    {% if messages %}
+    <div class="alert alert-danger alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        {% for message in messages %}
+         {{message}}
+        {% endfor %}
+    </div>
+    <br>
+  {% endif %}
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col col-lg-12">
+              <div class="reg-box" id="reg-box">
+                <div class="reg-form" id="reg-form">
+                  <div class = "text_su"><h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sign Up</h3></div><br>
+                  <form action="signup_students" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                    <div class="row">
+                      <div class="small-12 medium-2 large-2 columns">
+                        <div class="circle">
+                          <!-- User Profile Image -->
+                          <img class="profile-pic" src="{% static 'Images/avatar_student.jpg' %}">
+
+                          <!-- Default Image -->
+                        </div>
+                        <br><br>
+                        <div class="p-image">
+                          <span class="fa fa-camera upload-button"></span>
+                           <input name="psimg" class="file-upload" type="file" accept="image/*"/>
+                        </div>
+                     </div>
+                   </div>
+                  </div>
+                  <br><br><br><br><br><br>
+                      <div class="form-group">
+                          <label for="first_name">First Name</label>
+                          <span class="fa fa-pencil"></span>
+                          <input type="text" name=first_name class="form-control" id="first_name" placeholder="Enter the First Name" required>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="last_name">Last Name</label>
+                        <span class="fa fa-pencil"></span>
+                        <input type="text" name=last_name class="form-control" id="last_name" placeholder="Enter the Last Name" required>
+                    </div>
+
+
+                 <div class="form-group">
+                  <label for="col">Select College</label>
+                  <span class="fa fa-institution"></span><br>
+                  <select id ="col" class="form-control" required name="col"></select>
+                  <script language="javascript">print_college("col");</script>
+                  <br><label for="deg">Select Degree</label>
+                  <span class="fa fa-graduation-cap"></span><br>
+                  <select onchange="print_branch('branch', this.selectedIndex); print_semester('semester', this.selectedIndex);" id="degree" name ="deg" class="form-control" required></select>
+                  <br><label for="brh">Select Branch</label>
+                  <span class="fa fa-book"></span><br>
+                  <select id ="branch" class="form-control" required name="brh"></select>
+                  <script language="javascript">print_degree("degree");</script>
+                  <br><label for="sem">Select Semester</label>
+                  <span class="fa fa-sort-numeric-asc"></span><br>
+                  <select id ="semester" class="form-control" required name="sem"></select>
+                </div>
+
+
+
+
+
+                  <div class="form-group">
+                    <label for="sc">Select State and City</label>
+                    <span class="fa fa-map-marker"></span><br>
+                        <select onchange="print_city('state', this.selectedIndex);" id="sts" name ="stt" class="form-control" required></select>
+                         <select id ="state" class="form-control" required name="sc"></select>
+                         <script language="javascript">print_state("sts");</script>
+                  </div>
+
+                    <div class="form-group">
+                      <label for="mail_id">Mail ID</label>
+                      <span class="fa fa-envelope"></span>
+                      <input oninput="email_check()" type="email" name="mail_id" class="form-control" id="mail_id" placeholder="Enter the Mail ID" pattern="^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$" data-toggle="tooltip" data-placement="right" data-html="true" title="" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="username">Username</label>
+                    <span class="fa fa-user"></span>
+                    <input type="text" name = "username" class="form-control" id="username" placeholder="Enter the Username" required>
+                </div>
+
+                  <div class="form-group">
+                    <label for="password">Password</label>
+                    <span onclick="password_visibility(this)" class="fa fa-eye"></span>
+                    <input oninput="password_check()" type="password" name="password" class="form-control" id="password" placeholder="Enter the Password" data-toggle="tooltip" data-placement="right" data-html="true" title="Password requirement : <br> 1 upper case character <br> 1 lower case character <br> 1 number <br> minimum length 8"
+                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"  required>
+                </div>
+
+                <div class="form-group">
+
+                  <label for="confirm_password">Confirm Password</label>
+                  <span onclick="confirm_password_visibility(this)" class="fa fa-eye"></span>
+                  <input oninput="confirm_password_check()" type="password" name = "confirm_password" class="form-control" id="confirm_password" placeholder="Renter the Password again" data-toggle="tooltip" data-placement="right" title="Enter the same password"
+                  required>
+                </div>
+
+
+                      <div class="form-group form-check">
+                          <input type="checkbox" class="form-check-input" id="exampleCheck1" required>
+                          <label class="form-check-label" for="exampleCheck1">I agree to terms and conditions</label>
+                      </div>
+                      &nbsp;
+                      <button type="submit" class="btn btn-primary" id="submit_btn" data-toggle="tooltip" data-placement="left" title="">Sign Up</button>
+                      <button type="reset" class="btn btn-primary" id="reset_btn">Reset</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  </body>
+</html>
