@@ -2,19 +2,21 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.models import auth
-from . models import Students,State,Teachers
+from .models import Students,State,Teachers
 # Create your views here.
 
 def index(request):
     return render(request,"index.html")
 
 def login(request):
+    print("Start!")
     if( request.method == 'POST'):
         email = request.POST['email']
         password = request.POST['password']
-        user = auth.authenticate(email= email, password=password)
-        if(user is not None):
-            auth.login(request,user)
+        print(email,password)
+        #user = auth.authenticate(mailid= email, password=password)
+        if (Students.objects.filter(mailid= email, password=password).exists() or Teachers.objects.filter(mailid= email, password=password).exists()):
+            messages.info(request,"Found!")
             return redirect("/")
         else:
             messages.info(request,"Invalid Credentials!")
