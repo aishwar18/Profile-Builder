@@ -8,4 +8,7 @@ urlpatterns = [
     path('html/signup_students',views.signup_students,name="signup_students"),
     path('html/signup_teachers',views.signup_teachers,name="signup_teachers"),
     path('html/forgotPassword',views.forgotpassword,name="forgotpassword"),
+    path('html/changePassword',views.changePassword,name="changePassword"),
+    path('html/logout',views.logout,name="logout"),
+    path('html/home',views.home,name="home"),
 ]

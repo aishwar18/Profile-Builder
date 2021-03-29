@@ -37,7 +37,7 @@ def login(request):
         password = request.POST['password']
         print(email,password)
         if (Students.objects.filter(mailid= email, password=password).exists() or Teachers.objects.filter(mailid= email, password=password).exists()):
-            return redirect("/")
+            return render(request,"html/home.html")
         else:
             messages.info(request,"Invalid Credentials!")
             return redirect("login")
@@ -61,6 +61,8 @@ def signup_students(request):
         mailid = request.POST['mail_id']
         username = request.POST['username']
         password = request.POST['password']
+        security_qn = request.POST['sqn']
+        security_an = request.POST['securityanswer']
 
         if Students.objects.filter(username=username).exists():
             messages.info(request,'Username Already Exists..Choose different Username')
@@ -69,7 +71,7 @@ def signup_students(request):
             messages.info(request,'Mail id Already Exists..Choose different Mailid')
             return redirect('signup_students')
         else:
-            student = Students(img=img,first_name = first_name,last_name = last_name,college = college,degree = degree,branch = branch,semester = semester,city = city,mailid = mailid,username = username,password = password)
+            student = Students(img=img,first_name = first_name,last_name = last_name,college = college,degree = degree,branch = branch,semester = semester,city = city,mailid = mailid,username = username,password = password,security_qn = security_qn,security_an = security_an)
             state = State(city=city,state=state)
             student.save()
             if (not State.objects.filter(city=city).exists()):
@@ -90,6 +92,8 @@ def signup_teachers(request):
         mailid = request.POST['mail_id']
         username = request.POST['username']
         password = request.POST['password']
+        security_qn = request.POST['sqn']
+        security_an = request.POST['securityanswer']
 
         if Teachers.objects.filter(username=username).exists():
             messages.info(request,'Username Already Exists. Choose different Username')
@@ -98,7 +102,7 @@ def signup_teachers(request):
             messages.info(request,'Mail id Already Exists. Choose different Mail id')
             return redirect('signup_teachers')
         else:
-            teacher = Teachers(img=img,first_name = first_name,last_name = last_name,college = college,city = city,mailid = mailid,username = username,password = password)
+            teacher = Teachers(img=img,first_name = first_name,last_name = last_name,college = college,city = city,mailid = mailid,username = username,password = password,security_qn = security_qn,security_an = security_an)
             state = State(city=city,state=state)
             teacher.save()
             if (not State.objects.filter(city=city).exists()):
@@ -110,3 +114,36 @@ def signup_teachers(request):
 
 def forgotpassword(request):
     return render(request,"html/forgotPassword.html")
+
+def changePassword(request):
+    if( request.method == 'POST'):
+        username = request.POST['username']
+        new_password = request.POST['new password']
+        confirm_password = request.POST['confirm password']
+        if(new_password!=confirm_password):
+            messages.info(request,'Confirm password does not match with the new password')
+            return redirect('changePassword')
+        elif (Students.objects.filter(username=username).exists()):
+            s = Students.objects.get(username=username)
+            s.password = new_password
+            s.save()
+            print(s)
+            messages.info(request,'Password changed successfully')
+            return render(request,"html/home.html")
+        elif (Teachers.objects.filter(username=username).exists()):
+            t = Teachers.objects.get(username=username)
+            t.password = new_password
+            t.save()
+            print(t)
+            messages.info(request,'Password changed successfully')
+            return render(request,"html/home.html")
+        else:
+            return render(request,"html/changePassword.html")
+    else:
+        return render(request,"html/changePassword.html")
+
+def logout(request):
+    return render(request,"html/logout.html")
+
+def home(request):
+    return render(request,"html/home.html")

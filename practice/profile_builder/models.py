@@ -14,6 +14,8 @@ class Students(models.Model):
     mailid = models.TextField()
     username =  models.CharField(max_length=100)
     password =  models.CharField(max_length=100)
+    security_qn =  models.CharField(max_length=100,default="question")
+    security_an =  models.CharField(max_length=100,default="answer")
 
 class State(models.Model):
     state = models.CharField(max_length=100)
@@ -28,7 +30,9 @@ class Teachers(models.Model):
     mailid = models.TextField()
     username =  models.CharField(max_length=100)
     password =  models.CharField(max_length=100)
-    
+    security_qn =  models.CharField(max_length=100,default="question")
+    security_an =  models.CharField(max_length=100,default="answer")
+
 class Teachers_data(models.Model):
     name_of_faculty = models.TextField()
     bio_of_faculty = models.TextField()
@@ -40,3 +44,5 @@ class Teachers_data(models.Model):
 class Teachers_areas_of_interest(models.Model):
     name_of_faculty = models.TextField()
     faculty_research_interest = models.TextField()
+
+
