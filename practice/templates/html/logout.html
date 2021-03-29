@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logout</title>
+  <link rel="stylesheet" href="{% static 'CSS/alert.css' %}">
+  <link rel="stylesheet" href="{% static 'CSS/login.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+  <link rel="icon" type="image/jpg" href="{% static 'Images/pb_logo.jpg' %}">
+  <script
+    src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"
+  ></script>
+</head>
+<body>
+  <div class="align">
+      <div class="grid align__item">
+          <div class="login">
+      <h2>Logged out</h2>
+      <h3>Thanks for visiting our website</h3>
+      <h3>Click the below link <br> to login again<br><br><i class="fa fa-sign-in-alt"></i>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'login' %}">Login</a></h3>
+    </div>
+      </div>
+  </div>
+</body>
+</html>

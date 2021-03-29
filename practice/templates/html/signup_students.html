@@ -168,6 +168,18 @@
                   required>
                 </div>
 
+                <div class="form-group">
+                  <label for="sqn">Select one security question</label>
+                  <span class="fa fa-question"></span><br>
+                  <select id ="sqn" class="form-control" required name="sqn"></select>
+                  <script language="javascript">print_security_qn("sqn");</script>
+                </div>
+
+                <div class="form-group">
+                  <label for="securityanswer">Security answer</label>
+                  <span class="fa fa-check-square"></span>
+                  <input type="text" name = "securityanswer" class="form-control" id="securityanswer" placeholder="Enter the Security answer" required>
+              </div>
 
                       <div class="form-group form-check">
                           <input type="checkbox" class="form-check-input" id="exampleCheck1" required>
