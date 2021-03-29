@@ -5,6 +5,13 @@ var se_a = new Array();
 var e_a = new Array();
 var c_a = new Array("Amrita Vishwa Vidhyapeetham","Birla Institute of Technology & Science",
 "Indian Institute of Tachnology","National Institute of Technology");
+var s_q = new Array();
+s_q[0] = "What Is your favorite book?";
+s_q[1] = "What is your favorite food?";
+s_q[2] = "What is your favorite sport?";
+s_q[3] = "What is your favorite movie?";
+s_q[4] = "What is your favorite vehicle?";
+s_q[5] = "What is your favorite color?";
 
 b_a[0] = "";
 b_a[1] =" AEE | AIE | CCE | CHE | CIE | CVI | CSE |  ECE | EEE | ELC | EIE | EAC | MEE ";
@@ -22,6 +29,17 @@ function print_college(college_id){
 	option_str.selectedIndex = 0;
 	for (var i=0; i<c_a.length; i++) {
 		option_str.options[option_str.length] = new Option(c_a[i],c_a[i]);
+	}
+}
+
+function print_security_qn(security_qn_id){
+	// given the id of the <select> tag as function argument, it inserts <option> tags
+	var option_str = document.getElementById(security_qn_id);
+	option_str.length=0;
+	option_str.options[0] = new Option('Select security question','');
+	option_str.selectedIndex = 0;
+	for (var i=0; i<s_q.length; i++) {
+		option_str.options[option_str.length] = new Option(s_q[i],s_q[i]);
 	}
 }
 
