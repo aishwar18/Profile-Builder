@@ -7,6 +7,8 @@ from . models import Students,State,Teachers,Teachers_data,Teachers_areas_of_int
 import pandas as pd
 # Create your views here.
 
+user = None
+
 def index(request):
     if(Teachers_data.objects.count()==0):
         df1 = pd.read_csv('./table1.csv')
@@ -27,17 +29,21 @@ def index(request):
         faculty_research_interest = pd.Series(df2['Area of interest'])
         for i in range(nor2):
             teachers_areas_of_interest = Teachers_areas_of_interest(name_of_faculty=name_of_faculty[i],faculty_research_interest=faculty_research_interest[i])
-            teachers_areas_of_interest.save()       
+            teachers_areas_of_interest.save()
     return render(request,"index.html")
 
 def login(request):
-    print("Start!")
+    #print("Start!")
+    user = None
     if( request.method == 'POST'):
         email = request.POST['email']
         password = request.POST['password']
-        print(email,password)
+        #print(email,password)
+        user = Students.objects.filter(mailid= email, password=password) or Teachers.objects.filter(mailid= email, password=password)
+        print(Students.objects.filter(mailid= email, password=password).exists() or Teachers.objects.filter(mailid= email, password=password).exists())
         if (Students.objects.filter(mailid= email, password=password).exists() or Teachers.objects.filter(mailid= email, password=password).exists()):
-            return render(request,"html/home.html")
+            request.session['username'] = user[0].username
+            return render(request,"html/home.html", {"user" : user[0]})
         else:
             messages.info(request,"Invalid Credentials!")
             return redirect("login")
@@ -116,13 +122,15 @@ def forgotpassword(request):
     return render(request,"html/forgotPassword.html")
 
 def changePassword(request):
+    username = request.session.get('username')
+    print(username)
     if( request.method == 'POST'):
         username = request.POST['username']
         new_password = request.POST['new password']
         confirm_password = request.POST['confirm password']
         if(new_password!=confirm_password):
             messages.info(request,'Confirm password does not match with the new password')
-            return redirect('changePassword')
+            return redirect('changePassword', {{'username': username}})
         elif (Students.objects.filter(username=username).exists()):
             s = Students.objects.get(username=username)
             s.password = new_password
@@ -143,6 +151,10 @@ def changePassword(request):
         return render(request,"html/changePassword.html")
 
 def logout(request):
+    try:
+      del request.session['username']
+    except:
+      pass
     return render(request,"html/logout.html")
 
 def home(request):

@@ -2,12 +2,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Home</title>
+  <title>Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/jpg" href="{% static 'Images/pb_logo.jpg' %}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
-  
-  
+
+
   <script
   src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
   integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
@@ -27,7 +27,7 @@
 ></script>
 <link rel="stylesheet" type = text/css href="{% static 'CSS/alert.css' %}">
 <link rel="stylesheet" type = text/css href="{% static 'css/index.css' %}">
-  
+
 <script type="text/javascript">
     window.history.forward();
     function noBack() {
@@ -38,10 +38,17 @@
 </head>
 <body>
     <div class="navbar">
-        <a href="#"><i class="fa fa-home"></i> Home</a>
+        <a href="#"><span class="fa fa-home"></span> Home</a>
         <div class="nav-right">
-        <a href="{% url 'changePassword' %}"><i class="fa fa-key"></i> Change Password</a>
-        <a href="{% url 'logout' %}"><i class="fa fa-sign-out-alt"></i> Logout</a>
+              <div class="dropdown">
+                  <button class="dropbtn" onclick="myFunction()"><span class="fa fa-user"></span> {{user.username}}
+                    <span class="fa fa-caret-down"></span>
+                  </button>
+                  <div class="dropdown-content" id="myDropdown">
+                      <a href="{% url 'changePassword' %}"><span class="fa fa-key"></span> Change Password</a>
+                      <a href="{% url 'logout' %}"><span class="fa fa-sign-out-alt"></span> Logout</a>
+                  </div>
+              </div>
         </div>
     </div>
     {% if messages %}
@@ -53,5 +60,19 @@
     </div>
     <br>
     {% endif %}
+    <script>
+    function myFunction() {
+      document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    window.onclick = function(e) {
+      if (!e.target.matches('.dropbtn')) {
+      var myDropdown = document.getElementById("myDropdown");
+        if (myDropdown.classList.contains('show')) {
+          myDropdown.classList.remove('show');
+        }
+      }
+    }
+    </script>
 </body>
 </html>
