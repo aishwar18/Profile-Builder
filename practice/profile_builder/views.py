@@ -195,7 +195,7 @@ def changePassword(request):
         confirm_password = request.POST['confirm password']
         if(new_password!=confirm_password):
             messages.info(request,'Confirm password does not match with the new password')
-            return redirect('changePassword', {{'username': username}})
+            return render(request,"html/changePassword.html",{'username': username})
         elif (Students.objects.filter(username=username).exists()):
             s = Students.objects.get(username=username)
             s.password = new_password
