@@ -40,7 +40,7 @@ def login(request):
         password = request.POST['password']
         #print(email,password)
         user = Students.objects.filter(mailid= email, password=password) or Teachers.objects.filter(mailid= email, password=password)
-        print(Students.objects.filter(mailid= email, password=password).exists() or Teachers.objects.filter(mailid= email, password=password).exists())
+        #print(Students.objects.filter(mailid= email, password=password).exists() or Teachers.objects.filter(mailid= email, password=password).exists())
         if (Students.objects.filter(mailid= email, password=password).exists() or Teachers.objects.filter(mailid= email, password=password).exists()):
             request.session['username'] = user[0].username
             return render(request,"html/home.html", {"user" : user[0]})
@@ -118,8 +118,73 @@ def signup_teachers(request):
     else:
         return render(request,"html/signup_teachers.html")
 
-def forgotpassword(request):
-    return render(request,"html/forgotPassword.html")
+def forgotPassword(request):
+    if( request.method == 'POST'):
+        username = request.POST.get('username')
+        ans = request.POST.get('answer')
+        if(Students.objects.filter(username=username).exists() or Teachers.objects.filter(username=username).exists()):
+            fp_user = Students.objects.filter(username=username) or Teachers.objects.filter(username=username)
+            request.session['question'] = fp_user[0].security_qn
+            request.session['answer'] = fp_user[0].security_an
+            request.session['fp_username'] = fp_user[0].username
+            question = fp_user[0].security_qn
+            return render(request,"html/forgotPassword.html", {'question': question})
+        else:
+            messages.info(request,'No such user!')
+            return redirect('forgotPassword')
+    else:
+        return render(request,"html/forgotPassword.html")
+
+def prQuestion(request):
+    if(request.method == 'POST'):
+        ans = request.POST.get('answer')
+        question = request.session.get('question',False)
+        answer = request.session.get('answer',False)
+        if(question and answer):
+            if(ans):
+                if answer.lower().strip()==ans.lower().strip():
+                    return render(request,"html/passwordReset.html")
+                else:
+                    messages.info(request,'Incorrect answer!')
+                    return render(request,"html/forgotPassword.html", {'question': question})
+            return render(request,"html/forgotPassword.html", {'question': question})
+        else:
+            messages.info(request,'Error retrieving question!')
+            return redirect('forgotPassword')
+
+def passwordReset(request):
+    if( request.method == 'POST'):
+        username = request.session.get('fp_username')
+        new_password = request.POST['newPassword']
+        confirm_password = request.POST['confirmPassword']
+        print(username, new_password, confirm_password)
+        if(new_password!=confirm_password):
+            messages.info(request,'Confirm password does not match with the new password')
+            return redirect('passwordReset')
+        elif (Students.objects.filter(username=username).exists()):
+            s = Students.objects.get(username=username)
+            s.password = new_password
+            s.save()
+            messages.info(request,'Password changed successfully')
+            del request.session['question']
+            del request.session['answer']
+            del request.session['fp_username']
+            return render(request,"index.html")
+        elif (Teachers.objects.filter(username=username).exists()):
+            t = Teachers.objects.get(username=username)
+            t.password = new_password
+            t.save()
+            messages.info(request,'Password changed successfully')
+            del request.session['question']
+            del request.session['answer']
+            del request.session['fp_username']
+            return render(request,"index.html")
+        else:
+            del request.session['question']
+            del request.session['answer']
+            del request.session['fp_username']
+            return render(request,"html/forgotPassword.html")
+    return render(request,"html/passwordReset.html")
 
 def changePassword(request):
     username = request.session.get('username')

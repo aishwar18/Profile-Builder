@@ -3,3 +3,4 @@ sonar-project.properties
 __pycache__/
 *.pyc
 .ipynb_checkpoints
+*.cpython-37.pyc
