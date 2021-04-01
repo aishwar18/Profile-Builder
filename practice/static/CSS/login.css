@@ -52,6 +52,7 @@ input {
 }
 
 h2 {
+  font-family:sans-serif,Arial,helvetica;
   font-size: 2.75rem;
   font-weight: 100;
   margin: 0 0 1rem;
@@ -126,12 +127,37 @@ a {
   background-color: #D90429;
 }
 
+.navbarCustom {
+  width: 100%;
+  background-color: #EF233C;
+  overflow: auto;
+  font-family:sans-serif,Arial,helvetica;
+}
+
+.navbarCustom a {
+  float: left;
+  text-align: center;
+  padding: 12px;
+  color: white;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.navbarCustom a:hover {
+  background-color: #D90429;
+}
+
 .nav-right {
   float: right;
 }
 
 @media only screen and (max-width: 600px) {
     .navbar a {
+      float: none;
+      display: block;
+      font-size: 14px;
+    }
+    .navbarCustom a {
       float: none;
       display: block;
       font-size: 14px;
