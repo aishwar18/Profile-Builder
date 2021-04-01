@@ -53,6 +53,7 @@ def login(request):
 def register(request):
     return render(request,"html/register.html")
 
+
 def signup_students(request):
     if(request.method == 'POST'):
         img = request.POST['psimg']
@@ -70,7 +71,7 @@ def signup_students(request):
         security_qn = request.POST['sqn']
         security_an = request.POST['securityanswer']
 
-        if Students.objects.filter(username=username).exists():
+        if (Students.objects.filter(username=username).exists() or Teachers.objects.filter(username=username).exists()):
             messages.info(request,'Username Already Exists..Choose different Username')
             return redirect('signup_students')
         elif Students.objects.filter(mailid=mailid).exists():
@@ -100,8 +101,7 @@ def signup_teachers(request):
         password = request.POST['password']
         security_qn = request.POST['sqn']
         security_an = request.POST['securityanswer']
-
-        if Teachers.objects.filter(username=username).exists():
+        if (Students.objects.filter(username=username).exists() or Teachers.objects.filter(username=username).exists()):
             messages.info(request,'Username Already Exists. Choose different Username')
             return redirect('signup_teachers')
         elif Teachers.objects.filter(mailid=mailid).exists():
