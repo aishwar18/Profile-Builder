@@ -43,7 +43,7 @@ def login(request):
         #print(Students.objects.filter(mailid= email, password=password).exists() or Teachers.objects.filter(mailid= email, password=password).exists())
         if (Students.objects.filter(mailid= email, password=password).exists() or Teachers.objects.filter(mailid= email, password=password).exists()):
             request.session['username'] = user[0].username
-            return render(request,"html/home.html", {"user" : user[0]})
+            return render(request,"html/home.html", {"username" : user[0].username})
         else:
             messages.info(request,"Invalid Credentials!")
             return redirect("login")
@@ -202,18 +202,18 @@ def changePassword(request):
             s.save()
             print(s)
             messages.info(request,'Password changed successfully')
-            return render(request,"html/home.html")
+            return render(request,"html/home.html",{'username':username})
         elif (Teachers.objects.filter(username=username).exists()):
             t = Teachers.objects.get(username=username)
             t.password = new_password
             t.save()
             print(t)
             messages.info(request,'Password changed successfully')
-            return render(request,"html/home.html")
+            return render(request,"html/home.html",{'username': username})
         else:
-            return render(request,"html/changePassword.html")
+            return render(request,"html/changePassword.html",{'username': username})
     else:
-        return render(request,"html/changePassword.html")
+        return render(request,"html/changePassword.html",{'username': username})
 
 def logout(request):
     try:
@@ -223,4 +223,5 @@ def logout(request):
     return render(request,"html/logout.html")
 
 def home(request):
-    return render(request,"html/home.html")
+    username = request.session['username']
+    return render(request,"html/home.html",{'username': username})

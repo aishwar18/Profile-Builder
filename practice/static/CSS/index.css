@@ -167,4 +167,18 @@ body {
   .home-body h3,p{
       padding: 10px;
   }
+  .dropdown, .dropbtn{
+      width: 100%
+  }
+  .navbar .dropbtn {
+    float: none;
+    display: block;
+    font-size: 14px;
+  }
+  .dropdown-content a{
+      text-align: center;
+  }
+  .show {
+    display: contents;
+    }
 }
