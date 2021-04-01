@@ -291,7 +291,6 @@ function confirm_password_check()
 
 
 function form_submission() {
-	var txt;
 	if (confirm("Do you want to submit?")) {
 		window.open("../html/signup_teachers.html",target='_self');
 		return true;

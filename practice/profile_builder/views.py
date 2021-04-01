@@ -121,7 +121,6 @@ def signup_teachers(request):
 def forgotPassword(request):
     if( request.method == 'POST'):
         username = request.POST.get('username')
-        ans = request.POST.get('answer')
         if(Students.objects.filter(username=username).exists() or Teachers.objects.filter(username=username).exists()):
             fp_user = Students.objects.filter(username=username) or Teachers.objects.filter(username=username)
             request.session['question'] = fp_user[0].security_qn
@@ -218,7 +217,7 @@ def changePassword(request):
 def logout(request):
     try:
       del request.session['username']
-    except:
+    except KeyError:
       pass
     return render(request,"html/logout.html")
 
