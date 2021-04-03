@@ -154,6 +154,7 @@ def prQuestion(request):
 def passwordReset(request):
     if( request.method == 'POST'):
         username = request.session.get('fp_username')
+        print(request.POST)
         new_password = request.POST['newPassword']
         confirm_password = request.POST['confirmPassword']
         print(username, new_password, confirm_password)
@@ -191,7 +192,7 @@ def changePassword(request):
     if( request.method == 'POST'):
         username = request.POST['username']
         new_password = request.POST['new password']
-        confirm_password = request.POST['confirm password']
+        confirm_password = request.POST['confirmPassword']
         if(new_password!=confirm_password):
             messages.info(request,'Confirm password does not match with the new password')
             return render(request,"html/changePassword.html",{'username': username})
