@@ -38,9 +38,7 @@ def login(request):
     if( request.method == 'POST'):
         email = request.POST['email']
         password = request.POST['password']
-        #print(email,password)
         user = Students.objects.filter(mailid= email, password=password) or Teachers.objects.filter(mailid= email, password=password)
-        #print(Students.objects.filter(mailid= email, password=password).exists() or Teachers.objects.filter(mailid= email, password=password).exists())
         if (Students.objects.filter(mailid= email, password=password).exists() or Teachers.objects.filter(mailid= email, password=password).exists()):
             request.session['username'] = user[0].username
             return render(request,"html/home.html", {"username" : user[0].username})
@@ -190,7 +188,6 @@ def changePassword(request):
     username = request.session.get('username')
     print(username)
     if( request.method == 'POST'):
-        username = request.POST['username']
         new_password = request.POST['new password']
         confirm_password = request.POST['confirmPassword']
         if(new_password!=confirm_password):
