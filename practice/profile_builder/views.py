@@ -41,7 +41,8 @@ def login(request):
         user = Students.objects.filter(mailid= email, password=password) or Teachers.objects.filter(mailid= email, password=password)
         if (Students.objects.filter(mailid= email, password=password).exists() or Teachers.objects.filter(mailid= email, password=password).exists()):
             request.session['username'] = user[0].username
-            return render(request,"html/home.html", {"username" : user[0].username})
+            #return render(request,"html/home.html", {"username" : user[0].username})
+            return redirect('home')
         else:
             messages.info(request,"Invalid Credentials!")
             return redirect("login")
@@ -221,4 +222,10 @@ def logout(request):
 
 def home(request):
     username = request.session['username']
-    return render(request,"html/home.html",{'username': username})
+    print("Hello!")
+    model = Teachers_data
+    field_names = [f.name for f in model._meta.get_fields()]
+    data = [[getattr(ins, name) for name in field_names]
+            for ins in model.objects.prefetch_related().all()]
+    print(field_names,data)
+    return render(request,"html/home.html",{'username': username,'field_names': field_names, 'data': data})
