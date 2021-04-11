@@ -224,8 +224,12 @@ def home(request):
     username = request.session['username']
     print("Hello!")
     model = Teachers_data
+    field_verbose_names=[]
     field_names = [f.name for f in model._meta.get_fields()]
+    for f in model._meta.get_fields():
+        if hasattr(f, 'verbose_name'):
+            field_verbose_names.append(f.verbose_name)
     data = [[getattr(ins, name) for name in field_names]
             for ins in model.objects.prefetch_related().all()]
     print(field_names,data)
-    return render(request,"html/home.html",{'username': username,'field_names': field_names, 'data': data})
+    return render(request,"html/home.html",{'username': username,'field_names': field_verbose_names, 'data': data})
