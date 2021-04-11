@@ -34,15 +34,15 @@ class Teachers(models.Model):
     security_an =  models.CharField(max_length=100,default="answer")
 
 class Teachers_data(models.Model):
-    name_of_faculty = models.TextField()
-    bio_of_faculty = models.TextField()
-    mail_of_faculty = models.TextField()
-    position = models.TextField()
-    department = models.TextField()
-    location = models.TextField()
+    name_of_faculty = models.TextField(verbose_name = "Name of faculty")
+    bio_of_faculty = models.TextField(verbose_name = "Bio of faculty")
+    mail_of_faculty = models.TextField(verbose_name = "Mail of faculty")
+    position = models.TextField(verbose_name = "Position")
+    department = models.TextField(verbose_name = "Department")
+    location = models.TextField(verbose_name = "Location")
     
 class Teachers_areas_of_interest(models.Model):
-    name_of_faculty = models.TextField()
-    faculty_research_interest = models.TextField()
+    name_of_faculty = models.TextField(verbose_name = "Name of faculty")
+    faculty_research_interest = models.TextField(verbose_name = "Faculty research interest")
 
 
