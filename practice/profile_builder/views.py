@@ -223,9 +223,9 @@ def logout(request):
 def home(request):
     username = request.session['username']
     print("Hello!")
-    model = Teachers_data
+    model = Teachers_areas_of_interest
     field_verbose_names=[]
-    field_names = ['id','name_of_faculty','mail_of_faculty','position','department','location']
+    field_names = ['id','name_of_faculty','faculty_research_interest']
     table_fields = [f for f in model._meta.get_fields() if f.name in  field_names]
     print(table_fields)
     for f in table_fields:
