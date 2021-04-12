@@ -1,14 +1,113 @@
 table th , table td{
     text-align: center;
 }
+table th{
+    background-color: #EF233C;
+}
 
 table tr:nth-child(even){
     /*background-color: #BEF2F5*/
 }
-
+table{
+    table-layout: fixed;
+    width: 100%;
+}
+.pagination-container {
+    text-align: center;
+      width: 100%;
+      /* background: #dde1e7; */
+      padding: 1.1rem;
+      border-radius: 1.5rem;
+      position: relative;
+      justify-content: center;
+      /* box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgb(94 104 121 / 29%);*/
+}
+.form-control{
+        border: 1px solid #D90429;
+        border-radius: 999px;
+        background-color: #2b2d42;
+        text-align: center;
+        color: white;
+        margin: 2px;
+}
+.form-control option{
+        border: 1px solid #D90429;
+        border-radius: 999px;
+        background-color: transparent;
+        text-align: center;
+        color: white;
+}
+.pagination {
+  display: flex;
+  list-style: none;
+  width: 50vw;
+  margin-left: auto;
+  margin-right: auto;
+}
+.pagination li {
+    flex: auto;
+    margin: 0px 5px;
+    border-radius: 1.5rem;
+    box-shadow: -3px -3px 7px #14151e73, 3px 3px 5px rgb(20 21 30 / 29%);
+}
+.pagination li span {
+    text-decoration: none;
+    /* color: #4d3252; */
+    height: 45px;
+    width: 55px;
+    /* display: block; */
+    line-height: 45px;
+}
+.pagination li:first-child span {
+  width: 120px;
+}
+.pagination li:last-child span {
+  width: 100px;
+}
+.pagination li.active {
+    background-color: #EF233C;
+    color: white;
+    font-weight: bold;
+    box-shadow: inset -3px -3px 7px #14151e73,
+    inset 3px 3px 5px rgba(20, 21, 30, 0.288);
+}
+.pagination li.active span {
+  font-size: 17px;
+  color: white;
+  font-weight: bold;
+}
+.pagination li:first-child {
+  margin: 0 15px 0 0;
+}
+.pagination li:first-child:active {
+  background-color: #EF233C;
+  transform: translateY(2px);
+}
+.pagination li:last-child {
+  margin: 0 0 0 15px;
+}
+.pagination li:last-child:active {
+  background-color: #EF233C;
+  transform: translateY(2px);
+}
 .pagination li:hover{
     cursor: pointer;
 }
 table tbody tr {
 	display: none;
+}
+@media only screen and (max-width: 600px) {
+    table{
+        width:auto;
+    }
+    .pagination li{
+        padding-left: 0.2rem;
+        padding-right: 0.2rem;
+    }
+    .pagination-container{
+        overflow-x: hidden;
+    }
+    .pagination{
+        width: fit-content;
+    }
 }

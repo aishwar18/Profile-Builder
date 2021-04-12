@@ -20,12 +20,15 @@
   ></script>
 </head>
 <body>
-  <div class="align">
-      <div class="grid align__item">
-          <div class="login">
+  <div class="align thanks">
+      <div class="thanks">
+          <img src="{% static 'Images/Thanks.png' %}" height='200px' width:'200px' alt="Thank you!"/>
+      </div>
+      <div class="align__item">
+          <div>
       <h2>Logged out</h2>
       <h3>Thanks for visiting our website</h3>
-      <h3>Click the below link <br> to go to home page<br><br><span class="fa fa-home"></span>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'index' %}">Home</a></h3>
+      <h3>Click the below link <br> to go to home page<br><br><span class="fa fa-home"></span><a style="text-decoration: none" href="{% url 'index' %}">Home</a></h3>
     </div>
       </div>
   </div>

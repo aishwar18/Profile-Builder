@@ -225,11 +225,13 @@ def home(request):
     print("Hello!")
     model = Teachers_data
     field_verbose_names=[]
-    field_names = [f.name for f in model._meta.get_fields()]
-    for f in model._meta.get_fields():
+    field_names = ['id','name_of_faculty','mail_of_faculty','position','department','location']
+    table_fields = [f for f in model._meta.get_fields() if f.name in  field_names]
+    print(table_fields)
+    for f in table_fields:
         if hasattr(f, 'verbose_name'):
             field_verbose_names.append(f.verbose_name)
     data = [[getattr(ins, name) for name in field_names]
             for ins in model.objects.prefetch_related().all()]
-    print(field_names,data)
+    print(data[0])
     return render(request,"html/home.html",{'username': username,'field_names': field_verbose_names, 'data': data})

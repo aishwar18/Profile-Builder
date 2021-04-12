@@ -11,7 +11,7 @@ body {
   background-color: #2b2d42;
   color: #edf2f4;
   margin: 0;
-  min-height: 100%;
+  /*min-height: 100%;*/
   width: 100%;
 }
 
@@ -150,6 +150,9 @@ a {
 .nav-right {
   float: right;
 }
+.thanks{
+    justify-content: center;
+}
 
 @media only screen and (max-width: 600px) {
     .navbar a {
@@ -173,5 +176,8 @@ a {
   }
   .grid{
       width: 20rem;
+  }
+  .thanks{
+      position: inherit;
   }
 }
