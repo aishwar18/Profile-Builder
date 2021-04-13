@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.models import auth
 import csv
-from . models import Students,State,Teachers,Teachers_data,Teachers_areas_of_interest
+from .models import Students,State,Teachers,Teachers_data,Teachers_areas_of_interest
 import pandas as pd
 # Create your views here.
 
@@ -28,7 +28,9 @@ def index(request):
         name_of_faculty = pd.Series(df2['name_of_faculty'])
         faculty_research_interest = pd.Series(df2['Area of interest'])
         for i in range(nor2):
-            teachers_areas_of_interest = Teachers_areas_of_interest(name_of_faculty=name_of_faculty[i],faculty_research_interest=faculty_research_interest[i])
+            t = Teachers_data.objects.filter(name_of_faculty=name_of_faculty[i])
+            id_of_faculty = t[0].id
+            teachers_areas_of_interest = Teachers_areas_of_interest(id_of_faculty=id_of_faculty,name_of_faculty=name_of_faculty[i],faculty_research_interest=faculty_research_interest[i])
             teachers_areas_of_interest.save()
     return render(request,"index.html")
 
@@ -225,7 +227,7 @@ def home(request):
     print("Hello!")
     model = Teachers_areas_of_interest
     field_verbose_names=[]
-    field_names = ['id','name_of_faculty','faculty_research_interest']
+    field_names = ['id_of_faculty','name_of_faculty','faculty_research_interest']
     table_fields = [f for f in model._meta.get_fields() if f.name in  field_names]
     print(table_fields)
     for f in table_fields:
