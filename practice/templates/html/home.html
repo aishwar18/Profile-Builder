@@ -46,6 +46,7 @@
                     <span class="fa fa-caret-down"></span>
                   </button>
                   <div class="dropdown-content" id="myDropdown">
+                      <a href="{% url 'changePassword' %}"><span class="fa fa-user-circle"></span> My Profile</a>
                       <a href="{% url 'changePassword' %}"><span class="fa fa-key"></span> Change Password</a>
                       <a href="{% url 'logout' %}"><span class="fa fa-sign-out-alt"></span> Logout</a>
                   </div>
@@ -85,7 +86,11 @@
                     {% for row in data %}
                         <tr>
                         {% for cell in row %}
-                            <td>{{ cell }}</td>
+                            {% ifequal cell row.1 %}
+                                <td><a href="#">{{ cell }}</a></td>
+                            {% else %}
+                                <td>{{ cell }}</td>
+                            {% endifequal %}
                         {% endfor %}
                         </tr>
                     {% endfor %}

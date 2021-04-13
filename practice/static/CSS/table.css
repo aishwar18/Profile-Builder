@@ -12,6 +12,9 @@ table{
     table-layout: fixed;
     width: 100%;
 }
+table td a{
+    color: white;
+}
 .pagination-container {
     text-align: center;
       width: 100%;
