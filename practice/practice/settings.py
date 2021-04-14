@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'practice.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'profilebuilderfinal',
+        'NAME': 'profilebuilder',
         'USER' : 'postgres',
         'PASSWORD' : 'test',
         'HOST' : 'localhost' #machine address

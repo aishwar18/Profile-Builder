@@ -1,5 +1,5 @@
 from django.db import models
-#from . models import 
+#from . models import
 # Create your models here.
 
 class Students(models.Model):
@@ -40,10 +40,8 @@ class Teachers_data(models.Model):
     position = models.TextField(verbose_name = "Position")
     department = models.TextField(verbose_name = "Department")
     location = models.TextField(verbose_name = "Location")
-    
+
 class Teachers_areas_of_interest(models.Model):
-    id_of_faculty = models.IntegerField(verbose_name = "id",default=0)
+    id_of_faculty = models.IntegerField(verbose_name = "ID",default=0)
     name_of_faculty = models.TextField(verbose_name = "Name of faculty")
     faculty_research_interest = models.TextField(verbose_name = "Faculty research interest")
-
-

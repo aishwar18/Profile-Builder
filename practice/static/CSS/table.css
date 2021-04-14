@@ -15,6 +15,46 @@ table{
 table td a{
     color: white;
 }
+.form-group{
+    display: flex;
+    justify-content: space-between;
+}
+#facultySearch{
+    border: 1px solid #D90429;
+    border-radius: 999px;
+    background-color: transparent;
+    text-align: center;
+    color: white;
+    outline: none;
+}
+#facultySearch::placeholder{
+    color:#c0c0c0;
+}
+#aoiSearch{
+    border: 1px solid #D90429;
+    border-radius: 999px;
+    background-color: transparent;
+    text-align: center;
+    width: 200px;
+    color: white;
+    outline: none;
+}
+#aoiSearch::placeholder{
+    color:#c0c0c0;
+}
+.filter_btn{
+    border: 1px solid #D90429;
+    background-color: #EF233C;
+    border-radius:999px;
+    text-align: center;
+    color: white;
+}
+.filter_btn:hover{
+    cursor: pointer;
+    border: 1px solid #D90429;
+    background-color: #D90429;
+    cursor: pointer;
+}
 .pagination-container {
     text-align: center;
       width: 100%;
@@ -112,5 +152,9 @@ table tbody tr {
     }
     .pagination{
         width: fit-content;
+    }
+    .form-group{
+        display: block;
+        width: 100%;
     }
 }
