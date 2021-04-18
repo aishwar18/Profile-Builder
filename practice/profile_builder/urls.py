@@ -13,4 +13,5 @@ urlpatterns = [
     path('html/passwordReset',views.passwordReset,name="passwordReset"),
     path('html/logout',views.logout,name="logout"),
     path('html/home',views.home,name="home"),
+    path('html/teacherProfile',views.teacher_profile,name="teacher_profile"),
 ]

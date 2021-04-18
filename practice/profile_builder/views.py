@@ -237,3 +237,7 @@ def home(request):
             for ins in model.objects.prefetch_related().all()]
     print(data[0])
     return render(request,"html/home.html",{'username': username,'field_names': field_verbose_names, 'data': data})
+
+def teacher_profile(request):
+    username = request.session['username']
+    return render(request,'html/teacherProfile.html',{'username': username})

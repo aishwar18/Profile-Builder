@@ -75,7 +75,6 @@ body {
 .dropdown-content a:hover {
   background-color:  #D90429;
 }
-
 .show {
   display: block;
 }
@@ -176,6 +175,9 @@ body {
     font-size: 14px;
   }
   .dropdown-content a{
+      text-align: center;
+  }
+  .dropdown-cntnt a{
       text-align: center;
   }
   .show {
