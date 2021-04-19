@@ -224,12 +224,11 @@ def logout(request):
 
 def home(request):
     username = request.session['username']
-    print("Hello!")
     model = Teachers_areas_of_interest
     field_verbose_names=[]
     field_names = ['id_of_faculty','name_of_faculty','faculty_research_interest']
     table_fields = [f for f in model._meta.get_fields() if f.name in  field_names]
-    print(table_fields)
+    #print(table_fields)
     for f in table_fields:
         if hasattr(f, 'verbose_name'):
             field_verbose_names.append(f.verbose_name)
@@ -238,6 +237,21 @@ def home(request):
     print(data[0])
     return render(request,"html/home.html",{'username': username,'field_names': field_verbose_names, 'data': data})
 
-def teacher_profile(request):
+def teacher_profile(request,id):
     username = request.session['username']
-    return render(request,'html/teacherProfile.html',{'username': username})
+    return render(request,'html/home.html',{'username':username})
+
+def teacher_profile(request,id):
+    username = request.session['username']
+    teacher = Teachers_data.objects.get(id=id)
+    t_aoi = Teachers_areas_of_interest.objects.filter(id_of_faculty=id)
+    name = teacher.name_of_faculty
+    email =teacher.mail_of_faculty
+    location = teacher.location
+    department = teacher.department
+    position = teacher.position
+    bio = teacher.bio_of_faculty
+    aoi = []
+    for a in t_aoi:
+        aoi.append(a.faculty_research_interest)
+    return render(request,'html/teacherProfile.html',{'username':username,'name':name, 'id': id, 'bio':bio, 'email':email, 'location': location, 'position':position, 'department':department, 'aoi':aoi})
