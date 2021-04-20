@@ -30,6 +30,29 @@ body{
     color: black;
     padding-top: 5px;
 }
+
+.indicator{
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    font-size: 0.8em;
+}
+.online{
+    background-color: #28B62C;
+    -webkit-animation: pulse-animation 2s infinite linear;
+}
+@-webkit-keyframes pulse-animation {
+	0% { -webkit-transform: scale(1); }
+	25% { -webkit-transform: scale(1); }
+    50% { -webkit-transform: scale(1.2) }
+    75% { -webkit-transform: scale(1); }
+    100% { -webkit-transform: scale(1); }
+}
+.offline {
+    background: #FF4136;
+    border-radius: 50%;
+}
 @media screen and (max-width: 600px) {
     .dropdown, .dropbtn{
         width: 100%;
