@@ -123,7 +123,7 @@
                   <h6 class="mb-0">Location</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
-                  {{location}}
+                  <a style="color:grey;" href="http://maps.google.com/?q={{location}}" data-toggle="loc_tooltip" data-placement="top" title="Click to view location in map"><span class="fa fa-search-location"></span></a>{{location}}
                 </div>
               </div>
               <hr>
@@ -219,9 +219,12 @@
             status.classList.add("offline");
             st.textContent = ' Unavailable';
         }
-        //console.log(status.classList)
-
     }
     </script>
+    <script>
+$(document).ready(function(){
+  $('[data-toggle="loc_tooltip"]').tooltip();
+});
+</script>
 </body>
 </html>
