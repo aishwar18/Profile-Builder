@@ -35,7 +35,33 @@
         window.history.forward();
     }
 </script>
+<script>
+  function mybutton() {
+     var element1 = document.body;
+     element1.classList.toggle("dark-mode");
+     var element2 = document.getElementById("maxRows");
+     element2.classList.toggle("dark-mode2");
+  }
+  </script>
+  <style>
+    body {
+      background-color: #2b2d42;
+      color: #edf2f4;
+      margin: 0;
+      min-height: 100%;
+    }
+    .dark-mode {
+      background-color: #edf2f4;
+      color: #2b2d42;
+    }
 
+    .dark-mode2 {
+      background-color: #ef233c;
+      color: #2b2d42;
+    }
+
+
+  </style>
 </head>
 <body>
     <div class="navbar">
@@ -46,8 +72,9 @@
                     <span class="fa fa-caret-down"></span>
                   </button>
                   <div class="dropdown-content" id="myDropdown">
-                      <a href="{% url 'changePassword' %}"><span class="fa fa-user-circle"></span> My Profile</a>
-                      <a href="{% url 'changePassword' %}"><span class="fa fa-key"></span> Change Password</a>
+                    <a href="{% url 'editProfile' %}"><span class="fa fa-user-circle"></span> My Profile</a>
+                    <a href="{% url 'changePassword' %}"><span class="fa fa-key"></span> Change Password</a>
+                    <!--<a onclick="mybutton()"><span class="fa fa-adjust"></span> Toggle Mode</a>-->
                       <a href="{% url 'logout' %}"><span class="fa fa-sign-out-alt"></span> Logout</a>
                   </div>
               </div>

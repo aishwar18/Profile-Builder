@@ -1,0 +1,146 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/jpg" href="{% static 'Images/pb_logo.jpg' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+
+  <script
+  src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+  integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+  crossorigin="anonymous"
+></script>
+
+<script
+  src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+  integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+  crossorigin="anonymous"
+></script>
+
+<script
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+  integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+  crossorigin="anonymous"
+></script>
+<link rel="stylesheet" type = text/css href="{% static 'CSS/alert.css' %}">
+<link rel="stylesheet" type = text/css href="{% static 'css/tooltip.css' %}">
+<link rel="stylesheet" type= text/css href="{% static 'CSS/login.css' %}">
+<link rel="stylesheet" type = text/css href="{% static 'css/index.css' %}">
+<script type="text/javascript">
+    window.history.forward();
+    function noBack() {
+        window.history.forward();
+    }
+</script>
+<!--JS-->
+<script>
+    function email_check()
+    {
+  
+      var myInput = document.getElementById("email").value;
+      var y  = "<br>";
+      var z = "Mail ID should include:";
+      var at = /[@]/g;
+      if(!myInput.match(at)) {
+          z+=y+"@ symbol";
+      }
+  
+      // Validate capital letters
+      var dot = /[.]/g;
+      if(!myInput.match(dot)) {
+        z+=y+". symbol";
+      }
+  
+      if(z=="Mail ID should include:")
+      {
+          z="";
+      }
+  
+      $("#email").tooltip('hide')
+          .attr('data-original-title',z)
+          .tooltip('show');
+    }
+  
+</script>
+<script>
+  function mybutton() {
+     var element1 = document.body;
+     element1.classList.toggle("dark-mode");
+     var element2 = document.getElementById("email");
+     element2.classList.toggle("dark-mode");
+  }
+  </script>
+  <style>
+    body {
+      background-color: #2b2d42;
+      color: #edf2f4;
+      margin: 0;
+      min-height: 100%;
+    }
+    .dark-mode {
+      background-color: #edf2f4;
+      color: #2b2d42;
+    }
+  </style>
+</head>
+<body>
+    <div class="navbarCustom">
+        <a href="{% url 'home' %}"><span class="fa fa-home"></span> Home</a>
+        <div class="nav-right">
+              <div class="dropdown">
+                  <button class="dropbtn" onclick="myFunction()"><span class="fa fa-user"></span> {{username}}
+                    <span class="fa fa-caret-down"></span>
+                  </button>
+                  <div class="dropdown-content" id="myDropdown">
+                      <a href="{% url 'editProfile' %}"><span class="fa fa-user-circle"></span> My Profile</a>
+                      <a href="{% url 'changePassword' %}"><span class="fa fa-key"></span> Change Password</a>
+                      <a onclick="mybutton()"><span class="fa fa-adjust"></span> Toggle Mode</a>
+                      <a href="{% url 'logout' %}"><span class="fa fa-sign-out-alt"></span> Logout</a>
+                  </div>
+              </div>
+        </div>
+    </div>
+    {% if messages %}
+    <div class="alert alert-danger">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        {% for message in messages %}
+         {{message}}
+        {% endfor %}
+    </div>
+    <br>
+    {% endif %}
+    <div class="align">
+              <div class="grid align__item">
+                  <div class="login">
+              <h2>Change Mail</h2>
+              <form action="changeMail" method="post" class="form">
+                {% csrf_token %}
+                  <div class="form__field">
+                    <input oninput="email_check()" type="email" name="new email" class="input_field" id="email" placeholder="New Mail ID" pattern="^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$" 
+                    data-toggle="tooltip" data-placement="right" data-html="true" title="" required>
+                  </div>
+                <div class="PR_button">
+                  <input type="submit" value="Submit">
+                </div>
+              </form>
+            </div>
+      </div>
+  </div>
+    <script>
+    function myFunction() {
+      document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    window.onclick = function(e) {
+      if (!e.target.matches('.dropbtn')) {
+      var myDropdown = document.getElementById("myDropdown");
+        if (myDropdown.classList.contains('show')) {
+          myDropdown.classList.remove('show');
+        }
+      }
+    }
+    </script>
+</body>
+</html>
