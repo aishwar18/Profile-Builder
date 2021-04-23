@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 class Students(models.Model):
-    img = models.ImageField(upload_to='pics')
+    img = models.ImageField(upload_to='images/')
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     college =  models.CharField(max_length=100)
@@ -22,7 +22,7 @@ class State(models.Model):
     city = models.CharField(max_length=100)
 
 class Teachers(models.Model):
-    img = models.ImageField(upload_to='pics')
+    img = models.ImageField(upload_to='images/')
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     college =  models.CharField(max_length=100)

@@ -255,3 +255,58 @@ def teacher_profile(request,id):
     for a in t_aoi:
         aoi.append(a.faculty_research_interest)
     return render(request,'html/teacherProfile.html',{'username':username,'name':name, 'id': id, 'bio':bio, 'email':email, 'location': location, 'position':position, 'department':department, 'aoi':aoi})
+
+def changeMail(request):
+    username = request.session.get('username')
+    if( request.method == 'POST'):
+        new_email = request.POST['new email']
+        if(Students.objects.filter(mailid=new_email).exists() or Teachers.objects.filter(mailid=new_email).exists()):
+            messages.info(request,'Mailid already exists.Use other mail id')
+            return render(request,"html/changeMail.html",{'username': username})
+        if (Students.objects.filter(username=username).exists()):
+            s = Students.objects.get(username=username)
+            s.mailid = new_email
+            s.save()
+            messages.info(request,'Email changed successfully')
+            return redirect('home')
+        elif (Teachers.objects.filter(username=username).exists()):
+            t = Teachers.objects.get(username=username)
+            t.mailid = new_email
+            t.save()
+            messages.info(request,'Email changed successfully')
+            return redirect('home')
+        else:
+            return render(request,"html/changeMail.html",{'username': username})
+    else:
+        return render(request,"html/changeMail.html",{'username': username})
+
+def editProfile(request):
+    username = request.session.get('username')
+    return render(request,"html/EditProfile.html",{'username': username})
+
+def changeProfilePic(request):
+    username = request.session.get('username')
+    user = None
+    user = Students.objects.filter(username=username) or Teachers.objects.filter(username=username)
+    request.session['profilepic'] = user[0].img.url
+    profilepic = request.session.get('profilepic')
+    print(profilepic)
+    if( request.method == 'POST' and request.FILES['psimg']):
+        new_img = request.FILES['psimg']
+        if (Students.objects.filter(username=username).exists()):
+            s = Students.objects.get(username=username)
+            s.img = new_img
+            s.save()
+            print(new_img)
+            messages.info(request,'Profile Picture changed successfully')
+            return redirect('home')
+        elif (Teachers.objects.filter(username=username).exists()):
+            t = Teachers.objects.get(username=username)
+            t.img = new_img
+            t.save()
+            messages.info(request,'Profile Picture changed successfully')
+            return redirect('home')
+        else:
+            return render(request,"html/changeProfilePic.html",{'username': username,'profilepic' : profilepic})
+    else:
+        return render(request,"html/changeProfilePic.html",{'username': username,'profilepic' : profilepic})

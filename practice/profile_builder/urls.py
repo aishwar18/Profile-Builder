@@ -14,4 +14,7 @@ urlpatterns = [
     path('html/logout',views.logout,name="logout"),
     path('html/home',views.home,name="home"),
     path('html/teacherProfile/<int:id>/',views.teacher_profile,name="teacher_profile"),
+    path('html/changeMail',views.changeMail,name="changeMail"),
+    path('html/changeProfilePic',views.changeProfilePic,name="changeProfilePic"),
+    path('html/editProfile',views.editProfile,name="editProfile"),
 ]
