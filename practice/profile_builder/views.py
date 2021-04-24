@@ -312,6 +312,13 @@ def changeProfilePic(request):
         return render(request,"html/changeProfilePic.html",{'username': username,'profilepic' : profilepic})
 
 def myProfile(request):
+    #profil pic
+    username = request.session.get('username')
+    user = None
+    user = Students.objects.filter(username=username) or Teachers.objects.filter(username=username)
+    request.session['profilepic'] = user[0].img.url
+
+    profilepic = request.session.get('profilepic')
     username = request.session.get('username')
     student = Students.objects.filter(username=username)
     teacher =Teachers.objects.filter(username=username)
@@ -369,15 +376,15 @@ def myProfile(request):
                 s.city = city
                 s.save()
                 return redirect('myProfile')
-        return render(request,"html/myProfile.html",{'username': username, 'email':email,'first_name':first_name, 'last_name':last_name,'college':college,'degree':degree,'branch':branch,'city':city,'img':img,'is_student': is_student})
+        return render(request,"html/myProfile.html",{'username': username, 'email':email,'first_name':first_name, 'last_name':last_name,'college':college,'degree':degree,'branch':branch,'city':city,'img':img,'is_student': is_student,'profilepic' : profilepic})
     elif(teacher):
         is_student=False
-        email = teacher[0].mailid;
-        first_name = teacher[0].first_name;
-        last_name = teacher[0].last_name;
-        college = teacher[0].college;
-        city = teacher[0].city;
-        img = teacher[0].img;
+        email = teacher[0].mailid
+        first_name = teacher[0].first_name
+        last_name = teacher[0].last_name
+        college = teacher[0].college
+        city = teacher[0].city
+        img = teacher[0].img
         if(request.method == 'POST'):
 
             if 'lname' in request.POST:
@@ -408,4 +415,4 @@ def myProfile(request):
                 t.city = city
                 t.save()
                 return redirect('myProfile')
-        return render(request,"html/myProfile.html",{'username': username, 'email':email,'first_name':first_name, 'last_name':last_name,'college':college,'city':city,'img':img,'is_student': is_student})
+        return render(request,"html/myProfile.html",{'username': username, 'email':email,'first_name':first_name, 'last_name':last_name,'college':college,'city':city,'img':img,'is_student': is_student,'profilepic' : profilepic})
