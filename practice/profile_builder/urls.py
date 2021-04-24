@@ -17,4 +17,5 @@ urlpatterns = [
     path('html/changeMail',views.changeMail,name="changeMail"),
     path('html/changeProfilePic',views.changeProfilePic,name="changeProfilePic"),
     path('html/editProfile',views.editProfile,name="editProfile"),
+    path('html/myProfile',views.myProfile,name="myProfile"),
 ]

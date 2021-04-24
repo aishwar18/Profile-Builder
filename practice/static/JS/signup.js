@@ -4,7 +4,7 @@ var b_a = new Array();
 var se_a = new Array();
 var e_a = new Array();
 var c_a = new Array("Amrita Vishwa Vidhyapeetham","Birla Institute of Technology & Science",
-"Indian Institute of Tachnology","National Institute of Technology");
+"Indian Institute of Technology","National Institute of Technology");
 var s_q = new Array();
 s_q[0] = "What Is your favorite book?";
 s_q[1] = "What is your favorite food?";

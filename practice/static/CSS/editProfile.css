@@ -1,47 +1,29 @@
 * {
     box-sizing: border-box;
   }
-  
+
   html {
     height: 100%;
     font-family:sans-serif,Arial,helvetica;
   }
-  
+
   body {
     background-color: #2b2d42;
     color: #edf2f4;
     margin: 0;
     min-height: 100%;
   }
-  
-  .navbar {
-    width: 100%;
-    background-color: #EF233C;
-    overflow: auto;
-  }
-  
-  .navbar a {
-    float: left;
-    text-align: center;
-    padding: 12px;
-    color: white;
-    text-decoration: none;
-    font-size: 17px;
-  }
-  
-  .navbar a:hover {
-    background-color: #D90429;
-  }
-  
+
+   
   .nav-right {
     float: right;
   }
-  
+
   .dropdown {
     float: left;
     overflow: hidden;
   }
-  
+
   .dropdown .dropbtn {
     cursor: pointer;
     font-size: 16px;
@@ -62,7 +44,7 @@
     z-index: 1;
     right: 0;
   }
-  
+
   .dropdown-content a {
     float: none;
     color: white;
@@ -71,11 +53,11 @@
     display: block;
     text-align: left;
   }
-  
+
   .dropdown-content a:hover {
     background-color:  #D90429;
   }
-  
+
   .show {
     display: block;
   }
@@ -89,13 +71,13 @@
       margin-left: -280px;
       padding: 2rem;
   }
-  
+
   #img-home img{
       position: absolute;
       left: 0;
       transition: opacity 1s ease-in-out;
   }
-  
+
   #img-home .home-imageTwo{
       animation-name: imgFadeInOut;
       animation-timing-function: ease-in-out;
@@ -103,7 +85,7 @@
       animation-duration: 10s;
       animation-direction: alternate;
   }
-  
+
   #img-home .home-imageOne{
       animation-name: imgFadeOutIn;
       animation-timing-function: ease-in-out;
@@ -111,20 +93,20 @@
       animation-duration: 10s;
       animation-direction: alternate;
   }
-  
+
   .home-body{
       margin-top: 12rem;
   }
-  
+
   .home-body h1{
       text-align: center;
   }
-  
+
   .home-body h3,p{
       padding: 18px;
   }
-  
-  
+
+
   @keyframes imgFadeInOut{
       0% {
           opacity:1;
@@ -139,7 +121,7 @@
           opacity:0;
       }
   }
-  
+
   @keyframes imgFadeOutIn{
       0% {
           opacity:0;
@@ -154,7 +136,7 @@
           opacity:1;
       }
   }
-  
+
   @media screen and (max-width: 600px) {
     .navbar a {
       float: none;
@@ -188,7 +170,7 @@
     position: relative;
     width: 100%;
   }
-  
+
   .image {
     display: block;
     width:350px;
@@ -196,7 +178,7 @@
     margin-left: auto;
     margin-right: auto;
   }
-  
+
   .overlay {
     position: absolute;
     top: 0;
@@ -209,11 +191,11 @@
     transition: .5s ease;
     background-color: #008CBA;
   }
-  
+
   .container:hover .overlay {
     opacity: 1;
   }
-  
+
   .text {
     color: white;
     font-size: 20px;
@@ -225,8 +207,8 @@
     transform: translate(-50%, -50%);
     text-align: center;
   }
-  
-  
+
+
   .column {
     float: left;
     width: 33.33%;

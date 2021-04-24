@@ -310,3 +310,102 @@ def changeProfilePic(request):
             return render(request,"html/changeProfilePic.html",{'username': username,'profilepic' : profilepic})
     else:
         return render(request,"html/changeProfilePic.html",{'username': username,'profilepic' : profilepic})
+
+def myProfile(request):
+    username = request.session.get('username')
+    student = Students.objects.filter(username=username)
+    teacher =Teachers.objects.filter(username=username)
+    is_student = False
+    if(student):
+        email = student[0].mailid;
+        first_name = student[0].first_name;
+        last_name = student[0].last_name;
+        college = student[0].college;
+        degree = student[0].degree;
+        branch = student[0].branch;
+        city = student[0].city;
+        img = student[0].img;
+        is_student =True
+        if(request.method=='POST'):
+            if 'lname' in request.POST:
+                lname = request.POST['lname']
+                if(student):
+                    s = Students.objects.get(username=username)
+                    s.last_name = lname
+                    s.save()
+                print(lname)
+                return redirect('myProfile')
+            if 'fname' in request.POST:
+                fname =request.POST['fname']
+                if(student):
+                    s = Students.objects.get(username=username)
+                    s.first_name = fname
+                    s.save()
+                print(fname)
+                return redirect('myProfile')
+            if 'col' in request.POST:
+                college = request.POST['col']
+                if(student):
+                    s = Students.objects.get(username=username)
+                    s.college = college
+                    s.save()
+                return redirect('myProfile')
+            if 'brh' in request.POST:
+                branch = request.POST['brh']
+                if(student):
+                    s = Students.objects.get(username=username)
+                    s.branch = branch
+                    s.save()
+            if 'deg' in request.POST:
+                degree = request.POST['deg']
+                if(student):
+                    s = Students.objects.get(username=username)
+                    s.degree = degree
+                    s.save()
+                return redirect('myProfile')
+            if 'stt' in request.POST and 'sc' in request.POST:
+                city = request.POST['sc']
+                s = Students.objects.get(username=username)
+                s.city = city
+                s.save()
+                return redirect('myProfile')
+        return render(request,"html/myProfile.html",{'username': username, 'email':email,'first_name':first_name, 'last_name':last_name,'college':college,'degree':degree,'branch':branch,'city':city,'img':img,'is_student': is_student})
+    elif(teacher):
+        is_student=False
+        email = teacher[0].mailid;
+        first_name = teacher[0].first_name;
+        last_name = teacher[0].last_name;
+        college = teacher[0].college;
+        city = teacher[0].city;
+        img = teacher[0].img;
+        if(request.method == 'POST'):
+
+            if 'lname' in request.POST:
+                lname = request.POST['lname']
+                if(teacher):
+                    t = Teachers.objects.get(username=username)
+                    t.last_name = lname
+                    t.save()
+                return redirect('myProfile')
+            if 'fname' in request.POST:
+                fname =request.POST['fname']
+                if(teacher):
+                    t = Teachers.objects.get(username=username)
+                    t.first_name = fname
+                    t.save()
+                print(fname)
+                return redirect('myProfile')
+            if 'col' in request.POST:
+                college = request.POST['col']
+                if(teacher):
+                    t = Teachers.objects.get(username=username)
+                    t.college = college
+                    t.save()
+                return redirect('myProfile')
+            if 'stt' in request.POST and 'sc' in request.POST:
+                city = request.POST['sc']
+                t = Teachers.objects.get(username=username)
+                t.city = city
+                t.save()
+                return redirect('myProfile')
+        return render(request,"html/myProfile.html",{'username': username, 'email':email,'first_name':first_name, 'last_name':last_name,'college':college,'city':city,'img':img,'is_student': is_student})

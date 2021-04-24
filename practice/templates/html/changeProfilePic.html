@@ -41,7 +41,7 @@
 <script>
     function email_check()
     {
-  
+
       var myInput = document.getElementById("email").value;
       var y  = "<br>";
       var z = "Mail ID should include:";
@@ -49,26 +49,26 @@
       if(!myInput.match(at)) {
           z+=y+"@ symbol";
       }
-  
+
       // Validate capital letters
       var dot = /[.]/g;
       if(!myInput.match(dot)) {
         z+=y+". symbol";
       }
-  
+
       if(z=="Mail ID should include:")
       {
           z="";
       }
-  
+
       $("#email").tooltip('hide')
           .attr('data-original-title',z)
           .tooltip('show');
     }
-  
+
 </script>
 <script>
-  function mybutton() {
+  function toggleButton() {
      var element1 = document.body;
      element1.classList.toggle("dark-mode");
      var element2 = document.getElementById("maxRows");
@@ -99,9 +99,9 @@
                     <span class="fa fa-caret-down"></span>
                   </button>
                   <div class="dropdown-content" id="myDropdown">
-                      <a href="{% url 'editProfile' %}"><span class="fa fa-user-circle"></span> My Profile</a>
+                      <a href="{% url 'myProfile' %}"><span class="fa fa-user-circle"></span> My Profile</a>
                       <a href="{% url 'changePassword' %}"><span class="fa fa-key"></span> Change Password</a>
-                      <a onclick="mybutton()"><span class="fa fa-adjust"></span> Toggle Mode</a>
+                      <a onclick="toggleButton()"><span class="fa fa-adjust"></span> Toggle Mode</a>
                       <a href="{% url 'logout' %}"><span class="fa fa-sign-out-alt"></span> Logout</a>
                   </div>
               </div>

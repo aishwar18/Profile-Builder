@@ -38,7 +38,7 @@
 <script>
     function email_check()
     {
-  
+
       var myInput = document.getElementById("email").value;
       var y  = "<br>";
       var z = "Mail ID should include:";
@@ -46,26 +46,26 @@
       if(!myInput.match(at)) {
           z+=y+"@ symbol";
       }
-  
+
       // Validate capital letters
       var dot = /[.]/g;
       if(!myInput.match(dot)) {
         z+=y+". symbol";
       }
-  
+
       if(z=="Mail ID should include:")
       {
           z="";
       }
-  
+
       $("#email").tooltip('hide')
           .attr('data-original-title',z)
           .tooltip('show');
     }
-  
+
 </script>
 <script>
-  function mybutton() {
+  function toggleButton() {
      var element1 = document.body;
      element1.classList.toggle("dark-mode");
      var element2 = document.getElementById("email");
@@ -94,9 +94,9 @@
                     <span class="fa fa-caret-down"></span>
                   </button>
                   <div class="dropdown-content" id="myDropdown">
-                      <a href="{% url 'editProfile' %}"><span class="fa fa-user-circle"></span> My Profile</a>
+                      <a href="{% url 'myProfile' %}"><span class="fa fa-user-circle"></span> My Profile</a>
                       <a href="{% url 'changePassword' %}"><span class="fa fa-key"></span> Change Password</a>
-                      <a onclick="mybutton()"><span class="fa fa-adjust"></span> Toggle Mode</a>
+                      <a onclick="toggleButton()"><span class="fa fa-adjust"></span> Toggle Mode</a>
                       <a href="{% url 'logout' %}"><span class="fa fa-sign-out-alt"></span> Logout</a>
                   </div>
               </div>
@@ -118,7 +118,7 @@
               <form action="changeMail" method="post" class="form">
                 {% csrf_token %}
                   <div class="form__field">
-                    <input oninput="email_check()" type="email" name="new email" class="input_field" id="email" placeholder="New Mail ID" pattern="^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$" 
+                    <input oninput="email_check()" type="email" name="new email" class="input_field" id="email" placeholder="New Mail ID" pattern="^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$"
                     data-toggle="tooltip" data-placement="right" data-html="true" title="" required>
                   </div>
                 <div class="PR_button">

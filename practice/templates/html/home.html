@@ -72,7 +72,7 @@
                     <span class="fa fa-caret-down"></span>
                   </button>
                   <div class="dropdown-content" id="myDropdown">
-                    <a href="{% url 'editProfile' %}"><span class="fa fa-user-circle"></span> My Profile</a>
+                    <a href="{% url 'myProfile' %}"><span class="fa fa-user-circle"></span> My Profile</a>
                     <a href="{% url 'changePassword' %}"><span class="fa fa-key"></span> Change Password</a>
                     <!--<a onclick="mybutton()"><span class="fa fa-adjust"></span> Toggle Mode</a>-->
                       <a href="{% url 'logout' %}"><span class="fa fa-sign-out-alt"></span> Logout</a>
@@ -284,18 +284,6 @@
     		}
     	}
     }
-/*
-    $(function() {
-      // Just to append id number for each row
-      $('table tr:eq(0)').prepend('<th> ID </th>');
-
-      var id = 0;
-
-      $('table tr:gt(0)').each(function() {
-        id++;
-        $(this).prepend('<td>' + id + '</td>');
-      });
-  });*/
     </script>
     <script>
 function searchFaculty() {
