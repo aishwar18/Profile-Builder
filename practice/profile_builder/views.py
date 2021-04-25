@@ -378,6 +378,7 @@ def myProfile(request):
                 return redirect('myProfile')
         return render(request,"html/myProfile.html",{'username': username, 'email':email,'first_name':first_name, 'last_name':last_name,'college':college,'degree':degree,'branch':branch,'city':city,'img':img,'is_student': is_student,'profilepic' : profilepic})
     elif(teacher):
+        listed = False
         is_student=False
         email = teacher[0].mailid
         first_name = teacher[0].first_name
@@ -385,8 +386,12 @@ def myProfile(request):
         college = teacher[0].college
         city = teacher[0].city
         img = teacher[0].img
+        id = teacher[0].id
+        print(img,profilepic)
+        faculty = Teachers_data.objects.get(id=id)
+        if(faculty):
+            listed = True
         if(request.method == 'POST'):
-
             if 'lname' in request.POST:
                 lname = request.POST['lname']
                 if(teacher):
@@ -415,4 +420,10 @@ def myProfile(request):
                 t.city = city
                 t.save()
                 return redirect('myProfile')
-        return render(request,"html/myProfile.html",{'username': username, 'email':email,'first_name':first_name, 'last_name':last_name,'college':college,'city':city,'img':img,'is_student': is_student,'profilepic' : profilepic})
+            if(listed):
+                bio = faculty[0].bio_of_faculty
+                position = faculty[0].position
+                department = faculty[0].department
+                location = faculty[0].location
+                return render(request,"html/myProfile.html",{'username': username, 'email':email,'first_name':first_name, 'last_name':last_name,'college':college,'city':city,'img':img,'is_student': is_student,'profilepic' : profilepic, 'bio':bio,'department': department,'location':location, 'listed':listed})
+        return render(request,"html/myProfile.html",{'username': username, 'email':email,'first_name':first_name, 'last_name':last_name,'college':college,'city':city,'img':img,'is_student': is_student,'profilepic' : profilepic,'listed': listed})
