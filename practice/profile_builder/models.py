@@ -23,6 +23,7 @@ class State(models.Model):
 
 class Teachers(models.Model):
     img = models.ImageField(upload_to='images/')
+    id_of_faculty = models.IntegerField(verbose_name = "ID",default=0)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     college =  models.CharField(max_length=100)
@@ -45,3 +46,12 @@ class Teachers_areas_of_interest(models.Model):
     id_of_faculty = models.IntegerField(verbose_name = "ID",default=0)
     name_of_faculty = models.TextField(verbose_name = "Name of faculty")
     faculty_research_interest = models.TextField(verbose_name = "Faculty research interest")
+
+class projects(models.Model):
+    id_of_faculty = models.IntegerField(verbose_name = "ID",default=0)
+    research = models.TextField(verbose_name = "Research")
+    title = models.TextField(verbose_name = "Title")
+
+class favorites(models.Model):
+    id_of_student =  models.IntegerField(verbose_name = "ID",default=0)
+    student_research_interest = models.TextField(verbose_name = "Research interest")

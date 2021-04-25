@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.models import auth
 import csv
-from .models import Students,State,Teachers,Teachers_data,Teachers_areas_of_interest
+from .models import Students,State,Teachers,Teachers_data,Teachers_areas_of_interest,projects,favorites
 import pandas as pd
 # Create your views here.
 
@@ -102,6 +102,8 @@ def signup_teachers(request):
         password = request.POST['password']
         security_qn = request.POST['sqn']
         security_an = request.POST['securityanswer']
+        t = Teachers_data.objects.filter(mail_of_faculty=mailid)
+        id_of_faculty = t[0].id
         if (Students.objects.filter(username=username).exists() or Teachers.objects.filter(username=username).exists()):
             messages.info(request,'Username Already Exists. Choose different Username')
             return redirect('signup_teachers')
@@ -109,7 +111,7 @@ def signup_teachers(request):
             messages.info(request,'Mail id Already Exists. Choose different Mail id')
             return redirect('signup_teachers')
         else:
-            teacher = Teachers(img=img,first_name = first_name,last_name = last_name,college = college,city = city,mailid = mailid,username = username,password = password,security_qn = security_qn,security_an = security_an)
+            teacher = Teachers(id_of_faculty=id_of_faculty,img=img,first_name = first_name,last_name = last_name,college = college,city = city,mailid = mailid,username = username,password = password,security_qn = security_qn,security_an = security_an)
             state = State(city=city,state=state)
             teacher.save()
             if (not State.objects.filter(city=city).exists()):
@@ -288,7 +290,10 @@ def changeProfilePic(request):
     username = request.session.get('username')
     user = None
     user = Students.objects.filter(username=username) or Teachers.objects.filter(username=username)
-    request.session['profilepic'] = user[0].img.url
+    if(user[0].img==""):
+        request.session['profilepic']='..\media\images\change_profile'
+    else:
+        request.session['profilepic'] = user[0].img.url
     profilepic = request.session.get('profilepic')
     print(profilepic)
     if( request.method == 'POST' and request.FILES['psimg']):
@@ -316,22 +321,25 @@ def myProfile(request):
     username = request.session.get('username')
     user = None
     user = Students.objects.filter(username=username) or Teachers.objects.filter(username=username)
-    request.session['profilepic'] = user[0].img.url
-
+    if(user[0].img==""):
+        request.session['profilepic']='..\media\images\change_profile'
+    else:
+        request.session['profilepic'] = user[0].img.url
     profilepic = request.session.get('profilepic')
+    print(profilepic)
     username = request.session.get('username')
     student = Students.objects.filter(username=username)
     teacher =Teachers.objects.filter(username=username)
     is_student = False
     if(student):
-        email = student[0].mailid;
-        first_name = student[0].first_name;
-        last_name = student[0].last_name;
-        college = student[0].college;
-        degree = student[0].degree;
-        branch = student[0].branch;
-        city = student[0].city;
-        img = student[0].img;
+        email = student[0].mailid
+        first_name = student[0].first_name
+        last_name = student[0].last_name
+        college = student[0].college
+        degree = student[0].degree
+        branch = student[0].branch
+        city = student[0].city
+        img = student[0].img
         is_student =True
         if(request.method=='POST'):
             if 'lname' in request.POST:
@@ -378,7 +386,6 @@ def myProfile(request):
                 return redirect('myProfile')
         return render(request,"html/myProfile.html",{'username': username, 'email':email,'first_name':first_name, 'last_name':last_name,'college':college,'degree':degree,'branch':branch,'city':city,'img':img,'is_student': is_student,'profilepic' : profilepic})
     elif(teacher):
-        listed = False
         is_student=False
         email = teacher[0].mailid
         first_name = teacher[0].first_name
@@ -386,12 +393,8 @@ def myProfile(request):
         college = teacher[0].college
         city = teacher[0].city
         img = teacher[0].img
-        id = teacher[0].id
-        print(img,profilepic)
-        faculty = Teachers_data.objects.get(id=id)
-        if(faculty):
-            listed = True
         if(request.method == 'POST'):
+
             if 'lname' in request.POST:
                 lname = request.POST['lname']
                 if(teacher):
@@ -420,10 +423,17 @@ def myProfile(request):
                 t.city = city
                 t.save()
                 return redirect('myProfile')
-            if(listed):
-                bio = faculty[0].bio_of_faculty
-                position = faculty[0].position
-                department = faculty[0].department
-                location = faculty[0].location
-                return render(request,"html/myProfile.html",{'username': username, 'email':email,'first_name':first_name, 'last_name':last_name,'college':college,'city':city,'img':img,'is_student': is_student,'profilepic' : profilepic, 'bio':bio,'department': department,'location':location, 'listed':listed})
-        return render(request,"html/myProfile.html",{'username': username, 'email':email,'first_name':first_name, 'last_name':last_name,'college':college,'city':city,'img':img,'is_student': is_student,'profilepic' : profilepic,'listed': listed})
+        return render(request,"html/myProfile.html",{'username': username, 'email':email,'first_name':first_name, 'last_name':last_name,'college':college,'city':city,'img':img,'is_student': is_student,'profilepic' : profilepic})
+
+def addFavorites(request):
+    username = request.session.get('username')
+    area_objects = Teachers_areas_of_interest.objects.distinct('faculty_research_interest')
+    areas1 = []
+    for i in area_objects:
+        aoi1=i.faculty_research_interest
+        aoi=aoi1.capitalize()
+        if(aoi and aoi!="-" and aoi not in area_objects):
+            aoi.strip()
+            areas1.append(aoi)
+    areas = sorted(areas1)
+    return render(request,"html/addFavourites.html",{'username': username,'areas' : areas})
