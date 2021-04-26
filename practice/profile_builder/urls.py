@@ -18,4 +18,5 @@ urlpatterns = [
     path('html/changeProfilePic',views.changeProfilePic,name="changeProfilePic"),
     path('html/editProfile',views.editProfile,name="editProfile"),
     path('html/myProfile',views.myProfile,name="myProfile"),
+    path('html/faculty_detail',views.faculty_detail,name="faculty_detail"),
 ]

@@ -102,8 +102,8 @@ def signup_teachers(request):
         password = request.POST['password']
         security_qn = request.POST['sqn']
         security_an = request.POST['securityanswer']
-        t = Teachers_data.objects.filter(mail_of_faculty=mailid)
-        id_of_faculty = t[0].id
+        #t = Teachers_data.objects.filter(mail_of_faculty=mailid)
+        #id_of_faculty = t[0].id
         if (Students.objects.filter(username=username).exists() or Teachers.objects.filter(username=username).exists()):
             messages.info(request,'Username Already Exists. Choose different Username')
             return redirect('signup_teachers')
@@ -111,7 +111,7 @@ def signup_teachers(request):
             messages.info(request,'Mail id Already Exists. Choose different Mail id')
             return redirect('signup_teachers')
         else:
-            teacher = Teachers(id_of_faculty=id_of_faculty,img=img,first_name = first_name,last_name = last_name,college = college,city = city,mailid = mailid,username = username,password = password,security_qn = security_qn,security_an = security_an)
+            teacher = Teachers(img=img,first_name = first_name,last_name = last_name,college = college,city = city,mailid = mailid,username = username,password = password,security_qn = security_qn,security_an = security_an)
             state = State(city=city,state=state)
             teacher.save()
             if (not State.objects.filter(city=city).exists()):
@@ -393,29 +393,29 @@ def myProfile(request):
         college = teacher[0].college
         city = teacher[0].city
         img = teacher[0].img
+        t = Teachers.objects.get(username=username)
+        bio=None
+        is_listed = False
+        faculty = Teachers_data.objects.get(mail_of_faculty=email)
+        if(faculty):
+            bio = faculty.bio_of_faculty
+            is_listed = True
         if(request.method == 'POST'):
-
             if 'lname' in request.POST:
                 lname = request.POST['lname']
-                if(teacher):
-                    t = Teachers.objects.get(username=username)
-                    t.last_name = lname
-                    t.save()
+                t.last_name = lname
+                t.save()
                 return redirect('myProfile')
             if 'fname' in request.POST:
                 fname =request.POST['fname']
-                if(teacher):
-                    t = Teachers.objects.get(username=username)
-                    t.first_name = fname
-                    t.save()
+                t.first_name = fname
+                t.save()
                 print(fname)
                 return redirect('myProfile')
             if 'col' in request.POST:
                 college = request.POST['col']
-                if(teacher):
-                    t = Teachers.objects.get(username=username)
-                    t.college = college
-                    t.save()
+                t.college = college
+                t.save()
                 return redirect('myProfile')
             if 'stt' in request.POST and 'sc' in request.POST:
                 city = request.POST['sc']
@@ -423,7 +423,9 @@ def myProfile(request):
                 t.city = city
                 t.save()
                 return redirect('myProfile')
-        return render(request,"html/myProfile.html",{'username': username, 'email':email,'first_name':first_name, 'last_name':last_name,'college':college,'city':city,'img':img,'is_student': is_student,'profilepic' : profilepic})
+
+
+        return render(request,"html/myProfile.html",{'username': username, 'email':email,'first_name':first_name, 'last_name':last_name,'college':college,'city':city,'img':img,'is_student': is_student,'profilepic' : profilepic, 'bio':bio, 'listed':is_listed})
 
 def addFavorites(request):
     username = request.session.get('username')
@@ -437,3 +439,28 @@ def addFavorites(request):
             areas1.append(aoi)
     areas = sorted(areas1)
     return render(request,"html/addFavourites.html",{'username': username,'areas' : areas})
+
+def faculty_detail(request):
+    username = request.session.get('username')
+    if (request.method=='POST'):
+        t = Teachers.objects.get(username=username)
+        #print(t.first_name)
+        fname = t.first_name
+        lname = t.last_name
+        email = t.mailid
+        name = fname+" "+lname
+        loc = request.POST['loc']
+        dept = request.POST['dept']
+        pos = request.POST['pos']
+        bio =request.POST['bio']
+        aoi =request.POST['aoi']
+        aoi = aoi.split(',')
+        teacher = Teachers_data(name_of_faculty=name, bio_of_faculty=bio, mail_of_faculty = email, position=pos, location=loc, department=dept)
+        teacher.save()
+        for i in aoi:
+            teach  = Teachers_data.objects.filter(mail_of_faculty=email)
+            id_of_faculty = teach[0].id
+            teachers_aoi = Teachers_areas_of_interest(id_of_faculty=id_of_faculty,name_of_faculty=name,faculty_research_interest=i)
+            teachers_aoi.save()
+        messages.info(request,"Saved!")
+    return render(request,"html/faculty_detail.html",{'username': username})

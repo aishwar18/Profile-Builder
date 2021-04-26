@@ -27,7 +27,7 @@
     ></script>
     <link rel="stylesheet" type= text/css href="{% static 'CSS/login.css' %}">
     <link rel="stylesheet" type = text/css href="{% static 'css/index.css' %}">
-        <link rel="stylesheet" type = text/css href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" type = text/css href="{% static 'css/profile.css' %}">
     <link rel="stylesheet" type = text/css href="{% static 'css/myprofile.css' %}">
     <script src="{% static 'JS/signup.js' %}"></script>
 </head>
@@ -286,7 +286,7 @@
                   <ul class="nav nav-pills nav-stacked">
                       <li><a href="{% url 'editProfile' %}"> <span class="fa fa-edit"></span> Edit profile</a></li>
                       {% if not listed %}
-                      <li><a href="{% url 'editProfile' %}"> <span class="fa fa-plus"></span> Add to search results</a></li>
+                      <li><a href="{% url 'faculty_detail' %}"> <span class="fa fa-plus"></span> Add to search results</a></li>
                       {% endif %}
                   </ul>
               </div>
