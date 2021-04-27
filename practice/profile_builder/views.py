@@ -253,15 +253,21 @@ def teacher_profile(request,id):
     department = teacher.department
     position = teacher.position
     bio = teacher.bio_of_faculty
-    t1 = Teachers.objects.get(id_of_faculty=id)
-    img = t1.img.url
-    print(img)
-    if(img==""):
+    t1 = Teachers.objects.filter(id_of_faculty=id)
+    same_user=False
+    if(t1):
+        if(t1[0].username==username):
+            same_user = True
+    img = None
+    if not(t1 or img==""):
         img=None
+    else:
+        img = t1[0].img.url
+        print(img)
     aoi = []
     for a in t_aoi:
         aoi.append(a.faculty_research_interest)
-    return render(request,'html/teacherProfile.html',{'username':username,'name':name, 'id': id, 'bio':bio, 'email':email, 'location': location, 'position':position, 'department':department, 'aoi':aoi, 'img':img})
+    return render(request,'html/teacherProfile.html',{'username':username,'name':name, 'id': id, 'bio':bio, 'email':email, 'location': location, 'position':position, 'department':department, 'aoi':aoi, 'img':img, 'same_user': same_user})
 
 def changeMail(request):
     username = request.session.get('username')
