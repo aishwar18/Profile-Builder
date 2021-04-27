@@ -253,10 +253,15 @@ def teacher_profile(request,id):
     department = teacher.department
     position = teacher.position
     bio = teacher.bio_of_faculty
+    t1 = Teachers.objects.get(id_of_faculty=id)
+    img = t1.img.url
+    print(img)
+    if(img==""):
+        img=None
     aoi = []
     for a in t_aoi:
         aoi.append(a.faculty_research_interest)
-    return render(request,'html/teacherProfile.html',{'username':username,'name':name, 'id': id, 'bio':bio, 'email':email, 'location': location, 'position':position, 'department':department, 'aoi':aoi})
+    return render(request,'html/teacherProfile.html',{'username':username,'name':name, 'id': id, 'bio':bio, 'email':email, 'location': location, 'position':position, 'department':department, 'aoi':aoi, 'img':img})
 
 def changeMail(request):
     username = request.session.get('username')
@@ -275,6 +280,10 @@ def changeMail(request):
             t = Teachers.objects.get(username=username)
             t.mailid = new_email
             t.save()
+            if(t.id_of_faculty!=0):
+                t1 = Teachers_data.objects.get(id=t.id_of_faculty)
+                t1.mail_of_faculty = new_email
+                t1.save()
             messages.info(request,'Email changed successfully')
             return redirect('home')
         else:
@@ -396,9 +405,9 @@ def myProfile(request):
         t = Teachers.objects.get(username=username)
         bio=None
         is_listed = False
-        faculty = Teachers_data.objects.get(mail_of_faculty=email)
+        faculty = Teachers_data.objects.filter(mail_of_faculty=email)
         if(faculty):
-            bio = faculty.bio_of_faculty
+            bio = faculty[0].bio_of_faculty
             is_listed = True
         if(request.method == 'POST'):
             if 'lname' in request.POST:
@@ -457,10 +466,12 @@ def faculty_detail(request):
         aoi = aoi.split(',')
         teacher = Teachers_data(name_of_faculty=name, bio_of_faculty=bio, mail_of_faculty = email, position=pos, location=loc, department=dept)
         teacher.save()
+        faculty = Teachers_data.objects.get(name_of_faculty=name)
+        t1 = Teachers.objects.filter(username=username).update(id_of_faculty=faculty.id)
         for i in aoi:
             teach  = Teachers_data.objects.filter(mail_of_faculty=email)
             id_of_faculty = teach[0].id
             teachers_aoi = Teachers_areas_of_interest(id_of_faculty=id_of_faculty,name_of_faculty=name,faculty_research_interest=i)
             teachers_aoi.save()
-        messages.info(request,"Saved!")
+        messages.info(request,"Saved Successfully!")
     return render(request,"html/faculty_detail.html",{'username': username})

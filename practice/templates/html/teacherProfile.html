@@ -53,7 +53,11 @@
                   <div class="card mt-2">
                     <div class="card-body">
                       <div class="d-flex flex-column align-items-center text-center">
+                        {% if img %}
+                        <img src="{{img}}" alt="Admin" class="rounded-circle" width="150">
+                        {% else %}
                         <img src="https://www.ctvalleybrewing.com/wp-content/uploads/2017/04/avatar-placeholder.png" alt="Admin" class="rounded-circle" width="150">
+                        {% endif %}
                         <div class="mt-3">
                           <h4>{{name}}</h4>
                           <p id='status_text' class='text-secondary mb-0'><span class="indicator online" id="status"></span>Unavailable</p>
