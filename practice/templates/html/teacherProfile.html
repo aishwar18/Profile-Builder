@@ -25,6 +25,9 @@
       integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
       crossorigin="anonymous"
     ></script>
+    <script src=
+      "https://smtpjs.com/v3/smtp.js">
+    </script>
     <link rel="stylesheet" type= text/css href="{% static 'CSS/login.css' %}">
     <link rel="stylesheet" type = text/css href="{% static 'css/index.css' %}">
     <link rel="stylesheet" type = text/css href="{% static 'css/profile.css' %}">
@@ -77,17 +80,17 @@
                                     <form>
                                       <div class="form-group" style="text-align: left;">
                                         <label for="recipient-name" class="col-form-label">Recipient:</label>
-                                        <input type="text" class="form-control" id="recipient-name">
+                                        <input type="text" class="form-control" id="recipient-name" readonly>
                                       </div>
                                       <div class="form-group" style="text-align: left;">
                                         <label for="message-text" class="col-form-label">Message:</label>
-                                        <textarea class="form-control" id="message-text"></textarea>
+                                        <textarea class="form-control" id="message-text" required></textarea>
                                       </div>
                                     </form>
                                   </div>
                                   <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Send message</button>
+                                    <button type="button" class="btn btn-primary" onclick="sendEmail()">Send message</button>
                                   </div>
                                 </div>
                               </div>
@@ -201,7 +204,7 @@
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Send message</button>
+                            <button type="button" class="btn btn-primary" onclick="sendEmail()">Send message</button>
                           </div>
                         </div>
                       </div>
@@ -236,6 +239,22 @@
         modal.find('.modal-title').text('New message to ' + recipient)
         modal.find('.modal-body input').val(recipient)
         })
+    </script>
+    <script type="text/javascript">
+      function sendEmail() {
+          body = document.getElementById('message-text').value
+          to_email = document.getElementById('recipient-name').value
+        Email.send({
+  	    SecureToken :"548592e8-ce62-4150-b103-aaa28a67528e",
+          To: 'krishna16sharma.s@gmail.com',
+          From: to_email,
+          Subject: "Profile Builder",
+          Body: body+"<br>Reply to: "+to_email+"<br><strong>This message was sent by the Profile Builder app : profilebuilder13@gmail.com</strong>",
+        })
+          .then(function (message) {
+            alert("mail sent successfully")
+          });
+      }
     </script>
     <script>
     getStatus()
