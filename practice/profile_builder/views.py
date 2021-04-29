@@ -270,7 +270,6 @@ def teacher_profile(request,id):
         aoi.append(a.faculty_research_interest)
     if 'research' in request.POST:
         r = request.POST['research']
-        print(r)
         if not(projects.objects.filter(research=r).exists()):
             new = projects(id_of_faculty=teacher.id, research=r)
             new.save()
@@ -422,10 +421,22 @@ def myProfile(request):
         img = teacher[0].img
         t = Teachers.objects.get(username=username)
         bio=None
+        aoi = None
+        research = None
         is_listed = False
         faculty = Teachers_data.objects.filter(mail_of_faculty=email)
         if(faculty):
             bio = faculty[0].bio_of_faculty
+            fac_id = faculty[0].id
+            fac_aoi = Teachers_areas_of_interest.objects.filter(id_of_faculty=fac_id)
+            aoi = []
+            for a in fac_aoi:
+                aoi.append(a.faculty_research_interest)
+            fac_research = projects.objects.filter(id_of_faculty=fac_id)
+            if(fac_research):
+                research = []
+                for p in fac_research:
+                    research.append(p.research)
             is_listed = True
         if(request.method == 'POST'):
             if 'lname' in request.POST:
@@ -452,7 +463,7 @@ def myProfile(request):
                 return redirect('myProfile')
 
 
-        return render(request,"html/myProfile.html",{'username': username, 'email':email,'first_name':first_name, 'last_name':last_name,'college':college,'city':city,'img':img,'is_student': is_student,'profilepic' : profilepic, 'bio':bio, 'listed':is_listed})
+        return render(request,"html/myProfile.html",{'username': username, 'email':email,'first_name':first_name, 'last_name':last_name,'college':college,'city':city,'img':img,'is_student': is_student,'profilepic' : profilepic, 'bio':bio, 'listed':is_listed , 'aoi':aoi, 'research':research})
 
 def addFavorites(request):
     username = request.session.get('username')
