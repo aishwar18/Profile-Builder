@@ -242,12 +242,13 @@
       function sendEmail() {
           body = document.getElementById('message-text').value
           to_email = document.getElementById('recipient-name').value
+          //console.log({{user_mail}})
         Email.send({
   	    SecureToken :"548592e8-ce62-4150-b103-aaa28a67528e",
-          To: 'krishna16sharma.s@gmail.com',
-          From: to_email,
+          To: to_email,
+          From: "{{user_mail}}",
           Subject: "Profile Builder",
-          Body: body+"<br>Reply to: "+to_email+"<br><strong>This message was sent by the Profile Builder app : profilebuilder13@gmail.com</strong>",
+          Body: body+"<br>Reply to: "+"{{user_mail}}"+"<br><strong>This message was sent by the Profile Builder app : profilebuilder13@gmail.com</strong>",
         })
           .then(function (message) {
             alert("mail sent successfully")

@@ -245,6 +245,8 @@ def teacher_profile(request,id):
 
 def teacher_profile(request,id):
     username = request.session['username']
+    user = Students.objects.filter(username=username) or Teachers.objects.filter(username=username)
+    user_mail = user[0].mailid
     teacher = Teachers_data.objects.get(id=id)
     t_aoi = Teachers_areas_of_interest.objects.filter(id_of_faculty=id)
     name = teacher.name_of_faculty
@@ -278,7 +280,7 @@ def teacher_profile(request,id):
         research = []
         for p in proj:
             research.append(p.research)
-    return render(request,'html/teacherProfile.html',{'username':username,'name':name, 'id': id, 'bio':bio, 'email':email, 'location': location, 'position':position, 'department':department, 'aoi':aoi, 'img':img, 'same_user': same_user, 'research': research})
+    return render(request,'html/teacherProfile.html',{'username':username,'name':name, 'id': id, 'bio':bio, 'email':email, 'location': location, 'position':position, 'department':department, 'aoi':aoi, 'img':img, 'same_user': same_user, 'research': research, 'user_mail':user_mail})
 
 def changeMail(request):
     username = request.session.get('username')
