@@ -42,7 +42,7 @@
                     <span class="fa fa-caret-down"></span>
                   </div>
                   <div class="dropdown-cntnt" id="myDropdown">
-                      <a href="{% url 'changePassword' %}"><span class="fa fa-user-circle"></span> My Profile</a>
+                      <a href="{% url 'myProfile' %}"><span class="fa fa-user-circle"></span> My Profile</a>
                       <a href="{% url 'changePassword' %}"><span class="fa fa-key"></span> Change Password</a>
                       <a href="{% url 'logout' %}"><span class="fa fa-sign-out-alt"></span> Logout</a>
                   </div>
@@ -64,8 +64,68 @@
                         <div class="mt-3">
                           <h4>{{name}}</h4>
                           <p id='status_text' class='text-secondary mb-0'><span class="indicator online" id="status"></span>Unavailable</p>
-                          <p class="text-secondary mb-0">{{position}}</p>
-                          <p class="text-muted font-size-sm">{{department}}</p>
+                          <p class="text-secondary mb-0">{{position}}
+                              {% if same_user %}
+                                <span data-toggle="modal" data-target="#posModal">
+                                  <span role="button" class="fa fa-edit mx-1" data-toggle="loc_tooltip" data-placement="top" title="Click to edit Position"> </span>
+                                </span> {% endif %}
+                          </p>
+                          <div class="modal fade" id="posModal" tabindex="-1" role="dialog" aria-labelledby="posModalLabel" aria-hidden="true">
+                              <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="posModalLabel">Enter Position</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <div class="form-group" style="text-align: left;">
+                                          <label for="e_pos" class="col-form-label">Enter your Position:</label>
+                                          <input type="text" class="form-control" id="e_pos" name="e_pos" required>
+                                        </div>
+                                  </div>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Update</button>
+                                      </div>
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
+                          <p class="text-muted font-size-sm">{{department}}
+                              {% if same_user %}
+                                <span data-toggle="modal" data-target="#deptModal">
+                                  <span role="button" class="fa fa-edit mx-1" data-toggle="loc_tooltip" data-placement="top" title="Click to edit Department"> </span>
+                                </span> {% endif %}
+                            </p>
+                            <div class="modal fade" id="deptModal" tabindex="-1" role="dialog" aria-labelledby="deptModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="deptModalLabel">Enter Department</h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <form method="post">
+                                          {% csrf_token %}
+                                          <div class="form-group" style="text-align: left;">
+                                            <label for="dept" class="col-form-label">Enter your department:</label>
+                                            <input type="text" class="form-control" id="dept" name="e_dept" required>
+                                          </div>
+                                    </div>
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                          <button type="submit" class="btn btn-primary">Update</button>
+                                        </div>
+                                    </form>
+                                  </div>
+                                </div>
+                              </div>
                           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#messageModal" data-recepient={{email}}>Message</button>
                           <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
                               <div class="modal-dialog" role="document">
@@ -100,7 +160,36 @@
                     </div>
                   </div>
           <div class="card mt-3">
-            <h5 class="d-flex justify-content-center mt-3">Bio</h5>
+            <h5 class="d-flex justify-content-center mt-3">Bio
+                {% if same_user %}
+                  <span data-toggle="modal" data-target="#bioModal">
+                    <span role="button" class="fa fa-edit mx-1" data-toggle="loc_tooltip" data-placement="top" title="Click to edit Bio"> </span>
+                  </span> {% endif %}</h5>
+                  <div class="modal fade" id="bioModal" tabindex="-1" role="dialog" aria-labelledby="bioModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="bioModalLabel">Enter Bio:</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <form method="post">
+                                {% csrf_token %}
+                                <div class="form-group" style="text-align: left;">
+                                  <label for="e_bio" class="col-form-label">Enter your Bio:</label>
+                                  <textarea class="form-control" id="e_bio" name="e_bio" required></textarea>
+                                </div>
+                          </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Update</button>
+                              </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
             <p>{{bio}}</p>
           </div>
         </div>
@@ -130,8 +219,38 @@
                   <h6 class="mb-0">Location</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
-                  <a style="color:grey;" href="http://maps.google.com/?q={{location}}" data-toggle="loc_tooltip" data-placement="top" title="Click to view location in map"><span class="fa fa-search-location"></span></a>{{location}}
+                  {{location}}
+                  <a style="color:grey;" href="http://maps.google.com/?q={{location}}" data-toggle="loc_tooltip" data-placement="top" title="Click to view location in map"><span class="fa fa-search-location"></span></a>
+                  {% if same_user %}
+                    <span data-toggle="modal" data-target="#locModal">
+                      <span role="button" class="fa fa-edit mx-1" data-toggle="loc_tooltip" data-placement="top" title="Click to edit Location"> </span>
+                    </span> {% endif %}
                 </div>
+                <div class="modal fade" id="locModal" tabindex="-1" role="dialog" aria-labelledby="locModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="locModalLabel">Enter Location:</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <form method="post">
+                              {% csrf_token %}
+                              <div class="form-group" style="text-align: left;">
+                                <label for="e_loc" class="col-form-label">Enter the Location where you work:</label>
+                                <input type="text" class="form-control" id="e_loc" name="e_loc" required>
+                              </div>
+                        </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              <button type="submit" class="btn btn-primary">Update</button>
+                            </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
               </div>
               <hr>
               <div class="row">

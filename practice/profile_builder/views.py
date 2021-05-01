@@ -270,6 +270,26 @@ def teacher_profile(request,id):
     aoi = []
     for a in t_aoi:
         aoi.append(a.faculty_research_interest)
+    if 'e_dept' in request.POST:
+        new_dept = request.POST['e_dept']
+        teacher.department = new_dept
+        teacher.save()
+        return redirect('teacher_profile', id=id)
+    if 'e_pos' in request.POST:
+        new_pos = request.POST['e_pos']
+        teacher.position = new_pos
+        teacher.save()
+        return redirect('teacher_profile', id=id)
+    if 'e_bio' in request.POST:
+        new_bio = request.POST['e_bio']
+        teacher.bio_of_faculty = new_bio
+        teacher.save()
+        return redirect('teacher_profile', id=id)
+    if 'e_loc' in request.POST:
+        new_loc = request.POST['e_loc']
+        teacher.location = new_loc
+        teacher.save()
+        return redirect('teacher_profile', id=id)
     if 'research' in request.POST:
         r = request.POST['research']
         if not(projects.objects.filter(research=r).exists()):
@@ -425,6 +445,7 @@ def myProfile(request):
         bio=None
         aoi = None
         research = None
+        fac_id=None
         is_listed = False
         faculty = Teachers_data.objects.filter(mail_of_faculty=email)
         if(faculty):
@@ -465,7 +486,7 @@ def myProfile(request):
                 return redirect('myProfile')
 
 
-        return render(request,"html/myProfile.html",{'username': username, 'email':email,'first_name':first_name, 'last_name':last_name,'college':college,'city':city,'img':img,'is_student': is_student,'profilepic' : profilepic, 'bio':bio, 'listed':is_listed , 'aoi':aoi, 'research':research})
+        return render(request,"html/myProfile.html",{'username': username, 'email':email,'first_name':first_name, 'last_name':last_name,'college':college,'city':city,'img':img,'is_student': is_student,'profilepic' : profilepic, 'bio':bio, 'listed':is_listed , 'aoi':aoi, 'research':research,'id_of_faculty': fac_id})
 
 def addFavorites(request):
     username = request.session.get('username')
