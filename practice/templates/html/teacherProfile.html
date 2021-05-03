@@ -209,8 +209,9 @@
                 <div class="col-sm-3">
                   <h6 class="mb-0">Email</h6>
                 </div>
-                <div class="col-sm-9 text-secondary">
+                <div class="col-sm-9 text-secondary" id="teach_email">
                   {{email}}
+                  <span role="button" class="fa fa-clipboard mx-1" data-toggle="loc_tooltip" data-placement="top" title="Click to copy Email" onclick="copyEmail()"> </span>
                 </div>
               </div>
               <hr>
@@ -398,6 +399,17 @@
 $(document).ready(function(){
   $('[data-toggle="loc_tooltip"]').tooltip();
 });
+</script>
+<script>
+    function copyEmail() {
+        var range = document.createRange();
+        range.selectNode(document.getElementById("teach_email"));
+        window.getSelection().removeAllRanges(); // clear current selection
+        window.getSelection().addRange(range); // to select text
+        document.execCommand("copy");
+        window.getSelection().removeAllRanges();// to deselect
+      alert("Copied the text: " + range);
+    }
 </script>
 </body>
 </html>
