@@ -236,71 +236,68 @@ def home(request):
             field_verbose_names.append(f.verbose_name)
     data = [[getattr(ins, name) for name in field_names]
             for ins in model.objects.prefetch_related().all()]
-    print(data[0])
     return render(request,"html/home.html",{'username': username,'field_names': field_verbose_names, 'data': data})
 
 def teacher_profile(request,id):
     username = request.session['username']
-    return render(request,'html/home.html',{'username':username})
-
-def teacher_profile(request,id):
-    username = request.session['username']
     user = Students.objects.filter(username=username) or Teachers.objects.filter(username=username)
-    user_mail = user[0].mailid
-    teacher = Teachers_data.objects.get(id=id)
-    t_aoi = Teachers_areas_of_interest.objects.filter(id_of_faculty=id)
-    name = teacher.name_of_faculty
-    email =teacher.mail_of_faculty
-    location = teacher.location
-    department = teacher.department
-    position = teacher.position
-    bio = teacher.bio_of_faculty
-    t1 = Teachers.objects.filter(id_of_faculty=id)
-    same_user=False
-    research = None
-    if(t1):
-        if(t1[0].username==username):
-            same_user = True
-    img = None
-    if not(t1 or img==""):
-        img=None
-    else:
-        img = t1[0].img.url
-        print(img)
-    aoi = []
-    for a in t_aoi:
-        aoi.append(a.faculty_research_interest)
-    if 'e_dept' in request.POST:
-        new_dept = request.POST['e_dept']
-        teacher.department = new_dept
-        teacher.save()
-        return redirect('teacher_profile', id=id)
-    if 'e_pos' in request.POST:
-        new_pos = request.POST['e_pos']
-        teacher.position = new_pos
-        teacher.save()
-        return redirect('teacher_profile', id=id)
-    if 'e_bio' in request.POST:
-        new_bio = request.POST['e_bio']
-        teacher.bio_of_faculty = new_bio
-        teacher.save()
-        return redirect('teacher_profile', id=id)
-    if 'e_loc' in request.POST:
-        new_loc = request.POST['e_loc']
-        teacher.location = new_loc
-        teacher.save()
-        return redirect('teacher_profile', id=id)
-    if 'research' in request.POST:
-        r = request.POST['research']
-        if not(projects.objects.filter(research=r).exists()):
-            new = projects(id_of_faculty=teacher.id, research=r)
-            new.save()
-    proj = projects.objects.filter(id_of_faculty=teacher.id)
-    if(proj):
-        research = []
-        for p in proj:
-            research.append(p.research)
-    return render(request,'html/teacherProfile.html',{'username':username,'name':name, 'id': id, 'bio':bio, 'email':email, 'location': location, 'position':position, 'department':department, 'aoi':aoi, 'img':img, 'same_user': same_user, 'research': research, 'user_mail':user_mail})
+    if(user):
+        user_mail = user[0].mailid
+        teacher = Teachers_data.objects.get(id=id)
+        t_aoi = Teachers_areas_of_interest.objects.filter(id_of_faculty=id)
+        name = teacher.name_of_faculty
+        email =teacher.mail_of_faculty
+        location = teacher.location
+        department = teacher.department
+        position = teacher.position
+        bio = teacher.bio_of_faculty
+        t1 = Teachers.objects.filter(id_of_faculty=id)
+        same_user=False
+        research = None
+        if(t1):
+            if(t1[0].username==username):
+                same_user = True
+        img = None
+        if not(t1 or img==""):
+            img=None
+        else:
+            img = t1[0].img.url
+            print(img)
+        aoi = []
+        for a in t_aoi:
+            aoi.append(a.faculty_research_interest)
+        if 'e_dept' in request.POST:
+            new_dept = request.POST['e_dept']
+            teacher.department = new_dept
+            teacher.save()
+            return redirect('teacher_profile', id=id)
+        if 'e_pos' in request.POST:
+            new_pos = request.POST['e_pos']
+            teacher.position = new_pos
+            teacher.save()
+            return redirect('teacher_profile', id=id)
+        if 'e_bio' in request.POST:
+            new_bio = request.POST['e_bio']
+            teacher.bio_of_faculty = new_bio
+            teacher.save()
+            return redirect('teacher_profile', id=id)
+        if 'e_loc' in request.POST:
+            new_loc = request.POST['e_loc']
+            teacher.location = new_loc
+            teacher.save()
+            return redirect('teacher_profile', id=id)
+        if 'research' in request.POST:
+            r = request.POST['research']
+            if not(projects.objects.filter(research=r).exists()):
+                new = projects(id_of_faculty=teacher.id, research=r)
+                new.save()
+        proj = projects.objects.filter(id_of_faculty=teacher.id)
+        if(proj):
+            research = []
+            for p in proj:
+                research.append(p.research)
+        return render(request,'html/teacherProfile.html',{'username':username,'name':name, 'id': id, 'bio':bio, 'email':email, 'location': location, 'position':position, 'department':department, 'aoi':aoi, 'img':img, 'same_user': same_user, 'research': research, 'user_mail':user_mail})
+    return render(request,'html/home.html',{'username':username})
 
 def changeMail(request):
     username = request.session.get('username')
@@ -332,7 +329,7 @@ def changeMail(request):
 
 def editProfile(request):
     username = request.session.get('username')
-    return render(request,"html/EditProfile.html",{'username': username})
+    return render(request,"html/editProfile.html",{'username': username})
 
 def changeProfilePic(request):
     username = request.session.get('username')

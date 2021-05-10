@@ -1,6 +1,6 @@
 from django.test import SimpleTestCase
 from django.urls import reverse,resolve
-from profile_builder.views import index,login,register,signup_teachers,signup_students,forgotPassword,passwordReset,changePassword,logout,prQuestion,home
+from profile_builder.views import index,login,register,signup_teachers,signup_students,forgotPassword,passwordReset,changePassword,logout,prQuestion,home,teacher_profile,changeMail,changeProfilePic,editProfile,myProfile,faculty_detail
 
 class TestUrls(SimpleTestCase):
 
@@ -58,3 +58,33 @@ class TestUrls(SimpleTestCase):
         url = reverse('logout')
         print(resolve(url))
         self.assertEqual(resolve(url).func, logout)
+
+    def test_teacher_profile_resolved(self):
+        url = reverse('teacher_profile', kwargs={'id': 1})
+        print(resolve(url))
+        self.assertEqual(resolve(url).func, teacher_profile)
+
+    def test_change_mail_resolved(self):
+        url = reverse('changeMail')
+        print(resolve(url))
+        self.assertEqual(resolve(url).func, changeMail)
+
+    def test_change_profile_pic_resolved(self):
+        url = reverse('changeProfilePic')
+        print(resolve(url))
+        self.assertEqual(resolve(url).func, changeProfilePic)
+
+    def test_edit_profile_resolved(self):
+        url = reverse('editProfile')
+        print(resolve(url))
+        self.assertEqual(resolve(url).func,editProfile)
+
+    def test_my_profile_resolved(self):
+        url = reverse('myProfile')
+        print(resolve(url))
+        self.assertEqual(resolve(url).func, myProfile)
+
+    def test_faculty_detail_resolved(self):
+        url = reverse('faculty_detail')
+        print(resolve(url))
+        self.assertEqual(resolve(url).func, faculty_detail)

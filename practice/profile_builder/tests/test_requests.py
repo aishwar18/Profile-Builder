@@ -107,3 +107,61 @@ class TestViews(TestCase):
         response = self.client.get('/html/logout')
         self.assertEquals(response.status_code,200)
         self.assertTemplateUsed(response, 'html/logout.html')
+
+    def test_teacher_profile_GET(self,id=1):
+        teach = Teachers.objects.create(img = "pic.jpg",id_of_faculty =1,first_name ="Harry",last_name ="Potter", college = "IIT", city = "Chennai", mailid = "harry@gmail.com", username = "Harr1", password ="Harry123", security_qn ="What is your favourite movie?", security_an ="Harry Potter",id=1)
+        teach_data = Teachers_data.objects.create(name_of_faculty = "Harry Potter",bio_of_faculty = "Teacher at Hogwarts", mail_of_faculty = "harry@gmail.com",  position = "Assistant Professor", department = "Science", location = "Chennai",id=1)
+        session = self.client.session
+        session['username'] = 'Harr1'
+        session.save()
+        response = self.client.get('/html/teacherProfile/1/', kwargs={'id':1})
+        self.assertEquals(response.status_code,200)
+        self.assertTemplateUsed(response, 'html/teacherProfile.html')
+
+    def test_change_mail_POST(self):
+        session = self.client.session
+        session['username'] = 'krishna'
+        session.save()
+        response = self.client.post('/html/changeMail', {'new email':'krishna@gmail.com'})
+        self.assertEquals(response.status_code,200)
+        self.assertTemplateUsed(response, 'html/changeMail.html')
+
+    def test_edit_profile_GET(self):
+        session = self.client.session
+        session['username'] = 'krishna'
+        session.save()
+        response = self.client.get('/html/editProfile')
+        self.assertEquals(response.status_code,200)
+        self.assertTemplateUsed(response, 'html/editProfile.html')
+
+    def test_change_profile_pic_GET(self):
+        teach = Teachers.objects.create(img = "pic.jpg",id_of_faculty =1,first_name ="Harry",last_name ="Potter", college = "IIT", city = "Chennai", mailid = "harry@gmail.com", username = "Harr1", password ="Harry123", security_qn ="What is your favourite movie?", security_an ="Harry Potter",id=1)
+        session = self.client.session
+        session['username'] = 'Harr1'
+        session.save()
+        response = self.client.get('/html/changeProfilePic')
+        self.assertEquals(response.status_code,200)
+        self.assertTemplateUsed(response, 'html/changeProfilePic.html')
+
+    def test_my_profile_GET(self):
+        teach = Teachers.objects.create(img = "pic.jpg",id_of_faculty =1,first_name ="Harry",last_name ="Potter", college = "IIT", city = "Chennai", mailid = "harry@gmail.com", username = "Harr1", password ="Harry123", security_qn ="What is your favourite movie?", security_an ="Harry Potter",id=1)
+        session = self.client.session
+        session['username'] = 'Harr1'
+        session.save()
+        response = self.client.get('/html/myProfile')
+        self.assertEquals(response.status_code,200)
+        self.assertTemplateUsed(response, 'html/myProfile.html')
+
+    def test_faculty_details_POST(self):
+        teach = Teachers.objects.create(img = "pic.jpg",id_of_faculty =1,first_name ="Harry",last_name ="Potter", college = "IIT", city = "Chennai", mailid = "harry@gmail.com", username = "Harr1", password ="Harry123", security_qn ="What is your favourite movie?", security_an ="Harry Potter",id=1)
+        session = self.client.session
+        session['username'] = 'Harr1'
+        session['loc'] = 'Chennai'
+        session['dept'] = 'Science'
+        session['pos'] = 'Assistant Professor'
+        session['bio'] = 'Teacher at Hogwarts'
+        session['aoi'] = 'AI'
+        session.save()
+        response = self.client.get('/html/myProfile')
+        self.assertEquals(response.status_code,200)
+        self.assertTemplateUsed(response, 'html/myProfile.html')
