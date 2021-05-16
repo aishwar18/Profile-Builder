@@ -55,3 +55,7 @@ class projects(models.Model):
 class favorites(models.Model):
     id_of_student =  models.IntegerField(verbose_name = "ID",default=0)
     student_research_interest = models.TextField(verbose_name = "Research interest")
+
+class admin_data(models.Model):
+    mailid = models.TextField()
+    password =  models.CharField(max_length=100)
