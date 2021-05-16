@@ -485,19 +485,6 @@ def myProfile(request):
 
         return render(request,"html/myProfile.html",{'username': username, 'email':email,'first_name':first_name, 'last_name':last_name,'college':college,'city':city,'img':img,'is_student': is_student,'profilepic' : profilepic, 'bio':bio, 'listed':is_listed , 'aoi':aoi, 'research':research,'id_of_faculty': fac_id})
 
-def addFavorites(request):
-    username = request.session.get('username')
-    area_objects = Teachers_areas_of_interest.objects.distinct('faculty_research_interest')
-    areas1 = []
-    for i in area_objects:
-        aoi1=i.faculty_research_interest
-        aoi=aoi1.capitalize()
-        if(aoi and aoi!="-" and aoi not in area_objects):
-            aoi.strip()
-            areas1.append(aoi)
-    areas = sorted(areas1)
-    return render(request,"html/addFavourites.html",{'username': username,'areas' : areas})
-
 def faculty_detail(request):
     username = request.session.get('username')
     if (request.method=='POST'):
@@ -524,3 +511,364 @@ def faculty_detail(request):
             teachers_aoi.save()
         messages.info(request,"Saved Successfully!")
     return render(request,"html/faculty_detail.html",{'username': username})
+
+
+def favourites(request):
+    username = request.session.get('username')
+    area_objects = Teachers_areas_of_interest.objects.distinct('faculty_research_interest')
+    areas1 = []
+    for i in area_objects:
+        aoi1=i.faculty_research_interest
+        aoi=aoi1.capitalize()
+        if(aoi and aoi!="-" and aoi not in area_objects):
+            aoi.strip()
+            areas1.append(aoi)
+    areas = sorted(areas1)
+    return render(request,"html/favourites.html",{'username': username,'areas' : areas})
+
+def favouritesView(request):
+    username = request.session.get('username')
+    st = Students.objects.filter(username = username)
+    st = st[0]
+    id_of_student = st.id
+    if (favorites.objects.filter(id_of_student = id_of_student).exists()):
+        user = favorites.objects.filter(id_of_student = id_of_student)
+        areas = []
+        for i in user:
+            area = i.student_research_interest
+            areas.append(area)
+        return render(request,"html/favouritesView.html",{'areas' : areas})
+    else:
+        areas = ['No favourites exist']
+        return render(request,"html/favouritesView.html",{'areas' : areas})
+
+def favouritesInsert(request):
+    if(request.method == 'POST'):
+        username = request.session.get('username')
+        st = Students.objects.filter(username = username)
+        st = st[0]
+        id_of_student = st.id
+        aoi = request.POST['aoi']
+        st_ft = favorites(id_of_student = id_of_student,student_research_interest  = aoi)
+        st_ft.save()
+        messages.info(request,'New data successfully inserted!')
+        return redirect('favourites')
+    else:
+        username = request.session.get('username')
+        st = Students.objects.filter(username = username)
+        st = st[0]
+        id_of_student = st.id
+        areas = []
+        if (favorites.objects.filter(id_of_student = id_of_student).exists()):
+            user = favorites.objects.filter(id_of_student = id_of_student)
+            for i in user:
+                area = i.student_research_interest
+                areas.append(area)
+        area_objects = Teachers_areas_of_interest.objects.distinct('faculty_research_interest')
+        areas1 = []
+        for i in area_objects:
+            aoi1=i.faculty_research_interest
+            aoi=aoi1.lower()
+            if(aoi and aoi!="-" and aoi not in area_objects):
+                aoi.strip()
+                if(aoi not in areas):
+                    areas1.append(aoi)
+        areas = sorted(areas1)
+        return render(request,"html/favouritesInsert.html",{'areas' : areas})
+
+def favouritesDelete(request):
+    if(request.method == 'POST'):
+        username = request.session.get('username')
+        st = Students.objects.filter(username = username)
+        st = st[0]
+        id_of_student = st.id
+        if (favorites.objects.filter(id_of_student = id_of_student).exists()):
+            st = favorites.objects.filter(id_of_student = id_of_student)
+            aoi = request.POST.getlist('aoi')
+            for i in aoi:
+                st1 = favorites.objects.filter(student_research_interest=i)
+                st1.delete()
+            messages.info(request,'Data successfully deleted!')
+            return redirect('favourites')
+    else:
+        username = request.session.get('username')
+        st = Students.objects.filter(username = username)
+        st = st[0]
+        id_of_student = st.id
+        if (favorites.objects.filter(id_of_student = id_of_student).exists()):
+            user = favorites.objects.filter(id_of_student = id_of_student)
+            areas = []
+            for i in user:
+                area = i.student_research_interest
+                areas.append(area)
+            return render(request,"html/favouritesDelete.html",{'areas' : areas})
+        else:
+            areas = ['No favourites exist']
+            return render(request,"html/favourites.html",{'areas' : areas})
+
+def admin(request):
+    return render(request,"html/admin.html")
+
+def adminAreas(request):
+    return render(request,"html/adminAreas.html")
+
+def adminTeachers(request):
+    return render(request,"html/adminFacultyDetails.html")
+
+def adminUser(request):
+    return render(request,"html/UserData.html")
+
+def adminStudentData(request):
+    return render(request,"html/adminStudentData.html")
+
+def adminTeacherData(request):
+    return render(request,"html/adminTeacherData.html")
+
+def areasDataView(request):
+    if(request.method == 'POST'):
+        name_of_faculty = request.POST['teacher_name']
+        if (Teachers_areas_of_interest.objects.filter(name_of_faculty=name_of_faculty).exists()):
+            t = Teachers_areas_of_interest.objects.filter(name_of_faculty=name_of_faculty)
+            id = t[0].id
+            return render(request,"html/areasDataViewResult.html",{'id':id,'name':name_of_faculty,'data':t})
+        else:
+            return render(request,"html/adminAreas.html")
+    else:
+        items = Teachers_data.objects.all()
+        return render(request,"html/areasDataView.html",{'items':items})
+
+def areasDataInsert(request):
+    if(request.method == 'POST'):
+        name_of_faculty = request.POST['teacher_name']
+        faculty_research_interest = request.POST['aoi']
+        if (Teachers_areas_of_interest.objects.filter(name_of_faculty=name_of_faculty).exists()):
+            t=Teachers_areas_of_interest.objects.filter(name_of_faculty=name_of_faculty)
+            id_of_faculty = t[0].id_of_faculty
+            teachers_aoi = Teachers_areas_of_interest(id_of_faculty = id_of_faculty,name_of_faculty=name_of_faculty,faculty_research_interest = faculty_research_interest)
+            teachers_aoi.save()
+            messages.info(request,'New data successfully inserted!')
+            return redirect('areasDataInsert')
+        else:
+            return render(request,"html/adminAreas.html")
+    else:
+        items = Teachers_data.objects.all()
+        return render(request,"html/areasDataInsert.html",{'items':items})
+
+def areasDataUpdate(request):
+    if(request.method == 'POST'):
+        name_of_faculty = request.POST['teacher_name']
+        if (Teachers_areas_of_interest.objects.filter(name_of_faculty=name_of_faculty).exists()):
+            t = Teachers_areas_of_interest.objects.filter(name_of_faculty=name_of_faculty)
+            return render(request,"html/areasDataUpdateResult.html",{'id':id,'name':name_of_faculty,'data':t})
+        else:
+            return render(request,"html/adminAreas.html")
+    else:
+        items = Teachers_data.objects.all()
+        return render(request,"html/areasDataUpdate.html",{'items':items})
+
+def areasDataUpdateResult(request):
+    if(request.method == 'POST'):
+        name_of_faculty = request.POST['teacher_name']
+        if (Teachers_areas_of_interest.objects.filter(name_of_faculty=name_of_faculty).exists()):
+            t = Teachers_areas_of_interest.objects.filter(name_of_faculty=name_of_faculty)
+            j=0
+            aoi = request.POST.getlist('aoi')
+            for i in t:
+                i.faculty_research_interest = aoi[j]
+                i.save()
+                j+=1
+            messages.info(request,'Data successfully updated!')
+            return redirect('areasDataUpdate')
+        else:
+            return render(request,"html/adminAreas.html")
+    else:
+        return render(request,"html/adminAreas.html")
+
+
+def areasDataDelete(request):
+    if(request.method == 'POST'):
+        name_of_faculty = request.POST['teacher_name']
+        if (Teachers_areas_of_interest.objects.filter(name_of_faculty=name_of_faculty).exists()):
+            t = Teachers_areas_of_interest.objects.filter(name_of_faculty=name_of_faculty)
+            return render(request,"html/areasDataDeleteResult.html",{'id':id,'name':name_of_faculty,'data':t})
+        else:
+            return render(request,"html/adminAreas.html")
+    else:
+        items = Teachers_data.objects.all()
+        return render(request,"html/areasDataDelete.html",{'items':items})
+
+def areasDataDeleteResult(request):
+    if(request.method == 'POST'):
+        name_of_faculty = request.POST['teacher_name']
+        if (Teachers_areas_of_interest.objects.filter(name_of_faculty=name_of_faculty).exists()):
+            t = Teachers_areas_of_interest.objects.filter(name_of_faculty=name_of_faculty)
+            aoi = request.POST.getlist('aoi')
+            for i in aoi:
+                t1 = Teachers_areas_of_interest.objects.filter(faculty_research_interest=i)
+                t1.delete()
+            messages.info(request,'Data successfully deleted!')
+            return redirect('areasDataDelete')
+        else:
+            return render(request,"html/adminAreas.html")
+    else:
+        return render(request,"html/adminAreas.html")
+
+
+def teachersDataView(request):
+    if(request.method == 'POST'):
+        name_of_faculty = request.POST['teacher_name']
+        if (Teachers_data.objects.filter(name_of_faculty=name_of_faculty).exists()):
+            t = Teachers_data.objects.filter(name_of_faculty=name_of_faculty)
+            id = t[0].id
+            t=t[0]
+            return render(request,"html/TeachersDataViewResult.html",{'id':id,'name':name_of_faculty,'data':t})
+        else:
+            return redirect('adminTeachers')
+    else:
+        items = Teachers_data.objects.all()
+        return render(request,"html/TeachersDataView.html",{'items':items})
+        
+def teachersDataInsertMain(request):
+    return render(request,"html/teachersDataInsert.html")
+
+def teachersDataInsert(request):
+    if(request.method == 'POST'):
+        name = request.POST['name']
+        bio = request.POST['bio']
+        mailid = request.POST['mail_id']
+        position = request.POST['position']
+        department = request.POST['department']
+        location = request.POST['location']
+
+        if (Teachers_data.objects.filter(name_of_faculty=name).exists()):
+            messages.info(request,'Faculty details of the given name already exists')
+            return redirect('teachersDataInsert')
+        elif (Teachers_data.objects.filter(mail_of_faculty=mailid).exists()):
+            messages.info(request,'Faculty details of the given mailid already exists')
+            return redirect('teachersDataInsert')
+        else:
+            teachers_data = Teachers_data(name_of_faculty=name,bio_of_faculty=bio,mail_of_faculty=mailid,position=position,location=location,department=department)
+            teachers_data.save()
+            messages.info(request,'New data successfully inserted!')
+            return redirect('adminTeachers')
+    else:
+        return render(request,"html/teachersDataInsert.html")
+
+
+def teachersDataUpdate(request):
+    if(request.method == 'POST'):
+        name_of_faculty = request.POST['teacher_name']
+        if (Teachers_data.objects.filter(name_of_faculty=name_of_faculty).exists()):
+            t = Teachers_data.objects.filter(name_of_faculty=name_of_faculty)
+            t=t[0]
+            return render(request,"html/teachersDataUpdateResult.html",{'id':id,'name':name_of_faculty,'entry':t})
+        else:
+             return redirect('adminTeachers')
+    else:
+        items = Teachers_data.objects.all()
+        return render(request,"html/teachersDataUpdate.html",{'items':items})
+
+def teachersDataUpdateResult(request):
+    if(request.method == 'POST'):
+        name_of_faculty = request.POST['teacher_name']
+        if (Teachers_data.objects.filter(name_of_faculty=name_of_faculty).exists()):
+            t = Teachers_data.objects.filter(name_of_faculty=name_of_faculty)
+            t1=t[0]
+            d = request.POST
+            for i in d.items():
+                if(i[0]=='bio_of_faculty'):
+                    t1.bio_of_faculty = i[1]
+                elif(i[0]=='mail_of_faculty'):
+                    t1.mail_of_faculty = i[1]
+                elif(i[0]=='position'):
+                    t1.position= i[1]
+                elif(i[0]=='department'):
+                    t1.department = i[1]
+                elif(i[0]=='location'):
+                    t1.location = i[1]
+            t1.save()
+            messages.info(request,'Data successfully updated!')
+            return redirect('teachersDataUpdate')
+        else:
+             return redirect('adminTeachers')
+    else:
+         return redirect('adminTeachers')
+
+def teachersDataDelete(request):
+    if(request.method == 'POST'):
+        name_of_faculty = request.POST['teacher_name']
+        if (Teachers_data.objects.filter(name_of_faculty=name_of_faculty).exists()):
+            t = Teachers_data.objects.filter(name_of_faculty=name_of_faculty)
+            t = t[0]
+            id_of_faculty = t.id
+            taoi = Teachers_areas_of_interest.objects.filter(id_of_faculty=id_of_faculty)
+            for i in taoi:
+                i.delete()
+            t.delete()
+            messages.info(request,'Data successfully deleted!')
+            items = Teachers_data.objects.all()
+            return render(request,"html/teachersDataDelete.html",{'items':items})
+        else:
+            return redirect('tecahersDataDelete')
+    else:
+        items = Teachers_data.objects.all()
+        return render(request,"html/teachersDataDelete.html",{'items':items})
+
+
+def teacherDataView(request):
+    if(request.method == 'POST'):
+        mailid = request.POST['mail_id']
+        if (Teachers.objects.filter(mailid = mailid).exists()):
+            t = Teachers.objects.filter(mailid = mailid)
+            t=t[0]
+            return render(request,"html/teacherDataViewResult.html",{'data':t})
+        else:
+            return redirect('UserData')
+    else:
+        items = Teachers.objects.all()
+        return render(request,"html/teacherDataView.html",{'items':items})   
+
+def teacherDataDelete(request):
+    if(request.method == 'POST'):
+        mailid = request.POST['mail_id']
+        if (Teachers.objects.filter(mailid = mailid).exists()):
+            t = Teachers.objects.filter(mailid = mailid)
+            t = t[0]
+            t.delete()
+            messages.info(request,'Data successfully deleted!')
+            items = Teachers.objects.all()
+            return render(request,"html/teacherDataDelete.html",{'items':items})
+        else:
+            return redirect('tecaherDataDelete')
+    else:
+        items = Teachers.objects.all()
+        return render(request,"html/teacherDataDelete.html",{'items':items})
+
+def studentDataView(request):
+    if(request.method == 'POST'):
+        mailid = request.POST['mail_id']
+        if (Students.objects.filter(mailid = mailid).exists()):
+            t = Students.objects.filter(mailid = mailid)
+            t=t[0]
+            return render(request,"html/studentDataViewResult.html",{'data':t})
+        else:
+            return redirect('UserData')
+    else:
+        items = Students.objects.all()
+        return render(request,"html/studentDataView.html",{'items':items}) 
+
+def studentDataDelete(request):
+    if(request.method == 'POST'):
+        mailid = request.POST['mail_id']
+        if (Students.objects.filter(mailid = mailid).exists()):
+            t = Students.objects.filter(mailid = mailid)
+            t = t[0]
+            t.delete()
+            messages.info(request,'Data successfully deleted!')
+            items = Students.objects.all()
+            return render(request,"html/studentDataDelete.html",{'items':items})
+        else:
+            return redirect('studentDataDelete')
+    else:
+        items = Students.objects.all()
+        return render(request,"html/studentDataDelete.html",{'items':items})
