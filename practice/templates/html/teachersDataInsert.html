@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile Builder</title>
+    <link rel="icon" type="image/jpg" href="{% static 'Images/pb_logo.jpg' %}">
+
+    <!--Google Fonts-->
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat:900&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+
+    <!--Bootstrap-->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+
+    <!--Font Awesome-->
+    <script
+      src="https://kit.fontawesome.com/04a54148ef.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <!--CSS-->
+    <link rel="stylesheet" href="{% static 'CSS/signup.css' %}" />
+
+
+
+    <!--JS-->
+    <script src="{% static 'JS/signup.js' %}"></script>
+
+  </head>
+
+
+  <body>
+    {% if messages %}
+    <div class="alert alert-danger alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        {% for message in messages %}
+         {{message}}
+        {% endfor %}
+    </div>
+    <br>
+{% endif %}
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col col-lg-12">
+              <div class="reg-box" id="reg-box">
+                <div class="reg-form" id="reg-form">
+                  <div class = "text_su"><h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Insert</h3></div><br>
+                  <form action="teachersDataInsert" method="post">
+                    {% csrf_token %}
+                      <div class="form-group">
+                          <label for="name">Name</label>
+                          <span class="fa fa-pencil"></span>
+                          <input type="text" class="form-control" id="first_name" name = "name" placeholder="Enter the Name" required>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="bio">Bio</label>
+                        <span class="fa fa-address-card-o"></span>
+                        <input type="text" class="form-control" name = "bio" id="bio" placeholder="Enter the bio" required>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="mail_id">Mail ID</label>
+                      <span class="fa fa-envelope"></span>
+                      <input oninput="email_check()" type="email" name="mail_id" class="form-control" id="mail_id" placeholder="Enter the Mail ID" pattern="^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$" data-toggle="tooltip" data-placement="right" data-html="true" title="" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="position">Position</label>
+                    <span class="fa fa-graduation-cap"></span>
+                    <input type="text" class="form-control" name = "position" id="position" placeholder="Enter the Position" required>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="department">Department</label>
+                    <span class="fa fa-institution"></span>
+                    <input type="text" class="form-control" name = "department" id="department" placeholder="Enter the Department" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <span class="fa fa-location-arrow"></span>
+                    <input type="text" class="form-control" name = "location" id="location" placeholder="Enter the Location" required>
+                </div>
+
+                      <button  type="submit" class="btn btn-primary" id="submit_btn" data-toggle="tooltip" data-placement="left" title="">Insert</button>
+                      <button type="reset" class="btn btn-primary" id="reset_btn">Reset</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  </body>
+</html>

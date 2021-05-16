@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile Builder</title>
+    <link rel="icon" type="image/jpg" href="{% static 'Images/pb_logo.jpg' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+
+    <script
+    src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"
+  ></script>
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"
+  ></script>
+
+  <script
+    src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"
+  ></script>
+
+    <!--CSS-->
+    <link rel="stylesheet" type = text/css href="{% static 'CSS/user_data.css' %}" />
+    <link rel="stylesheet" type = text/css href="{% static 'CSS/login.css' %}" />
+    <link rel="stylesheet" type = text/css href="{% static 'CSS/index.css' %}" />
+
+
+
+    <!--JS-->
+    <script src="{% static 'JS/register.js' %}"></script>
+    <script>
+      function toggleButton() {
+         var element1 = document.body;
+         element1.classList.toggle("dark-mode");
+      }
+      </script>
+      <style>
+        body {
+          background-color: #2b2d42;
+          color: #edf2f4;
+          margin: 0;
+          min-height: 100%;
+        }
+        .dark-mode {
+          background-color: #fbfefe;
+          color: #2b2d42;
+        }
+      </style>
+</head>
+<body>
+    <div class="navbarCustom">
+        <div class="nav-right">
+              <div class="dropdown">
+                  <button class="dropbtn" onclick="myFunction()"><span class="fa fa-user"></span>
+                    <span class="fa fa-caret-down"></span>
+                  </button>
+                  <div class="dropdown-content" id="myDropdown">
+                      <a onclick="toggleButton()"><span class="fa fa-adjust"></span> Toggle Mode</a>
+                      <a href="{% url 'logout' %}"><span class="fa fa-sign-out-alt"></span> Logout</a>
+                  </div>
+              </div>
+        </div>
+    </div>
+<div class="row" style=padding-top:150px;>
+  <div class="column" >
+    <div class="container">
+      <img  src="{% static 'Images/student_data.jpg' %}" alt="Teachers areas of interest Image" class="image">
+      <div onclick = "admin_student_data_redirect()" class="overlay">
+        <div class="text">Click here for<br>Students table</div>
+      </div>
+    </div>
+  </div>
+  <div class="column">
+    <div class="container" >
+      <img  src="{% static 'Images/teachers_data.jpg' %}" alt="Teachers data Image" class="image">
+      <div onclick = "admin_teacher_data_redirect()" class="overlay" >
+        <div class="text">Click here for<br>Teachers table</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    function myFunction() {
+      document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    window.onclick = function(e) {
+      if (!e.target.matches('.dropbtn')) {
+      var myDropdown = document.getElementById("myDropdown");
+        if (myDropdown.classList.contains('show')) {
+          myDropdown.classList.remove('show');
+        }
+      }
+    }
+    </script>
+
+</body>
+</html>
