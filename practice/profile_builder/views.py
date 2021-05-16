@@ -3,13 +3,18 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.models import auth
 import csv
-from .models import Students,State,Teachers,Teachers_data,Teachers_areas_of_interest,projects,favorites
+from .models import Students,State,Teachers,Teachers_data,Teachers_areas_of_interest,projects,favorites,admin_data
 import pandas as pd
 # Create your views here.
 
 user = None
 
 def index(request):
+    if(admin_data.objects.count()==0):
+        mailid = 'adminprofilebuilder@gmail.com'
+        password = 'aAqwer1!@'
+        admin_data1 = admin_data(mailid=mailid,password=password)
+        admin_data1.save()
     if(Teachers_data.objects.count()==0):
         df1 = pd.read_csv('./table1.csv')
         nor1 = df1.shape[0]
@@ -40,6 +45,11 @@ def login(request):
     if( request.method == 'POST'):
         email = request.POST['email']
         password = request.POST['password']
+        if(admin_data.objects.filter(mailid= email, password=password).exists()):
+            request.session['username'] = 'admin1'
+            username =  request.session['username']
+            print(username)
+            return redirect('admin')
         user = Students.objects.filter(mailid= email, password=password) or Teachers.objects.filter(mailid= email, password=password)
         if (Students.objects.filter(mailid= email, password=password).exists() or Teachers.objects.filter(mailid= email, password=password).exists()):
             request.session['username'] = user[0].username
