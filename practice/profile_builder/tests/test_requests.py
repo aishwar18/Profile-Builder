@@ -165,3 +165,62 @@ class TestViews(TestCase):
         response = self.client.get('/html/myProfile')
         self.assertEquals(response.status_code,200)
         self.assertTemplateUsed(response, 'html/myProfile.html')
+
+    def test_favourites_GET(self):
+        session = self.client.session
+        session['username'] = 'krishna'
+        session.save()
+        response = self.client.get('/html/favourites')
+        self.assertEquals(response.status_code,200)
+        self.assertTemplateUsed(response, 'html/favourites.html')
+
+    def test_favouritesView_GET(self):
+        session = self.client.session
+        session['username'] = 'krishna'
+        session.save()
+        response = self.client.get('/html/favouritesView', {'areas' : 'Science'})
+        self.assertEquals(response.status_code,200)
+        self.assertTemplateUsed(response, 'html/favouritesView.html')
+
+    def test_favouritesInsert_POST(self):
+        session = self.client.session
+        session['username'] = 'krishna'
+        session.save()
+        response = self.client.post('/html/favouritesInsert')
+        self.assertEquals(response.status_code,200)
+        self.assertTemplateUsed(response, 'html/favouritesInsert.html')
+
+    def test_admin_GET(self):
+        response = self.client.get('/html/admin')
+        self.assertEquals(response.status_code,200)
+        self.assertTemplateUsed(response, 'html/admin.html')
+
+    def test_admin_GET(self):
+        response = self.client.get('/html/admin')
+        self.assertEquals(response.status_code,200)
+        self.assertTemplateUsed(response, 'html/admin.html')
+
+    def test_adminAreas_GET(self):
+        response = self.client.get('/html/adminAreas')
+        self.assertEquals(response.status_code,200)
+        self.assertTemplateUsed(response, 'html/adminAreas.html')
+
+    def test_adminTeachers_GET(self):
+        response = self.client.get('/html/adminTeachers')
+        self.assertEquals(response.status_code,200)
+        self.assertTemplateUsed(response, 'html/adminFacultyDetails.html')
+
+    def test_adminUser_GET(self):
+        response = self.client.get('/html/adminUser')
+        self.assertEquals(response.status_code,200)
+        self.assertTemplateUsed(response, 'html/UserData.html')
+
+    def test_adminStudentData_GET(self):
+        response = self.client.get('/html/adminStudentData')
+        self.assertEquals(response.status_code,200)
+        self.assertTemplateUsed(response, 'html/adminStudentData.html')
+
+    def test_adminTeacherData_GET(self):
+        response = self.client.get('/html/adminTeacherData')
+        self.assertEquals(response.status_code,200)
+        self.assertTemplateUsed(response, 'html/adminTeacherData.html')

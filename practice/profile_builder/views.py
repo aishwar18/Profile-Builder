@@ -737,7 +737,7 @@ def teachersDataView(request):
     else:
         items = Teachers_data.objects.all()
         return render(request,"html/TeachersDataView.html",{'items':items})
-        
+
 def teachersDataInsertMain(request):
     return render(request,"html/teachersDataInsert.html")
 
@@ -836,7 +836,7 @@ def teacherDataView(request):
             return redirect('UserData')
     else:
         items = Teachers.objects.all()
-        return render(request,"html/teacherDataView.html",{'items':items})   
+        return render(request,"html/teacherDataView.html",{'items':items})
 
 def teacherDataDelete(request):
     if(request.method == 'POST'):
@@ -865,7 +865,7 @@ def studentDataView(request):
             return redirect('UserData')
     else:
         items = Students.objects.all()
-        return render(request,"html/studentDataView.html",{'items':items}) 
+        return render(request,"html/studentDataView.html",{'items':items})
 
 def studentDataDelete(request):
     if(request.method == 'POST'):
