@@ -1,6 +1,6 @@
 from django.test import SimpleTestCase
 from django.urls import reverse,resolve
-from profile_builder.views import index,login,register,signup_teachers,signup_students,forgotPassword,passwordReset,changePassword,logout,prQuestion,home,teacher_profile,changeMail,changeProfilePic,editProfile,myProfile,faculty_detail
+from profile_builder.views import index,login,register,signup_teachers,signup_students,forgotPassword,passwordReset,changePassword,logout,prQuestion,home,teacher_profile,changeMail,changeProfilePic,editProfile,myProfile,faculty_detail,favourites,admin,favouritesView,favouritesDelete,favouritesInsert,adminAreas,adminUser,adminTeachers,adminStudentData,adminTeacherData, areasDataView, areasDataInsert,areasDataUpdate,areasDataUpdateResult,areasDataDeleteResult,teachersDataView,teachersDataInsert,teachersDataDelete,teachersDataUpdate,teachersDataUpdateResult,teacherDataView,teacherDataDelete,studentDataView,studentDataDelete
 
 class TestUrls(SimpleTestCase):
 
@@ -88,3 +88,123 @@ class TestUrls(SimpleTestCase):
         url = reverse('faculty_detail')
         print(resolve(url))
         self.assertEqual(resolve(url).func, faculty_detail)
+
+    def test_favourites_resolved(self):
+        url = reverse('favourites')
+        print(resolve(url))
+        self.assertEqual(resolve(url).func, favourites)
+
+    def test_favouritesView_resolved(self):
+        url = reverse('favouritesView')
+        print(resolve(url))
+        self.assertEqual(resolve(url).func, favouritesView)
+
+    def test_favouritesInsert_resolved(self):
+        url = reverse('favouritesInsert')
+        print(resolve(url))
+        self.assertEqual(resolve(url).func, favouritesInsert)
+
+    def test_favouritesDelete_resolved(self):
+        url = reverse('favouritesDelete')
+        print(resolve(url))
+        self.assertEqual(resolve(url).func, favouritesDelete)
+
+    def test_admin_resolved(self):
+        url = reverse('admin')
+        print(resolve(url))
+        self.assertEqual(resolve(url).func, admin)
+
+    def test_adminAreas_resolved(self):
+        url = reverse('adminAreas')
+        print(resolve(url))
+        self.assertEqual(resolve(url).func, adminAreas)
+
+    def test_adminStudentData_resolved(self):
+        url = reverse('adminStudentData')
+        print(resolve(url))
+        self.assertEqual(resolve(url).func, adminStudentData)
+
+    def test_adminTeacherData_resolved(self):
+        url = reverse('adminTeacherData')
+        print(resolve(url))
+        self.assertEqual(resolve(url).func, adminTeacherData)
+
+    def test_adminUser_resolved(self):
+        url = reverse('adminUser')
+        print(resolve(url))
+        self.assertEqual(resolve(url).func, adminUser)
+
+    def test_adminTeachers_resolved(self):
+        url = reverse('adminTeachers')
+        print(resolve(url))
+        self.assertEqual(resolve(url).func, adminTeachers)
+
+    def test_areasDataView_resolved(self):
+        url = reverse('areasDataView')
+        print(resolve(url))
+        self.assertEqual(resolve(url).func, areasDataView)
+
+    def test_areasDataInsert_resolved(self):
+        url = reverse('areasDataInsert')
+        print(resolve(url))
+        self.assertEqual(resolve(url).func, areasDataInsert)
+
+    def test_areasDataUpdate_resolved(self):
+        url = reverse('areasDataUpdate')
+        print(resolve(url))
+        self.assertEqual(resolve(url).func, areasDataUpdate)
+
+    def test_areasDataUpdateResult_resolved(self):
+        url = reverse('areasDataUpdateResult')
+        print(resolve(url))
+        self.assertEqual(resolve(url).func, areasDataUpdateResult)
+
+    def test_areasDataDeleteResult_resolved(self):
+        url = reverse('areasDataDeleteResult')
+        print(resolve(url))
+        self.assertEqual(resolve(url).func, areasDataDeleteResult)
+
+    def test_teachersDataView_resolved(self):
+        url = reverse('teachersDataView')
+        print(resolve(url))
+        self.assertEqual(resolve(url).func, teachersDataView)
+
+    def test_teachersDataInsert_resolved(self):
+        url = reverse('teachersDataInsert')
+        print(resolve(url))
+        self.assertEqual(resolve(url).func, teachersDataInsert)
+
+    def test_teachersDataDelete_resolved(self):
+        url = reverse('teachersDataDelete')
+        print(resolve(url))
+        self.assertEqual(resolve(url).func, teachersDataDelete)
+
+    def test_teachersDataUpdate_resolved(self):
+        url = reverse('teachersDataUpdate')
+        print(resolve(url))
+        self.assertEqual(resolve(url).func, teachersDataUpdate)
+
+    def test_teachersDataUpdateResult_resolved(self):
+        url = reverse('teachersDataUpdateResult')
+        print(resolve(url))
+        self.assertEqual(resolve(url).func, teachersDataUpdateResult)
+
+    def test_teacherDataView_resolved(self):
+        url = reverse('teacherDataView')
+        print(resolve(url))
+        self.assertEqual(resolve(url).func, teacherDataView)
+
+    def test_teacherDataDelete_resolved(self):
+        url = reverse('teacherDataDelete')
+        print(resolve(url))
+        self.assertEqual(resolve(url).func, teacherDataDelete)
+
+    def test_studentDataView_resolved(self):
+        url = reverse('studentDataView')
+        print(resolve(url))
+        self.assertEqual(resolve(url).func, studentDataView)
+
+    def test_studentDataDelete_resolved(self):
+        url = reverse('studentDataDelete')
+        print(resolve(url))
+        self.assertEqual(resolve(url).func, studentDataDelete)
