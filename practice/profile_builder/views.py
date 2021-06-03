@@ -538,7 +538,8 @@ def favourites(request):
 
 def favouritesView(request):
     username = request.session.get('username')
-    st = Students.objects.filter(username = username)
+    st = Students.objects.filter(username = username) or Teachers.objects.filter(username = username)
+    print(st)
     st = st[0]
     id_of_student = st.id
     if (favorites.objects.filter(id_of_student = id_of_student).exists()):
@@ -555,7 +556,7 @@ def favouritesView(request):
 def favouritesInsert(request):
     if(request.method == 'POST'):
         username = request.session.get('username')
-        st = Students.objects.filter(username = username)
+        st = Students.objects.filter(username = username) or Teachers.objects.filter(username = username)
         st = st[0]
         id_of_student = st.id
         aoi = request.POST['aoi']
@@ -565,7 +566,7 @@ def favouritesInsert(request):
         return redirect('favourites')
     else:
         username = request.session.get('username')
-        st = Students.objects.filter(username = username)
+        st = Students.objects.filter(username = username) or Teachers.objects.filter(username = username)
         st = st[0]
         id_of_student = st.id
         areas = []
@@ -589,7 +590,7 @@ def favouritesInsert(request):
 def favouritesDelete(request):
     if(request.method == 'POST'):
         username = request.session.get('username')
-        st = Students.objects.filter(username = username)
+        st = Students.objects.filter(username = username) or Teachers.objects.filter(username = username)
         st = st[0]
         id_of_student = st.id
         if (favorites.objects.filter(id_of_student = id_of_student).exists()):
@@ -602,7 +603,7 @@ def favouritesDelete(request):
             return redirect('favourites')
     else:
         username = request.session.get('username')
-        st = Students.objects.filter(username = username)
+        st = Students.objects.filter(username = username) or Teachers.objects.filter(username = username)
         st = st[0]
         id_of_student = st.id
         if (favorites.objects.filter(id_of_student = id_of_student).exists()):
@@ -833,7 +834,7 @@ def teacherDataView(request):
             t=t[0]
             return render(request,"html/teacherDataViewResult.html",{'data':t})
         else:
-            return redirect('UserData')
+            return redirect('adminUser')
     else:
         items = Teachers.objects.all()
         return render(request,"html/teacherDataView.html",{'items':items})
@@ -862,7 +863,7 @@ def studentDataView(request):
             t=t[0]
             return render(request,"html/studentDataViewResult.html",{'data':t})
         else:
-            return redirect('UserData')
+            return redirect('adminUser')
     else:
         items = Students.objects.all()
         return render(request,"html/studentDataView.html",{'items':items})

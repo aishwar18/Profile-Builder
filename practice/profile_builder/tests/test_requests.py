@@ -174,13 +174,13 @@ class TestViews(TestCase):
         self.assertEquals(response.status_code,200)
         self.assertTemplateUsed(response, 'html/favourites.html')
 
-    def test_favouritesView_GET(self):
+    '''def test_favouritesView_GET(self):
         session = self.client.session
         session['username'] = 'krishna'
         session.save()
         response = self.client.get('/html/favouritesView', {'areas' : 'Science'})
         self.assertEquals(response.status_code,200)
-        self.assertTemplateUsed(response, 'html/favouritesView.html')
+        self.assertTemplateUsed(response, 'html/favourites.html')
 
     def test_favouritesInsert_POST(self):
         session = self.client.session
@@ -188,7 +188,7 @@ class TestViews(TestCase):
         session.save()
         response = self.client.post('/html/favouritesInsert')
         self.assertEquals(response.status_code,200)
-        self.assertTemplateUsed(response, 'html/favouritesInsert.html')
+        self.assertTemplateUsed(response, 'html/favourites.html')'''
 
     def test_admin_GET(self):
         response = self.client.get('/html/admin')
@@ -224,3 +224,66 @@ class TestViews(TestCase):
         response = self.client.get('/html/adminTeacherData')
         self.assertEquals(response.status_code,200)
         self.assertTemplateUsed(response, 'html/adminTeacherData.html')
+
+    def test_areasDataView_Negative_POST(self):
+        teach = Teachers_areas_of_interest.objects.create(id_of_faculty=1, name_of_faculty="Harry", faculty_research_interest="Machine Learning")
+        response = self.client.post('/html/areasDataView', {'teacher_name':'Krishna','aoi':'Machine Learning'})
+        self.assertEquals(response.status_code,200)
+        self.assertTemplateUsed(response, 'html/adminAreas.html')
+
+    def test_areasDataView_POST(self):
+        teach = Teachers_areas_of_interest.objects.create(id_of_faculty=1, name_of_faculty="Harry", faculty_research_interest="Machine Learning")
+        response = self.client.post('/html/areasDataView', {'teacher_name':'Harry','aoi':'Machine Learning'})
+        self.assertEquals(response.status_code,200)
+        self.assertTemplateUsed(response, 'html/areasDataViewResult.html')
+
+    def test_areasDataInsert_POST(self):
+        response = self.client.post('/html/areasDataInsert', {'teacher_name':'Krishna','aoi':'Machine Learning'})
+        self.assertEquals(response.status_code,200)
+        self.assertTemplateUsed(response, 'html/adminAreas.html')
+
+    def test_areasDataUpdate_POST(self):
+        response = self.client.post('/html/areasDataUpdate', {'teacher_name':'Krishna'})
+        self.assertEquals(response.status_code,200)
+        self.assertTemplateUsed(response, 'html/adminAreas.html')
+
+    def test_areasDataUpdateResult_POST(self):
+        response = self.client.post('/html/areasDataUpdateResult', {'teacher_name':'Krishna'})
+        self.assertEquals(response.status_code,200)
+        self.assertTemplateUsed(response, 'html/adminAreas.html')
+
+    def test_areasDataDelete_POST(self):
+        teach = Teachers_areas_of_interest.objects.create(id_of_faculty=1, name_of_faculty="Harry", faculty_research_interest="Machine Learning")
+        response = self.client.post('/html/areasDataDelete', {'teacher_name':'Harry'})
+        self.assertEquals(response.status_code,200)
+        self.assertTemplateUsed(response, 'html/areasDataDeleteResult.html')
+
+    def test_teachersDataView_Negative_POST(self):
+        teach = Teachers.objects.create(img = "pic.jpg",id_of_faculty =1,first_name ="Harry",last_name ="Potter", college = "IIT", city = "Chennai", mailid = "harry@gmail.com", username = "Harr1", password ="Harry123", security_qn ="What is your favourite movie?", security_an ="Harry Potter",id=1)
+        response = self.client.post('/html/teacherDataView', {'mail_id':'abcd@gmail.com'})
+        self.assertRedirects(response, '/html/adminUser', status_code=302,
+        target_status_code=200, fetch_redirect_response=True)
+
+    def test_teachersDataView_POST(self):
+        teach= Teachers.objects.create(img = "pic.jpg",id_of_faculty =1,first_name ="Harry",last_name ="Potter", college = "IIT", city = "Chennai", mailid = "harry@gmail.com", username = "Harr1", password ="Harry123", security_qn ="What is your favourite movie?", security_an ="Harry Potter",id=1)
+        response = self.client.post('/html/teacherDataView', {'mail_id':'harry@gmail.com'})
+        self.assertEquals(response.status_code,200)
+        self.assertTemplateUsed(response, 'html/teacherDataViewResult.html')
+
+    def test_teachersDataDelete_POST(self):
+        teach = Teachers.objects.create(img = "pic.jpg",id_of_faculty =1,first_name ="Harry",last_name ="Potter", college = "IIT", city = "Chennai", mailid = "harry@gmail.com", username = "Harr1", password ="Harry123", security_qn ="What is your favourite movie?", security_an ="Harry Potter",id=1)
+        response = self.client.post('/html/teacherDataDelete', {'mail_id':'harry@gmail.com'})
+        self.assertEquals(response.status_code,200)
+        self.assertTemplateUsed(response, 'html/teacherDataDelete.html')
+
+    def test_studentDataView_POST(self):
+        student = Students.objects.create(img = "pic.jpg",first_name ="Harry",last_name ="Potter", college = "IIT", degree="B.Tech",branch="CSE",semester=6,city = "Chennai", mailid = "harry@gmail.com", username = "Harr1", password ="Harry123", security_qn ="What is your favourite movie?", security_an ="Harry Potter",id=1)
+        response = self.client.post('/html/studentDataView', {'mail_id':'harry@gmail.com'})
+        self.assertEquals(response.status_code,200)
+        self.assertTemplateUsed(response, 'html/studentDataViewResult.html')
+
+    def test_studentDataDelete_POST(self):
+        student = Students.objects.create(img = "pic.jpg",first_name ="Harry",last_name ="Potter", college = "IIT", degree="B.Tech",branch="CSE",semester=6,city = "Chennai", mailid = "harry@gmail.com", username = "Harr1", password ="Harry123", security_qn ="What is your favourite movie?", security_an ="Harry Potter",id=1)
+        response = self.client.post('/html/studentDataDelete', {'mail_id':'harry@gmail.com'})
+        self.assertEquals(response.status_code,200)
+        self.assertTemplateUsed(response, 'html/studentDataDelete.html')
