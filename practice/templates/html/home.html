@@ -41,6 +41,16 @@
      element1.classList.toggle("dark-mode");
      var element2 = document.getElementById("maxRows");
      element2.classList.toggle("dark-mode2");
+     var element3 = document.getElementById("facultySearch");
+     element3.classList.toggle("dark-mode2");
+     var element4 = document.getElementById("aoiSearch");
+     element4.classList.toggle("dark-mode2");
+     var element5 = document.getElementsByTagName("th");
+     console.log(element5);
+     for(var i=0;i<element5.length;i++){
+         console.log(element5[i]);
+         element5[i].classList.toggle("dark-mode3");
+     }
   }
   </script>
   <style>
@@ -57,7 +67,10 @@
 
     .dark-mode2 {
       background-color: #ef233c;
-      color: #2b2d42;
+    }
+    .dark-mode3 {
+      background-color: #ef233c;
+      color: #edf2f4;
     }
 
 

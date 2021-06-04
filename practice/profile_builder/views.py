@@ -305,11 +305,11 @@ def teacher_profile(request,id):
                 return redirect('teacher_profile', id=id)
             if  ('aois' in request.POST and 'research' in request.POST):
                 aois = request.POST['aois']
-                aois = aois.lower()
+                aois = aois.lower().strip()
                 r = request.POST['research']
                 if not(projects.objects.filter(research=r).exists()):
                     new = projects(id_of_faculty=teacher.id,areas_of_interests=aois,research=r)
-                    new.save()        
+                    new.save()
             proj = projects.objects.filter(id_of_faculty=teacher.id)
             if(proj):
                 research = []
@@ -576,8 +576,8 @@ def favouritesView(request):
                 aoi.strip()
                 areas1.append(aoi)
         areas = sorted(areas1)
-        return render(request,"html/favourites.html",{'username': username,'areas' : areas})        
-    
+        return render(request,"html/favourites.html",{'username': username,'areas' : areas})
+
 
 def favouritesInsert(request):
     if(request.method == 'POST'):
@@ -601,7 +601,7 @@ def favouritesInsert(request):
                         aoi.strip()
                         areas1.append(aoi)
                 areas = sorted(areas1)
-                return render(request,"html/favourites.html",{'username': username,'areas' : areas})      
+                return render(request,"html/favourites.html",{'username': username,'areas' : areas})
     else:
         username = request.session.get('username')
         if(Students.objects.filter(username = username).exists() or Teachers.objects.filter(username = username).exists()):
@@ -635,7 +635,7 @@ def favouritesInsert(request):
                     aoi.strip()
                     areas1.append(aoi)
             areas = sorted(areas1)
-            return render(request,"html/favourites.html",{'username': username,'areas' : areas})      
+            return render(request,"html/favourites.html",{'username': username,'areas' : areas})
 
 def favouritesDelete(request):
     if(request.method == 'POST'):
@@ -662,7 +662,7 @@ def favouritesDelete(request):
                     aoi.strip()
                     areas1.append(aoi)
             areas = sorted(areas1)
-            return render(request,"html/favourites.html",{'username': username,'areas' : areas})      
+            return render(request,"html/favourites.html",{'username': username,'areas' : areas})
     else:
         username = request.session.get('username')
         if(Students.objects.filter(username = username).exists() or Teachers.objects.filter(username = username).exists()):
@@ -689,7 +689,7 @@ def favouritesDelete(request):
                     aoi.strip()
                     areas1.append(aoi)
             areas = sorted(areas1)
-            return render(request,"html/favourites.html",{'username': username,'areas' : areas})      
+            return render(request,"html/favourites.html",{'username': username,'areas' : areas})
 
 def favouritesProject(request):
     username = request.session.get('username')
@@ -752,7 +752,7 @@ def favouritesProject(request):
                 aoi.strip()
                 areas1.append(aoi)
         areas = sorted(areas1)
-        return render(request,"html/favourites.html",{'username': username,'areas' : areas})     
+        return render(request,"html/favourites.html",{'username': username,'areas' : areas})
 
 def admin(request):
     username = request.session['username']
@@ -882,7 +882,7 @@ def teachersDataView(request):
     else:
         items = Teachers_data.objects.all()
         return render(request,"html/TeachersDataView.html",{'items':items})
-        
+
 def teachersDataInsertMain(request):
     return render(request,"html/teachersDataInsert.html")
 
@@ -982,7 +982,7 @@ def teacherDataView(request):
             return redirect('adminUser')
     else:
         items = Teachers.objects.all()
-        return render(request,"html/teacherDataView.html",{'items':items})   
+        return render(request,"html/teacherDataView.html",{'items':items})
 
 def teacherDataDelete(request):
     if(request.method == 'POST'):
@@ -1011,7 +1011,7 @@ def studentDataView(request):
             return redirect('adminUser')
     else:
         items = Students.objects.all()
-        return render(request,"html/studentDataView.html",{'items':items}) 
+        return render(request,"html/studentDataView.html",{'items':items})
 
 def studentDataDelete(request):
     if(request.method == 'POST'):
