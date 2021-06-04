@@ -167,6 +167,8 @@ def prQuestion(request):
         else:
             messages.info(request,'Error retrieving question!')
             return redirect('forgotPassword')
+    else:
+        return render(request,"html/forgotPassword.html")
 
 def passwordReset(request):
     if( request.method == 'POST'):
