@@ -48,40 +48,36 @@
 
     <!--CSS-->
     <link rel="stylesheet" href="{% static 'CSS/signup.css' %}" />
-    <link rel="stylesheet" type = text/css href="{% static 'CSS/alert.css' %}">
-  
+
+
+
     <!--JS-->
     <script src="{% static 'JS/signup.js' %}"></script>
+
   </head>
   <body>
-  {% if messages %}
-  <div class="alert alert-success">
-      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-      {% for message in messages %}
-       {{message}}
-      {% endfor %}
-  </div>
-  <br>
-  {% endif %}
     <div class="container-fluid">
-          <div class="row">
-            <div class="col col-lg-12"style=" padding-top:150px;">
-              <div class="reg-box" id="reg-box">
+          <div class="row" style="padding-right:250px;">
+            <div class="col col-lg-12" style="padding-top:50px;">
+              <div class="reg-box" id="reg-box" style="width:700px;">
                 <div class="reg-form" id="reg-form" >
-                  <div class = "text_su"><h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Delete</h3></div><br>
-                  <form action="areasDataDelete" method="post">
+                  <div class = "text_su"><h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Projects</h3></div><br>
+                  <form>
                     {% csrf_token %}
-                    <div class="form-group">
-                    <label for="col">Select Teacher's Name</label>
-                    <span class="fa fa-pencil"></span>
-                    <select name="teacher_name" class="form-control">
-                        {% for entry in items %}
-                            <option value="{{entry.name_of_faculty}}">{{ entry.name_of_faculty}}</option>
+                        {% for i in projects %}
+                            {% for j in i %}  
+                                {%for k in j%}
+                                    {% if k in areas %}
+                                        <label  style = "text-transform:capitalize;font-size:20px;"><b>{{k}} :</b></label>
+                                    {% else %}
+                                        <div class="form-group">   
+                                            <!--<a style = "text-transform:capitalize;" href="{% url 'teacher_profile' 11 %}"> My Profile</a>-->  
+                                            <p style = "text-transform:capitalize;"><span class="fa fa-star"></span>&nbsp;&nbsp;&nbsp;&nbsp;{{k}}</p>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
                         {% endfor %}
-                        </select>
-                    </div>
-                      <button  type="submit" class="btn btn-primary" id="submit_btn" data-toggle="tooltip" data-placement="left" title="">Delete</button>
-                      <button type="reset" class="btn btn-primary" id="reset_btn">Reset</button>
                   </form>
                 </div>
               </div>

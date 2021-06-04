@@ -27,7 +27,7 @@
   ></script>
 
     <!--CSS-->
-    <link rel="stylesheet" type = text/css href="{% static 'CSS/editProfile.css' %}" />
+    <link rel="stylesheet" type = text/css href="{% static 'CSS/admin.css' %}" />
     <link rel="stylesheet" type = text/css href="{% static 'CSS/login.css' %}" />
     <link rel="stylesheet" type = text/css href="{% static 'CSS/index.css' %}" />
     <link rel="stylesheet" type = text/css href="{% static 'CSS/alert.css' %}">
@@ -59,10 +59,12 @@
     <div class="navbarCustom">
         <div class="nav-right">
               <div class="dropdown">
-                  <button class="dropbtn" onclick="myFunction()"><span class="fa fa-user"></span>
+                  <button class="dropbtn" onclick="myFunction()"><span class="fa fa-user"></span> {{username}}
                     <span class="fa fa-caret-down"></span>
                   </button>
                   <div class="dropdown-content" id="myDropdown">
+                      <a href="{% url 'myProfile' %}"><span class="fa fa-user-circle"></span> My Profile</a>
+                      <a href="{% url 'favourites' %}"><span class="fa fa-heart"></span> Favourites</a>
                       <a onclick="toggleButton()"><span class="fa fa-adjust"></span> Toggle Mode</a>
                       <a href="{% url 'logout' %}"><span class="fa fa-sign-out-alt"></span> Logout</a>
                   </div>
@@ -103,6 +105,14 @@
     </div>
   </div>
   </div>
+  <div class="column">
+    <div class="container">
+      <img src="{% static 'Images/project.jpg' %}" alt="Student and Teacher Image" class="image">
+      <div onclick = "favourites_project()"  class="overlay">
+        <div class="text">Click here to<br>view projects in your favourite areas of interests</div>
+      </div>
+    </div>
+    </div>
   </div>
   <script>
     function myFunction() {

@@ -48,6 +48,7 @@
 
     <!--CSS-->
     <link rel="stylesheet" href="{% static 'CSS/signup.css' %}" />
+    <link rel="stylesheet" type = text/css href="{% static 'CSS/alert.css' %}">
 
 
 
@@ -56,6 +57,15 @@
 
   </head>
   <body>
+    {% if messages %}
+    <div class="alert alert-success">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        {% for message in messages %}
+         {{message}}
+        {% endfor %}
+    </div>
+    <br>
+    {% endif %}
     <div class="container-fluid">
           <div class="row">
             <div class="col col-lg-12"style=" padding-top:150px;">

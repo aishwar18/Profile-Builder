@@ -30,10 +30,10 @@
 <link rel="stylesheet" type = text/css href="{% static 'css/table.css' %}">
 
 <script type="text/javascript">
-    window.history.forward();
+    /*window.history.forward();
     function noBack() {
         window.history.forward();
-    }
+    }*/
 </script>
 <script>
   function mybutton() {
@@ -74,8 +74,8 @@
                   <div class="dropdown-content" id="myDropdown">
                     <a href="{% url 'myProfile' %}"><span class="fa fa-user-circle"></span> My Profile</a>
                     <a href="{% url 'favourites' %}"><span class="fa fa-heart"></span> Favourites</a>
-                    <!--<a onclick="mybutton()"><span class="fa fa-adjust"></span> Toggle Mode</a>-->
-                      <a href="{% url 'logout' %}"><span class="fa fa-sign-out-alt"></span> Logout</a>
+                    <a onclick="mybutton()"><span class="fa fa-adjust"></span> Toggle Mode</a>
+                    <a href="{% url 'logout' %}"><span class="fa fa-sign-out-alt"></span> Logout</a>
                   </div>
               </div>
         </div>
@@ -120,7 +120,7 @@
                         <tr>
                         {% for cell in row %}
                             {% ifequal cell row.1 %}
-                                <td class="facultyCell"><a href="{% url 'teacher_profile' row.0 %}">{{ cell }}</a></td>
+                                <td class="facultyCell"><a style="color:#ef233c;" href="{% url 'teacher_profile' row.0 %}">{{ cell }}</a></td>
                             {% else %}
                                 <td>{{ cell }}</td>
                             {% endifequal %}

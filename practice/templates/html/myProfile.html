@@ -30,6 +30,24 @@
     <link rel="stylesheet" type = text/css href="{% static 'css/profile.css' %}">
     <link rel="stylesheet" type = text/css href="{% static 'css/myprofile.css' %}">
     <script src="{% static 'JS/signup.js' %}"></script>
+    <script>
+      function toggleButton() {
+         var element1 = document.body;
+         element1.classList.toggle("dark-mode");
+      }
+      </script>
+      <style>
+        body {
+          background-color: #2b2d42;
+          color: #edf2f4;
+          margin: 0;
+          min-height: 100%;
+        }
+        .dark-mode {
+          background-color: #fbfefe;
+          color: #2b2d42;
+        }
+      </style>
 </head>
 <body>
     <div class="navbarCustom">
@@ -40,9 +58,10 @@
                     <span class="fa fa-caret-down"></span>
                   </div>
                   <div class="dropdown-cntnt" id="myDropdown">
-                      <a href="{% url 'myProfile' %}"><span class="fa fa-user-circle"></span> My Profile</a>
-                      <a href="{% url 'changePassword' %}"><span class="fa fa-key"></span> Change Password</a>
-                      <a href="{% url 'logout' %}"><span class="fa fa-sign-out-alt"></span> Logout</a>
+                    <a href="{% url 'myProfile' %}"><span class="fa fa-user-circle"></span> My Profile</a>
+                    <a href="{% url 'favourites' %}"><span class="fa fa-heart"></span> Favourites</a>
+                    <a onclick="toggleButton()"><span class="fa fa-adjust"></span> Toggle Mode</a>
+                    <a href="{% url 'logout' %}"><span class="fa fa-sign-out-alt"></span> Logout</a>
                   </div>
               </div>
         </div>

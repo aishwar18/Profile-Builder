@@ -30,6 +30,7 @@
     <link rel="stylesheet" type = text/css href="{% static 'CSS/user_data.css' %}" />
     <link rel="stylesheet" type = text/css href="{% static 'CSS/login.css' %}" />
     <link rel="stylesheet" type = text/css href="{% static 'CSS/index.css' %}" />
+    <link rel="stylesheet" type = text/css href="{% static 'CSS/alert.css' %}">
 
 
 
@@ -58,7 +59,7 @@
     <div class="navbarCustom">
         <div class="nav-right">
               <div class="dropdown">
-                  <button class="dropbtn" onclick="myFunction()"><span class="fa fa-user"></span>
+                  <button class="dropbtn" onclick="myFunction()"><span class="fa fa-user"></span> {{username}}
                     <span class="fa fa-caret-down"></span>
                   </button>
                   <div class="dropdown-content" id="myDropdown">
@@ -68,6 +69,15 @@
               </div>
         </div>
     </div>
+    {% if messages %}
+    <div class="alert alert-success">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        {% for message in messages %}
+         {{message}}
+        {% endfor %}
+    </div>
+    <br>
+    {% endif %}
 <div class="row" style=padding-top:150px;>
   <div class="column" >
     <div class="container">

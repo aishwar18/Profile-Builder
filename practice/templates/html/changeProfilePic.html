@@ -130,10 +130,10 @@
                     <span class="fa fa-caret-down"></span>
                   </button>
                   <div class="dropdown-content" id="myDropdown">
-                      <a href="{% url 'myProfile' %}"><span class="fa fa-user-circle"></span> My Profile</a>
-                      <a href="{% url 'changePassword' %}"><span class="fa fa-key"></span> Change Password</a>
-                      <a onclick="toggleButton()"><span class="fa fa-adjust"></span> Toggle Mode</a>
-                      <a href="{% url 'logout' %}"><span class="fa fa-sign-out-alt"></span> Logout</a>
+                    <a href="{% url 'myProfile' %}"><span class="fa fa-user-circle"></span> My Profile</a>
+                    <a href="{% url 'favourites' %}"><span class="fa fa-heart"></span> Favourites</a>
+                    <a onclick="toggleButton()"><span class="fa fa-adjust"></span> Toggle Mode</a>
+                    <a href="{% url 'logout' %}"><span class="fa fa-sign-out-alt"></span> Logout</a>
                   </div>
               </div>
         </div>

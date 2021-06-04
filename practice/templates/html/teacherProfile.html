@@ -31,7 +31,26 @@
     <link rel="stylesheet" type= text/css href="{% static 'CSS/login.css' %}">
     <link rel="stylesheet" type = text/css href="{% static 'css/index.css' %}">
     <link rel="stylesheet" type = text/css href="{% static 'css/profile.css' %}">
-
+    <script>
+      function toggleButton() {
+         var element1 = document.body;
+         element1.classList.toggle("dark-mode");
+         var element2 = document.getElementById("email");
+         element2.classList.toggle("dark-mode");
+      }
+      </script>
+      <style>
+        body {
+          background-color: #2b2d42;
+          color: #edf2f4;
+          margin: 0;
+          min-height: 100%;
+        }
+        .dark-mode {
+          background-color: #edf2f4;
+          color: #2b2d42;
+        }
+      </style>
 </head>
 <body>
     <div class="navbarCustom">
@@ -42,9 +61,10 @@
                     <span class="fa fa-caret-down"></span>
                   </div>
                   <div class="dropdown-cntnt" id="myDropdown">
-                      <a href="{% url 'myProfile' %}"><span class="fa fa-user-circle"></span> My Profile</a>
-                      <a href="{% url 'changePassword' %}"><span class="fa fa-key"></span> Change Password</a>
-                      <a href="{% url 'logout' %}"><span class="fa fa-sign-out-alt"></span> Logout</a>
+                    <a href="{% url 'myProfile' %}"><span class="fa fa-user-circle"></span> My Profile</a>
+                    <a href="{% url 'favourites' %}"><span class="fa fa-heart"></span> Favourites</a>
+                    <a onclick="toggleButton()"><span class="fa fa-adjust"></span> Toggle Mode</a>
+                    <a href="{% url 'logout' %}"><span class="fa fa-sign-out-alt"></span> Logout</a>
                   </div>
               </div>
         </div>
@@ -313,6 +333,14 @@
                           <div class="modal-body">
                             <form method="POST">
                                 {% csrf_token %}
+                                <div class="form-group">
+                                  <label for="col">Select Areas of interest</label>
+                                  <select name="aois" class="form-control">
+                                      {% for entry in aoi %}
+                                          <option value="{{entry}}">{{entry}}</option>
+                                      {% endfor %}
+                                      </select>
+                                  </div>
                               <div class="form-group" style="text-align: left;">
                                 <label for="recipient-name" class="col-form-label">Research Title:</label>
                                 <input type="text" class="form-control" id="research" name="research" required>

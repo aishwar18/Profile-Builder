@@ -48,6 +48,7 @@
 
     <!--CSS-->
     <link rel="stylesheet" href="{% static 'CSS/signup.css' %}" />
+    <link rel="stylesheet" type = text/css href="{% static 'CSS/alert.css' %}">
 
 
 
@@ -56,13 +57,22 @@
 
   </head>
   <body>
+    {% if messages %}
+    <div class="alert alert-success">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        {% for message in messages %}
+         {{message}}
+        {% endfor %}
+    </div>
+    <br>
+    {% endif %}
     <div class="container-fluid">
           <div class="row">
             <div class="col col-lg-12"style=" padding-top:150px;">
               <div class="reg-box" id="reg-box">
                 <div class="reg-form" id="reg-form" >
                   <div class = "text_su"><h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Delete</h3></div><br>
-                  <form action="teacherDataDelete" method="post">
+                  <form action="studentDataDelete" method="post">
                     {% csrf_token %}
                     <div class="form-group">
                     <label for="col">Select Student's Mail ID</label>

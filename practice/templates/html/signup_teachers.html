@@ -79,7 +79,7 @@
               <div class="reg-box" id="reg-box">
                 <div class="reg-form" id="reg-form">
                   <div class = "text_su"><h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sign Up</h3></div><br>
-                  <form action="signup_teachers" method="post">
+                  <form action="signup_teachers" enctype="multipart/form-data" method="post">
                     {% csrf_token %}
 
                     <div class="form-group">
@@ -94,7 +94,7 @@
                         <br><br>
                         <div class="p-image">
                           <span class="fa fa-camera upload-button"></span>
-                           <input name="ptimg"  class="file-upload" type="file" accept="image/*"/>
+                           <input name="ptimg" id="ptimg" class="file-upload" type="file" accept="image/*" required/>
                         </div>
                      </div>
                    </div>
