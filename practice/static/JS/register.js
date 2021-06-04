@@ -123,3 +123,8 @@ function favourites_delete()
 window.open('favouritesDelete',target='_self')
 }
 
+function favourites_project()
+{
+window.open('favouritesProject',target='_self')
+}
+

@@ -165,7 +165,7 @@
       }
   }
 
-  /*splitting into 3 columns photos and hovering the background screen showing the text course insights*/
+  /*splitting into 2 columns photos and hovering the background screen showing the text course insights*/
 .container {
     position: relative;
     width: 100%;
@@ -185,8 +185,8 @@
     bottom: 0;
     left: 120px;
     right: 0;
-    height: 270px;
-    width: 400px;
+    height: 100%;
+    width: 60%;
     opacity: 0;
     transition: .5s ease;
     background-color: #008CBA;
