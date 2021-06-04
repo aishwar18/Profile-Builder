@@ -1,6 +1,7 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 from importlib import import_module
+from django.core.files.uploadedfile import SimpleUploadedFile
 from profile_builder.models import Students, Teachers, Teachers_data, Teachers_areas_of_interest, State
 
 class TestViews(TestCase):
@@ -23,40 +24,42 @@ class TestViews(TestCase):
         self.assertTemplateUsed(response, 'html/register.html')
 
     def test_project_signup_students_POST(self):
-        data={'psimg': 'img.png',
-        'first_name': 'Krishna',
-        'last_name': 'Sharma',
-        'col': 'Amrita Vishwa Vidhyapeetham',
-        'deg': 'B.tech',
-        'brh': 'CSE',
-        'sem': '6',
-        'stt': 'Tamil Nadu',
-        'sc': 'Coimbatore',
-        'mail_id': 'krishna@gmail.com',
-        'username': 'krishna',
-        'password': 'Krishna1234',
-        'sqn': 'What is your favorite color?',
-        'securityanswer': 'blue'}
-        response =  self.client.post('/html/signup_students', data, follow=True)
+        with open('media/images/img.png', 'rb') as img:
+            data={'psimg': img,
+            'first_name': 'Krishna',
+            'last_name': 'Sharma',
+            'col': 'Amrita Vishwa Vidhyapeetham',
+            'deg': 'B.tech',
+            'brh': 'CSE',
+            'sem': '6',
+            'stt': 'Tamil Nadu',
+            'sc': 'Coimbatore',
+            'mail_id': 'krishna@gmail.com',
+            'username': 'krishna',
+            'password': 'Krishna1234',
+            'sqn': 'What is your favorite color?',
+            'securityanswer': 'blue'}
+            response =  self.client.post('/html/signup_students', data, follow=True)
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'index.html')
 
     def test_project_signup_teachers_POST(self):
-        data={'ptimg': 'img.png',
-        'first_name': 'Krishna',
-        'last_name': 'Sharma',
-        'col': 'Amrita Vishwa Vidhyapeetham',
-        'deg': 'B.tech',
-        'brh': 'CSE',
-        'sem': '6',
-        'stt': 'Tamil Nadu',
-        'sc': 'Coimbatore',
-        'mail_id': 'krishna@gmail.com',
-        'username': 'krishna',
-        'password': 'Krishna1234',
-        'sqn': 'What is your favorite color?',
-        'securityanswer': 'blue'}
-        response =  self.client.post('/html/signup_teachers', data, follow=True)
+        with open('media/images/img.png', 'rb') as img:
+            data={'ptimg': img,
+            'first_name': 'Krishna',
+            'last_name': 'Sharma',
+            'col': 'Amrita Vishwa Vidhyapeetham',
+            'deg': 'B.tech',
+            'brh': 'CSE',
+            'sem': '6',
+            'stt': 'Tamil Nadu',
+            'sc': 'Coimbatore',
+            'mail_id': 'krishna@gmail.com',
+            'username': 'krishna',
+            'password': 'Krishna1234',
+            'sqn': 'What is your favorite color?',
+            'securityanswer': 'blue'}
+            response =  self.client.post('/html/signup_teachers', data, follow=True)
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'index.html')
 
@@ -196,31 +199,49 @@ class TestViews(TestCase):
         self.assertTemplateUsed(response, 'html/admin.html')
 
     def test_admin_GET(self):
+        session = self.client.session
+        session['username'] = 'admin1'
+        session.save()
         response = self.client.get('/html/admin')
         self.assertEquals(response.status_code,200)
         self.assertTemplateUsed(response, 'html/admin.html')
 
     def test_adminAreas_GET(self):
+        session = self.client.session
+        session['username'] = 'admin1'
+        session.save()
         response = self.client.get('/html/adminAreas')
         self.assertEquals(response.status_code,200)
         self.assertTemplateUsed(response, 'html/adminAreas.html')
 
     def test_adminTeachers_GET(self):
+        session = self.client.session
+        session['username'] = 'admin1'
+        session.save()
         response = self.client.get('/html/adminTeachers')
         self.assertEquals(response.status_code,200)
         self.assertTemplateUsed(response, 'html/adminFacultyDetails.html')
 
     def test_adminUser_GET(self):
+        session = self.client.session
+        session['username'] = 'admin1'
+        session.save()
         response = self.client.get('/html/adminUser')
         self.assertEquals(response.status_code,200)
         self.assertTemplateUsed(response, 'html/UserData.html')
 
     def test_adminStudentData_GET(self):
+        session = self.client.session
+        session['username'] = 'admin1'
+        session.save()
         response = self.client.get('/html/adminStudentData')
         self.assertEquals(response.status_code,200)
         self.assertTemplateUsed(response, 'html/adminStudentData.html')
 
     def test_adminTeacherData_GET(self):
+        session = self.client.session
+        session['username'] = 'admin1'
+        session.save()
         response = self.client.get('/html/adminTeacherData')
         self.assertEquals(response.status_code,200)
         self.assertTemplateUsed(response, 'html/adminTeacherData.html')
@@ -253,12 +274,18 @@ class TestViews(TestCase):
         self.assertTemplateUsed(response, 'html/adminAreas.html')
 
     def test_areasDataDelete_POST(self):
+        session = self.client.session
+        session['username'] = 'admin1'
+        session.save()
         teach = Teachers_areas_of_interest.objects.create(id_of_faculty=1, name_of_faculty="Harry", faculty_research_interest="Machine Learning")
         response = self.client.post('/html/areasDataDelete', {'teacher_name':'Harry'})
         self.assertEquals(response.status_code,200)
         self.assertTemplateUsed(response, 'html/areasDataDeleteResult.html')
 
     def test_teachersDataView_Negative_POST(self):
+        session = self.client.session
+        session['username'] = 'admin1'
+        session.save()
         teach = Teachers.objects.create(img = "pic.jpg",id_of_faculty =1,first_name ="Harry",last_name ="Potter", college = "IIT", city = "Chennai", mailid = "harry@gmail.com", username = "Harr1", password ="Harry123", security_qn ="What is your favourite movie?", security_an ="Harry Potter",id=1)
         response = self.client.post('/html/teacherDataView', {'mail_id':'abcd@gmail.com'})
         self.assertRedirects(response, '/html/adminUser', status_code=302,
