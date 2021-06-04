@@ -22,6 +22,9 @@ class ViewsTestCase(TestCase):
     def test_load_forgotPassword(self):
         response = self.client.get(reverse('forgotPassword'))    
         self.assertEqual(response.status_code, 200)
+    def test_load_prQuestion(self):
+        response = self.client.get(reverse('prQuestion'))
+        self.assertEqual(response.status_code, 200)
     def test_load_passwordReset(self):
         response = self.client.get(reverse('passwordReset'))
         self.assertEqual(response.status_code, 200)

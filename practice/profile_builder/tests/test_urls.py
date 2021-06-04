@@ -1,6 +1,6 @@
 from django.test import SimpleTestCase
 from django.urls import reverse,resolve
-from profile_builder.views import index,login,register,signup_teachers,signup_students,forgotPassword,passwordReset,changePassword,logout,prQuestion,home,teacher_profile,changeMail,changeProfilePic,editProfile,myProfile,faculty_detail,favourites,admin,favouritesView,favouritesDelete,favouritesInsert,adminAreas,adminUser,adminTeachers,adminStudentData,adminTeacherData, areasDataView, areasDataInsert,areasDataUpdate,areasDataUpdateResult,areasDataDeleteResult,teachersDataView,teachersDataInsert,teachersDataDelete,teachersDataUpdate,teachersDataUpdateResult,teacherDataView,teacherDataDelete,studentDataView,studentDataDelete
+from profile_builder.views import index,login,register,signup_teachers,signup_students,forgotPassword,passwordReset,changePassword,logout,prQuestion,home,teacher_profile,changeMail,changeProfilePic,editProfile,myProfile,faculty_detail,favourites,admin,favouritesView,favouritesDelete,favouritesInsert,favouritesProject,adminAreas,adminUser,adminTeachers,adminStudentData,adminTeacherData, areasDataView, areasDataInsert,areasDataUpdate,areasDataUpdateResult,areasDataDeleteResult,teachersDataView,teachersDataInsert,teachersDataInsertMain,teachersDataDelete,teachersDataUpdate,teachersDataUpdateResult,teacherDataView,teacherDataDelete,studentDataView,studentDataDelete
 
 class TestUrls(SimpleTestCase):
 
@@ -109,6 +109,11 @@ class TestUrls(SimpleTestCase):
         print(resolve(url))
         self.assertEqual(resolve(url).func, favouritesDelete)
 
+    def test_favouritesProject_resolved(self):
+        url = reverse('favouritesProject')
+        print(resolve(url))
+        self.assertEqual(resolve(url).func, favouritesProject)
+
     def test_admin_resolved(self):
         url = reverse('admin')
         print(resolve(url))
@@ -173,6 +178,11 @@ class TestUrls(SimpleTestCase):
         url = reverse('teachersDataInsert')
         print(resolve(url))
         self.assertEqual(resolve(url).func, teachersDataInsert)
+
+    def test_teachersDataInsertMain_resolved(self):
+        url = reverse('teachersDataInsertMain')
+        print(resolve(url))
+        self.assertEqual(resolve(url).func, teachersDataInsertMain)
 
     def test_teachersDataDelete_resolved(self):
         url = reverse('teachersDataDelete')
