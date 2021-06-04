@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.models import auth
 import csv
+from django.core.files.storage import FileSystemStorage
 from .models import Students,State,Teachers,Teachers_data,Teachers_areas_of_interest,projects,favorites,admin_data
 import pandas as pd
 # Create your views here.
@@ -11,9 +12,10 @@ user = None
 
 def index(request):
     if(admin_data.objects.count()==0):
+        username = 'admin1'
         mailid = 'adminprofilebuilder@gmail.com'
         password = 'aAqwer1!@'
-        admin_data1 = admin_data(mailid=mailid,password=password)
+        admin_data1 = admin_data(username=username,mailid=mailid,password=password)
         admin_data1.save()
     if(Teachers_data.objects.count()==0):
         df1 = pd.read_csv('./table1.csv')
@@ -46,9 +48,10 @@ def login(request):
         email = request.POST['email']
         password = request.POST['password']
         if(admin_data.objects.filter(mailid= email, password=password).exists()):
-            request.session['username'] = 'admin1'
+            admin = admin_data.objects.filter(mailid= email, password=password)
+            request.session['username'] = admin[0].username
             username =  request.session['username']
-            print(username)
+            #print(username)
             return redirect('admin')
         user = Students.objects.filter(mailid= email, password=password) or Teachers.objects.filter(mailid= email, password=password)
         if (Students.objects.filter(mailid= email, password=password).exists() or Teachers.objects.filter(mailid= email, password=password).exists()):
@@ -66,8 +69,9 @@ def register(request):
 
 
 def signup_students(request):
-    if(request.method == 'POST'):
-        img = request.POST['psimg']
+    if(request.method == 'POST' and request.FILES['psimg']):
+        img = request.FILES['psimg']
+        print("IMAGE",img)
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
         college = request.POST['col']
@@ -100,8 +104,8 @@ def signup_students(request):
         return render(request,"html/signup_students.html")
 
 def signup_teachers(request):
-    if(request.method == 'POST'):
-        img = request.POST['ptimg']
+    if(request.method == 'POST' and request.FILES['ptimg']):
+        img = request.FILES['ptimg']
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
         college = request.POST['col']
@@ -296,11 +300,13 @@ def teacher_profile(request,id):
             teacher.location = new_loc
             teacher.save()
             return redirect('teacher_profile', id=id)
-        if 'research' in request.POST:
+        if  ('aois' in request.POST and 'research' in request.POST):
+            aois = request.POST['aois']
+            aois = aois.lower()
             r = request.POST['research']
             if not(projects.objects.filter(research=r).exists()):
-                new = projects(id_of_faculty=teacher.id, research=r)
-                new.save()
+                new = projects(id_of_faculty=teacher.id,areas_of_interests=aois,research=r)
+                new.save()        
         proj = projects.objects.filter(id_of_faculty=teacher.id)
         if(proj):
             research = []
@@ -539,14 +545,13 @@ def favourites(request):
 def favouritesView(request):
     username = request.session.get('username')
     st = Students.objects.filter(username = username) or Teachers.objects.filter(username = username)
-    print(st)
     st = st[0]
-    id_of_student = st.id
-    if (favorites.objects.filter(id_of_student = id_of_student).exists()):
-        user = favorites.objects.filter(id_of_student = id_of_student)
+    un_st = st.username
+    if (favorites.objects.filter(un_st = un_st).exists()):
+        user = favorites.objects.filter(un_st = un_st)
         areas = []
         for i in user:
-            area = i.student_research_interest
+            area = i.research_interest
             areas.append(area)
         return render(request,"html/favouritesView.html",{'areas' : areas})
     else:
@@ -558,9 +563,9 @@ def favouritesInsert(request):
         username = request.session.get('username')
         st = Students.objects.filter(username = username) or Teachers.objects.filter(username = username)
         st = st[0]
-        id_of_student = st.id
+        un_st = st.username
         aoi = request.POST['aoi']
-        st_ft = favorites(id_of_student = id_of_student,student_research_interest  = aoi)
+        st_ft = favorites(un_st = un_st,research_interest  = aoi)
         st_ft.save()
         messages.info(request,'New data successfully inserted!')
         return redirect('favourites')
@@ -568,12 +573,12 @@ def favouritesInsert(request):
         username = request.session.get('username')
         st = Students.objects.filter(username = username) or Teachers.objects.filter(username = username)
         st = st[0]
-        id_of_student = st.id
+        un_st = st.username
         areas = []
-        if (favorites.objects.filter(id_of_student = id_of_student).exists()):
-            user = favorites.objects.filter(id_of_student = id_of_student)
+        if (favorites.objects.filter(un_st = un_st).exists()):
+            user = favorites.objects.filter(un_st = un_st)
             for i in user:
-                area = i.student_research_interest
+                area = i.research_interest
                 areas.append(area)
         area_objects = Teachers_areas_of_interest.objects.distinct('faculty_research_interest')
         areas1 = []
@@ -592,12 +597,12 @@ def favouritesDelete(request):
         username = request.session.get('username')
         st = Students.objects.filter(username = username) or Teachers.objects.filter(username = username)
         st = st[0]
-        id_of_student = st.id
-        if (favorites.objects.filter(id_of_student = id_of_student).exists()):
-            st = favorites.objects.filter(id_of_student = id_of_student)
+        un_st = st.username
+        if (favorites.objects.filter(un_st = un_st).exists()):
+            st = favorites.objects.filter(un_st = un_st)
             aoi = request.POST.getlist('aoi')
             for i in aoi:
-                st1 = favorites.objects.filter(student_research_interest=i)
+                st1 = favorites.objects.filter(research_interest=i)
                 st1.delete()
             messages.info(request,'Data successfully deleted!')
             return redirect('favourites')
@@ -605,35 +610,92 @@ def favouritesDelete(request):
         username = request.session.get('username')
         st = Students.objects.filter(username = username) or Teachers.objects.filter(username = username)
         st = st[0]
-        id_of_student = st.id
-        if (favorites.objects.filter(id_of_student = id_of_student).exists()):
-            user = favorites.objects.filter(id_of_student = id_of_student)
+        un_st = st.username
+        if (favorites.objects.filter(un_st = un_st).exists()):
+            user = favorites.objects.filter(un_st = un_st)
             areas = []
             for i in user:
-                area = i.student_research_interest
+                area = i.research_interest
                 areas.append(area)
             return render(request,"html/favouritesDelete.html",{'areas' : areas})
         else:
             areas = ['No favourites exist']
             return render(request,"html/favourites.html",{'areas' : areas})
 
+def favouritesProject(request):
+    username = request.session.get('username')
+    st = Students.objects.filter(username = username) or Teachers.objects.filter(username = username)
+    st = st[0]
+    un_st = st.username
+    if (favorites.objects.filter(un_st = un_st).exists()):
+        user = favorites.objects.filter(un_st = un_st)
+        pr_fv = []
+        areas = []
+        for i in user:
+            area = i.research_interest
+            area = area.strip()
+            if(area not in areas):
+                areas.append(area)
+            if(projects.objects.filter(areas_of_interests = area).exists()):
+                pr = projects.objects.filter(areas_of_interests = area)
+                l1 = []
+                for i in pr:
+                    tid = i.id_of_faculty
+                    teacher = Teachers_data.objects.filter(id = tid)
+                    tname = teacher[0].name_of_faculty
+                    l = [area,tname,i.research]
+                    l1.append(l)
+                pr_fv.append(l1)
+        if(len(pr_fv)==0):
+            area_objects = Teachers_areas_of_interest.objects.distinct('faculty_research_interest')
+            areas1 = []
+            for i in area_objects:
+                aoi1=i.faculty_research_interest
+                aoi=aoi1.capitalize()
+                if(aoi and aoi!="-" and aoi not in area_objects):
+                    aoi.strip()
+                    areas1.append(aoi)
+            areas = sorted(areas1)
+            messages.info(request,'No projects in your favourite subjects!')
+            return render(request,"html/favourites.html",{'username': username,'areas' : areas})
+        else:
+            return render(request,"html/favouritesProject.html",{'projects' : pr_fv,'areas':areas})
+    else:
+        area_objects = Teachers_areas_of_interest.objects.distinct('faculty_research_interest')
+        areas1 = []
+        for i in area_objects:
+            aoi1=i.faculty_research_interest
+            aoi=aoi1.capitalize()
+            if(aoi and aoi!="-" and aoi not in area_objects):
+                aoi.strip()
+                areas1.append(aoi)
+        areas = sorted(areas1)
+        messages.info(request,'Please add your favourite subjects!')
+        return render(request,"html/favourites.html",{'username': username,'areas' : areas})
+
 def admin(request):
-    return render(request,"html/admin.html")
+    username = request.session['username']
+    return render(request,"html/admin.html",{'username': username})
 
 def adminAreas(request):
-    return render(request,"html/adminAreas.html")
+    username = request.session['username']
+    return render(request,"html/adminAreas.html",{'username': username})
 
 def adminTeachers(request):
-    return render(request,"html/adminFacultyDetails.html")
+    username = request.session['username']
+    return render(request,"html/adminFacultyDetails.html",{'username': username})
 
 def adminUser(request):
-    return render(request,"html/UserData.html")
+    username = request.session['username']
+    return render(request,"html/UserData.html",{'username': username})
 
 def adminStudentData(request):
-    return render(request,"html/adminStudentData.html")
+    username = request.session['username']
+    return render(request,"html/adminStudentData.html",{'username': username})
 
 def adminTeacherData(request):
-    return render(request,"html/adminTeacherData.html")
+    username = request.session['username']
+    return render(request,"html/adminTeacherData.html",{'username': username})
 
 def areasDataView(request):
     if(request.method == 'POST'):
@@ -697,6 +759,7 @@ def areasDataUpdateResult(request):
 
 
 def areasDataDelete(request):
+    username = request.session['username']
     if(request.method == 'POST'):
         name_of_faculty = request.POST['teacher_name']
         if (Teachers_areas_of_interest.objects.filter(name_of_faculty=name_of_faculty).exists()):
@@ -738,7 +801,7 @@ def teachersDataView(request):
     else:
         items = Teachers_data.objects.all()
         return render(request,"html/TeachersDataView.html",{'items':items})
-
+        
 def teachersDataInsertMain(request):
     return render(request,"html/teachersDataInsert.html")
 
@@ -834,10 +897,10 @@ def teacherDataView(request):
             t=t[0]
             return render(request,"html/teacherDataViewResult.html",{'data':t})
         else:
-            return redirect('adminUser')
+            return redirect('UserData')
     else:
         items = Teachers.objects.all()
-        return render(request,"html/teacherDataView.html",{'items':items})
+        return render(request,"html/teacherDataView.html",{'items':items})   
 
 def teacherDataDelete(request):
     if(request.method == 'POST'):
@@ -850,7 +913,7 @@ def teacherDataDelete(request):
             items = Teachers.objects.all()
             return render(request,"html/teacherDataDelete.html",{'items':items})
         else:
-            return redirect('tecaherDataDelete')
+            return redirect('teacherDataDelete')
     else:
         items = Teachers.objects.all()
         return render(request,"html/teacherDataDelete.html",{'items':items})
@@ -866,7 +929,7 @@ def studentDataView(request):
             return redirect('adminUser')
     else:
         items = Students.objects.all()
-        return render(request,"html/studentDataView.html",{'items':items})
+        return render(request,"html/studentDataView.html",{'items':items}) 
 
 def studentDataDelete(request):
     if(request.method == 'POST'):

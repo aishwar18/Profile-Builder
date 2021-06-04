@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path
 from . import views
 
@@ -44,4 +46,8 @@ urlpatterns = [
     path('html/favouritesView',views.favouritesView,name="favouritesView"),
     path('html/favouritesInsert',views.favouritesInsert,name="favouritesInsert"),
     path('html/favouritesDelete',views.favouritesDelete,name="favouritesDelete"),
+    path('html/favouritesProject',views.favouritesProject,name="favouritesProject"),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

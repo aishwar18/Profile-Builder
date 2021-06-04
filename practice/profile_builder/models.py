@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 class Students(models.Model):
-    img = models.ImageField(upload_to='images/')
+    img = models.ImageField(upload_to='images/',default='images/view.jpg')
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     college =  models.CharField(max_length=100)
@@ -22,7 +22,7 @@ class State(models.Model):
     city = models.CharField(max_length=100)
 
 class Teachers(models.Model):
-    img = models.ImageField(upload_to='images/')
+    img = models.ImageField(upload_to='images/',default='images/view.jpg')
     id_of_faculty = models.IntegerField(verbose_name = "ID",default=0)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
@@ -49,13 +49,14 @@ class Teachers_areas_of_interest(models.Model):
 
 class projects(models.Model):
     id_of_faculty = models.IntegerField(verbose_name = "ID",default=0)
+    areas_of_interests = models.TextField(verbose_name = "aoi",default="computer science")
     research = models.TextField(verbose_name = "Research")
-    title = models.TextField(verbose_name = "Title")
 
 class favorites(models.Model):
-    id_of_student =  models.IntegerField(verbose_name = "ID",default=0)
-    student_research_interest = models.TextField(verbose_name = "Research interest")
+    un_st =  models.TextField(verbose_name = "User name",default="un")
+    research_interest = models.TextField(verbose_name = "Research interest",default="cs")
 
 class admin_data(models.Model):
+    username = models.TextField(default="admin1")
     mailid = models.TextField()
     password =  models.CharField(max_length=100)
