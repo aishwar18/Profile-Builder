@@ -34,6 +34,7 @@ urlpatterns = [
     path('html/areasDataDeleteResult',views.areasDataDeleteResult,name="areasDataDeleteResult"),
     path('html/teachersDataView',views.teachersDataView,name="teachersDataView"),
     path('html/teachersDataInsert',views.teachersDataInsert,name="teachersDataInsert"),
+    path('html/teachersDataInsertMain',views.teachersDataInsertMain,name="teachersDataInsertMain"),
     path('html/teachersDataUpdate',views.teachersDataUpdate,name="teachersDataUpdate"),
     path('html/teachersDataUpdateResult',views.teachersDataUpdateResult,name="teachersDataUpdateResult"),
     path('html/teachersDataDelete',views.teachersDataDelete,name="teachersDataDelete"),   

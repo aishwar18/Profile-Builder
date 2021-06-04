@@ -254,66 +254,69 @@ def home(request):
 
 def teacher_profile(request,id):
     username = request.session['username']
-    user = Students.objects.filter(username=username) or Teachers.objects.filter(username=username)
-    if(user):
-        user_mail = user[0].mailid
-        teacher = Teachers_data.objects.get(id=id)
-        t_aoi = Teachers_areas_of_interest.objects.filter(id_of_faculty=id)
-        name = teacher.name_of_faculty
-        email =teacher.mail_of_faculty
-        location = teacher.location
-        department = teacher.department
-        position = teacher.position
-        bio = teacher.bio_of_faculty
-        t1 = Teachers.objects.filter(id_of_faculty=id)
-        same_user=False
-        research = None
-        if(t1):
-            if(t1[0].username==username):
-                same_user = True
-        img = None
-        if not(t1 or img==""):
-            img=None
-        else:
-            img = t1[0].img.url
-            print(img)
-        aoi = []
-        for a in t_aoi:
-            aoi.append(a.faculty_research_interest)
-        if 'e_dept' in request.POST:
-            new_dept = request.POST['e_dept']
-            teacher.department = new_dept
-            teacher.save()
-            return redirect('teacher_profile', id=id)
-        if 'e_pos' in request.POST:
-            new_pos = request.POST['e_pos']
-            teacher.position = new_pos
-            teacher.save()
-            return redirect('teacher_profile', id=id)
-        if 'e_bio' in request.POST:
-            new_bio = request.POST['e_bio']
-            teacher.bio_of_faculty = new_bio
-            teacher.save()
-            return redirect('teacher_profile', id=id)
-        if 'e_loc' in request.POST:
-            new_loc = request.POST['e_loc']
-            teacher.location = new_loc
-            teacher.save()
-            return redirect('teacher_profile', id=id)
-        if  ('aois' in request.POST and 'research' in request.POST):
-            aois = request.POST['aois']
-            aois = aois.lower()
-            r = request.POST['research']
-            if not(projects.objects.filter(research=r).exists()):
-                new = projects(id_of_faculty=teacher.id,areas_of_interests=aois,research=r)
-                new.save()        
-        proj = projects.objects.filter(id_of_faculty=teacher.id)
-        if(proj):
-            research = []
-            for p in proj:
-                research.append(p.research)
-        return render(request,'html/teacherProfile.html',{'username':username,'name':name, 'id': id, 'bio':bio, 'email':email, 'location': location, 'position':position, 'department':department, 'aoi':aoi, 'img':img, 'same_user': same_user, 'research': research, 'user_mail':user_mail})
-    return render(request,'html/home.html',{'username':username})
+    if(Students.objects.filter(username=username).exists() or Teachers.objects.filter(username=username).exists()):
+        user = Students.objects.filter(username=username) or Teachers.objects.filter(username=username)
+        if(user):
+            user_mail = user[0].mailid
+            teacher = Teachers_data.objects.get(id=id)
+            t_aoi = Teachers_areas_of_interest.objects.filter(id_of_faculty=id)
+            name = teacher.name_of_faculty
+            email =teacher.mail_of_faculty
+            location = teacher.location
+            department = teacher.department
+            position = teacher.position
+            bio = teacher.bio_of_faculty
+            t1 = Teachers.objects.filter(id_of_faculty=id)
+            same_user=False
+            research = None
+            if(t1):
+                if(t1[0].username==username):
+                    same_user = True
+            img = None
+            if not(t1 or img==""):
+                img=None
+            else:
+                img = t1[0].img.url
+                print(img)
+            aoi = []
+            for a in t_aoi:
+                aoi.append(a.faculty_research_interest)
+            if 'e_dept' in request.POST:
+                new_dept = request.POST['e_dept']
+                teacher.department = new_dept
+                teacher.save()
+                return redirect('teacher_profile', id=id)
+            if 'e_pos' in request.POST:
+                new_pos = request.POST['e_pos']
+                teacher.position = new_pos
+                teacher.save()
+                return redirect('teacher_profile', id=id)
+            if 'e_bio' in request.POST:
+                new_bio = request.POST['e_bio']
+                teacher.bio_of_faculty = new_bio
+                teacher.save()
+                return redirect('teacher_profile', id=id)
+            if 'e_loc' in request.POST:
+                new_loc = request.POST['e_loc']
+                teacher.location = new_loc
+                teacher.save()
+                return redirect('teacher_profile', id=id)
+            if  ('aois' in request.POST and 'research' in request.POST):
+                aois = request.POST['aois']
+                aois = aois.lower()
+                r = request.POST['research']
+                if not(projects.objects.filter(research=r).exists()):
+                    new = projects(id_of_faculty=teacher.id,areas_of_interests=aois,research=r)
+                    new.save()        
+            proj = projects.objects.filter(id_of_faculty=teacher.id)
+            if(proj):
+                research = []
+                for p in proj:
+                    research.append(p.research)
+            return render(request,'html/teacherProfile.html',{'username':username,'name':name, 'id': id, 'bio':bio, 'email':email, 'location': location, 'position':position, 'department':department, 'aoi':aoi, 'img':img, 'same_user': same_user, 'research': research, 'user_mail':user_mail})
+        return render(request,'html/home.html',{'username':username})
+    else:
+        return render(request,'html/home.html',{'username':username})
 
 def changeMail(request):
     username = request.session.get('username')
@@ -350,42 +353,46 @@ def editProfile(request):
 def changeProfilePic(request):
     username = request.session.get('username')
     user = None
-    user = Students.objects.filter(username=username) or Teachers.objects.filter(username=username)
-    if(user[0].img==""):
-        request.session['profilepic']='..\media\images\change_profile'
-    else:
-        request.session['profilepic'] = user[0].img.url
-    profilepic = request.session.get('profilepic')
-    print(profilepic)
-    if( request.method == 'POST' and request.FILES['psimg']):
-        new_img = request.FILES['psimg']
-        if (Students.objects.filter(username=username).exists()):
-            s = Students.objects.get(username=username)
-            s.img = new_img
-            s.save()
-            print(new_img)
-            messages.info(request,'Profile Picture changed successfully')
-            return redirect('home')
-        elif (Teachers.objects.filter(username=username).exists()):
-            t = Teachers.objects.get(username=username)
-            t.img = new_img
-            t.save()
-            messages.info(request,'Profile Picture changed successfully')
-            return redirect('home')
+    if(Students.objects.filter(username=username).exists() or Teachers.objects.filter(username=username).exists()):
+        user = Students.objects.filter(username=username) or Teachers.objects.filter(username=username)
+        if(user[0].img==""):
+            request.session['profilepic']='..\media\images\change_profile'
+        else:
+            request.session['profilepic'] = user[0].img.url
+        profilepic = request.session.get('profilepic')
+        print(profilepic)
+        if( request.method == 'POST' and request.FILES['psimg']):
+            new_img = request.FILES['psimg']
+            if (Students.objects.filter(username=username).exists()):
+                s = Students.objects.get(username=username)
+                s.img = new_img
+                s.save()
+                print(new_img)
+                messages.info(request,'Profile Picture changed successfully')
+                return redirect('home')
+            elif (Teachers.objects.filter(username=username).exists()):
+                t = Teachers.objects.get(username=username)
+                t.img = new_img
+                t.save()
+                messages.info(request,'Profile Picture changed successfully')
+                return redirect('home')
+            else:
+                return render(request,"html/changeProfilePic.html",{'username': username,'profilepic' : profilepic})
         else:
             return render(request,"html/changeProfilePic.html",{'username': username,'profilepic' : profilepic})
     else:
-        return render(request,"html/changeProfilePic.html",{'username': username,'profilepic' : profilepic})
+        return render(request,"html/editProfile.html",{'username': username})
 
 def myProfile(request):
     #profil pic
     username = request.session.get('username')
     user = None
     user = Students.objects.filter(username=username) or Teachers.objects.filter(username=username)
-    if(user[0].img==""):
-        request.session['profilepic']='..\media\images\change_profile'
-    else:
-        request.session['profilepic'] = user[0].img.url
+    if(user):
+        if(user[0].img==""):
+            request.session['profilepic']='..\media\images\change_profile'
+        else:
+            request.session['profilepic'] = user[0].img.url
     profilepic = request.session.get('profilepic')
     print(profilepic)
     username = request.session.get('username')
@@ -497,10 +504,9 @@ def myProfile(request):
                 t.city = city
                 t.save()
                 return redirect('myProfile')
-
-
         return render(request,"html/myProfile.html",{'username': username, 'email':email,'first_name':first_name, 'last_name':last_name,'college':college,'city':city,'img':img,'is_student': is_student,'profilepic' : profilepic, 'bio':bio, 'listed':is_listed , 'aoi':aoi, 'research':research,'id_of_faculty': fac_id})
-
+    else:
+        return render(request,'html/home.html',{'username':username})
 def faculty_detail(request):
     username = request.session.get('username')
     if (request.method=='POST'):
@@ -544,70 +550,7 @@ def favourites(request):
 
 def favouritesView(request):
     username = request.session.get('username')
-    st = Students.objects.filter(username = username) or Teachers.objects.filter(username = username)
-    st = st[0]
-    un_st = st.username
-    if (favorites.objects.filter(un_st = un_st).exists()):
-        user = favorites.objects.filter(un_st = un_st)
-        areas = []
-        for i in user:
-            area = i.research_interest
-            areas.append(area)
-        return render(request,"html/favouritesView.html",{'areas' : areas})
-    else:
-        areas = ['No favourites exist']
-        return render(request,"html/favouritesView.html",{'areas' : areas})
-
-def favouritesInsert(request):
-    if(request.method == 'POST'):
-        username = request.session.get('username')
-        st = Students.objects.filter(username = username) or Teachers.objects.filter(username = username)
-        st = st[0]
-        un_st = st.username
-        aoi = request.POST['aoi']
-        st_ft = favorites(un_st = un_st,research_interest  = aoi)
-        st_ft.save()
-        messages.info(request,'New data successfully inserted!')
-        return redirect('favourites')
-    else:
-        username = request.session.get('username')
-        st = Students.objects.filter(username = username) or Teachers.objects.filter(username = username)
-        st = st[0]
-        un_st = st.username
-        areas = []
-        if (favorites.objects.filter(un_st = un_st).exists()):
-            user = favorites.objects.filter(un_st = un_st)
-            for i in user:
-                area = i.research_interest
-                areas.append(area)
-        area_objects = Teachers_areas_of_interest.objects.distinct('faculty_research_interest')
-        areas1 = []
-        for i in area_objects:
-            aoi1=i.faculty_research_interest
-            aoi=aoi1.lower()
-            if(aoi and aoi!="-" and aoi not in area_objects):
-                aoi.strip()
-                if(aoi not in areas):
-                    areas1.append(aoi)
-        areas = sorted(areas1)
-        return render(request,"html/favouritesInsert.html",{'areas' : areas})
-
-def favouritesDelete(request):
-    if(request.method == 'POST'):
-        username = request.session.get('username')
-        st = Students.objects.filter(username = username) or Teachers.objects.filter(username = username)
-        st = st[0]
-        un_st = st.username
-        if (favorites.objects.filter(un_st = un_st).exists()):
-            st = favorites.objects.filter(un_st = un_st)
-            aoi = request.POST.getlist('aoi')
-            for i in aoi:
-                st1 = favorites.objects.filter(research_interest=i)
-                st1.delete()
-            messages.info(request,'Data successfully deleted!')
-            return redirect('favourites')
-    else:
-        username = request.session.get('username')
+    if(Students.objects.filter(username = username).exists() or Teachers.objects.filter(username = username).exists()):
         st = Students.objects.filter(username = username) or Teachers.objects.filter(username = username)
         st = st[0]
         un_st = st.username
@@ -617,49 +560,10 @@ def favouritesDelete(request):
             for i in user:
                 area = i.research_interest
                 areas.append(area)
-            return render(request,"html/favouritesDelete.html",{'areas' : areas})
+            return render(request,"html/favouritesView.html",{'areas' : areas})
         else:
             areas = ['No favourites exist']
-            return render(request,"html/favourites.html",{'areas' : areas})
-
-def favouritesProject(request):
-    username = request.session.get('username')
-    st = Students.objects.filter(username = username) or Teachers.objects.filter(username = username)
-    st = st[0]
-    un_st = st.username
-    if (favorites.objects.filter(un_st = un_st).exists()):
-        user = favorites.objects.filter(un_st = un_st)
-        pr_fv = []
-        areas = []
-        for i in user:
-            area = i.research_interest
-            area = area.strip()
-            if(area not in areas):
-                areas.append(area)
-            if(projects.objects.filter(areas_of_interests = area).exists()):
-                pr = projects.objects.filter(areas_of_interests = area)
-                l1 = []
-                for i in pr:
-                    tid = i.id_of_faculty
-                    teacher = Teachers_data.objects.filter(id = tid)
-                    tname = teacher[0].name_of_faculty
-                    l = [area,tname,i.research]
-                    l1.append(l)
-                pr_fv.append(l1)
-        if(len(pr_fv)==0):
-            area_objects = Teachers_areas_of_interest.objects.distinct('faculty_research_interest')
-            areas1 = []
-            for i in area_objects:
-                aoi1=i.faculty_research_interest
-                aoi=aoi1.capitalize()
-                if(aoi and aoi!="-" and aoi not in area_objects):
-                    aoi.strip()
-                    areas1.append(aoi)
-            areas = sorted(areas1)
-            messages.info(request,'No projects in your favourite subjects!')
-            return render(request,"html/favourites.html",{'username': username,'areas' : areas})
-        else:
-            return render(request,"html/favouritesProject.html",{'projects' : pr_fv,'areas':areas})
+            return render(request,"html/favouritesView.html",{'areas' : areas})
     else:
         area_objects = Teachers_areas_of_interest.objects.distinct('faculty_research_interest')
         areas1 = []
@@ -670,8 +574,183 @@ def favouritesProject(request):
                 aoi.strip()
                 areas1.append(aoi)
         areas = sorted(areas1)
-        messages.info(request,'Please add your favourite subjects!')
-        return render(request,"html/favourites.html",{'username': username,'areas' : areas})
+        return render(request,"html/favourites.html",{'username': username,'areas' : areas})        
+    
+
+def favouritesInsert(request):
+    if(request.method == 'POST'):
+        username = request.session.get('username')
+        if(Students.objects.filter(username = username).exists() or Teachers.objects.filter(username = username).exists()):
+            st = Students.objects.filter(username = username) or Teachers.objects.filter(username = username)
+            st = st[0]
+            un_st = st.username
+            aoi = request.POST['aoi']
+            st_ft = favorites(un_st = un_st,research_interest  = aoi)
+            st_ft.save()
+            messages.info(request,'New data successfully inserted!')
+            return redirect('favourites')
+        else:
+                area_objects = Teachers_areas_of_interest.objects.distinct('faculty_research_interest')
+                areas1 = []
+                for i in area_objects:
+                    aoi1=i.faculty_research_interest
+                    aoi=aoi1.capitalize()
+                    if(aoi and aoi!="-" and aoi not in area_objects):
+                        aoi.strip()
+                        areas1.append(aoi)
+                areas = sorted(areas1)
+                return render(request,"html/favourites.html",{'username': username,'areas' : areas})      
+    else:
+        username = request.session.get('username')
+        if(Students.objects.filter(username = username).exists() or Teachers.objects.filter(username = username).exists()):
+            st = Students.objects.filter(username = username) or Teachers.objects.filter(username = username)
+            st = st[0]
+            un_st = st.username
+            areas = []
+            if (favorites.objects.filter(un_st = un_st).exists()):
+                user = favorites.objects.filter(un_st = un_st)
+                for i in user:
+                    area = i.research_interest
+                    areas.append(area)
+            area_objects = Teachers_areas_of_interest.objects.distinct('faculty_research_interest')
+            areas1 = []
+            for i in area_objects:
+                aoi1=i.faculty_research_interest
+                aoi=aoi1.lower()
+                if(aoi and aoi!="-" and aoi not in area_objects):
+                    aoi.strip()
+                    if(aoi not in areas):
+                        areas1.append(aoi)
+            areas = sorted(areas1)
+            return render(request,"html/favouritesInsert.html",{'areas' : areas})
+        else:
+            area_objects = Teachers_areas_of_interest.objects.distinct('faculty_research_interest')
+            areas1 = []
+            for i in area_objects:
+                aoi1=i.faculty_research_interest
+                aoi=aoi1.capitalize()
+                if(aoi and aoi!="-" and aoi not in area_objects):
+                    aoi.strip()
+                    areas1.append(aoi)
+            areas = sorted(areas1)
+            return render(request,"html/favourites.html",{'username': username,'areas' : areas})      
+
+def favouritesDelete(request):
+    if(request.method == 'POST'):
+        username = request.session.get('username')
+        if(Students.objects.filter(username = username).exists() or Teachers.objects.filter(username = username).exists()):
+            st = Students.objects.filter(username = username) or Teachers.objects.filter(username = username)
+            st = st[0]
+            un_st = st.username
+            if (favorites.objects.filter(un_st = un_st).exists()):
+                st = favorites.objects.filter(un_st = un_st)
+                aoi = request.POST.getlist('aoi')
+                for i in aoi:
+                    st1 = favorites.objects.filter(research_interest=i)
+                    st1.delete()
+                messages.info(request,'Data successfully deleted!')
+                return redirect('favourites')
+        else:
+            area_objects = Teachers_areas_of_interest.objects.distinct('faculty_research_interest')
+            areas1 = []
+            for i in area_objects:
+                aoi1=i.faculty_research_interest
+                aoi=aoi1.capitalize()
+                if(aoi and aoi!="-" and aoi not in area_objects):
+                    aoi.strip()
+                    areas1.append(aoi)
+            areas = sorted(areas1)
+            return render(request,"html/favourites.html",{'username': username,'areas' : areas})      
+    else:
+        username = request.session.get('username')
+        if(Students.objects.filter(username = username).exists() or Teachers.objects.filter(username = username).exists()):
+            st = Students.objects.filter(username = username) or Teachers.objects.filter(username = username)
+            st = st[0]
+            un_st = st.username
+            if (favorites.objects.filter(un_st = un_st).exists()):
+                user = favorites.objects.filter(un_st = un_st)
+                areas = []
+                for i in user:
+                    area = i.research_interest
+                    areas.append(area)
+                return render(request,"html/favouritesDelete.html",{'areas' : areas})
+            else:
+                areas = ['No favourites exist']
+                return render(request,"html/favourites.html",{'areas' : areas})
+        else:
+            area_objects = Teachers_areas_of_interest.objects.distinct('faculty_research_interest')
+            areas1 = []
+            for i in area_objects:
+                aoi1=i.faculty_research_interest
+                aoi=aoi1.capitalize()
+                if(aoi and aoi!="-" and aoi not in area_objects):
+                    aoi.strip()
+                    areas1.append(aoi)
+            areas = sorted(areas1)
+            return render(request,"html/favourites.html",{'username': username,'areas' : areas})      
+
+def favouritesProject(request):
+    username = request.session.get('username')
+    if(Students.objects.filter(username = username).exists() or Teachers.objects.filter(username = username).exists()):
+        st = Students.objects.filter(username = username) or Teachers.objects.filter(username = username)
+        st = st[0]
+        un_st = st.username
+        if (favorites.objects.filter(un_st = un_st).exists()):
+            user = favorites.objects.filter(un_st = un_st)
+            pr_fv = []
+            areas = []
+            for i in user:
+                area = i.research_interest
+                area = area.strip()
+                if(area not in areas):
+                    areas.append(area)
+                if(projects.objects.filter(areas_of_interests = area).exists()):
+                    pr = projects.objects.filter(areas_of_interests = area)
+                    l1 = []
+                    for i in pr:
+                        tid = i.id_of_faculty
+                        teacher = Teachers_data.objects.filter(id = tid)
+                        tname = teacher[0].name_of_faculty
+                        l = [area,tname,i.research]
+                        l1.append(l)
+                    pr_fv.append(l1)
+            if(len(pr_fv)==0):
+                area_objects = Teachers_areas_of_interest.objects.distinct('faculty_research_interest')
+                areas1 = []
+                for i in area_objects:
+                    aoi1=i.faculty_research_interest
+                    aoi=aoi1.capitalize()
+                    if(aoi and aoi!="-" and aoi not in area_objects):
+                        aoi.strip()
+                        areas1.append(aoi)
+                areas = sorted(areas1)
+                messages.info(request,'No projects in your favourite subjects!')
+                return render(request,"html/favourites.html",{'username': username,'areas' : areas})
+            else:
+                return render(request,"html/favouritesProject.html",{'projects' : pr_fv,'areas':areas})
+        else:
+            area_objects = Teachers_areas_of_interest.objects.distinct('faculty_research_interest')
+            areas1 = []
+            for i in area_objects:
+                aoi1=i.faculty_research_interest
+                aoi=aoi1.capitalize()
+                if(aoi and aoi!="-" and aoi not in area_objects):
+                    aoi.strip()
+                    areas1.append(aoi)
+            areas = sorted(areas1)
+            messages.info(request,'Please add your favourite subjects!')
+            return render(request,"html/favourites.html",{'username': username,'areas' : areas})
+    else:
+        area_objects = Teachers_areas_of_interest.objects.distinct('faculty_research_interest')
+        areas1 = []
+        for i in area_objects:
+            aoi1=i.faculty_research_interest
+            aoi=aoi1.capitalize()
+            if(aoi and aoi!="-" and aoi not in area_objects):
+                aoi.strip()
+                areas1.append(aoi)
+        areas = sorted(areas1)
+        return render(request,"html/favourites.html",{'username': username,'areas' : areas})     
 
 def admin(request):
     username = request.session['username']
@@ -866,7 +945,8 @@ def teachersDataUpdateResult(request):
         else:
              return redirect('adminTeachers')
     else:
-         return redirect('adminTeachers')
+        username = request.session['username']
+        return render(request,"html/adminFacultyDetails.html",{'username': username})
 
 def teachersDataDelete(request):
     if(request.method == 'POST'):
