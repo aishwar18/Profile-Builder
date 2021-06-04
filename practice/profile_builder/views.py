@@ -979,7 +979,7 @@ def teacherDataView(request):
             t=t[0]
             return render(request,"html/teacherDataViewResult.html",{'data':t})
         else:
-            return redirect('UserData')
+            return redirect('adminUser')
     else:
         items = Teachers.objects.all()
         return render(request,"html/teacherDataView.html",{'items':items})   
