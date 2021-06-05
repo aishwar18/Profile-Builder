@@ -80,7 +80,9 @@ DATABASES = {
         'NAME': 'profilebuilder',
         'USER' : 'postgres',
         'PASSWORD' : 'test',
-        'HOST' : 'localhost' #machine address
+        #'HOST' : 'localhost' #machine address
+        'HOST' : 'db',
+        'PORT' : 5432
     }
 }
 

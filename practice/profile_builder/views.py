@@ -6,6 +6,12 @@ import csv
 from django.core.files.storage import FileSystemStorage
 from .models import Students,State,Teachers,Teachers_data,Teachers_areas_of_interest,projects,favorites,admin_data
 import pandas as pd
+
+import os.path
+
+my_path = os.path.abspath(os.path.dirname(__file__))
+path1 = os.path.join(my_path, "../table1.csv")
+path2 = os.path.join(my_path, "../table2.csv")
 # Create your views here.
 
 user = None
@@ -18,7 +24,7 @@ def index(request):
         admin_data1 = admin_data(username=username,mailid=mailid,password=password)
         admin_data1.save()
     if(Teachers_data.objects.count()==0):
-        df1 = pd.read_csv('./table1.csv')
+        df1 = pd.read_csv(path1)
         nor1 = df1.shape[0]
         name_of_faculty = pd.Series(df1['name_of_faculty'])
         bio_of_faculty = pd.Series(df1['bio_of_faculty'])
@@ -30,7 +36,7 @@ def index(request):
             teachers_data = Teachers_data(name_of_faculty=name_of_faculty[i],bio_of_faculty=bio_of_faculty[i],mail_of_faculty=mail_of_faculty[i],position=position[i],location=location[i],department=department[i])
             teachers_data.save()
     if(Teachers_areas_of_interest.objects.count()==0):
-        df2 = pd.read_csv('./table2.csv')
+        df2 = pd.read_csv(path2)
         nor2 = df2.shape[0]
         name_of_faculty = pd.Series(df2['name_of_faculty'])
         faculty_research_interest = pd.Series(df2['Area of interest'])
