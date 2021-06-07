@@ -65,30 +65,30 @@
                   <form  action="teachersDataUpdateResult" method="post">
                     {% csrf_token %}
                     <div class="form-group">
-                    <label style="font-size:20px;" for="col"><b>Teacher's Name :</b></label>
+                    <label style="font-size:20px;" for="col"><strong>Teacher's Name :</strong></label>
                     <p>{{name}}</p>
                     <input hidden type="text" class="form-control" name = "teacher_name" id="teacher_name" value = "{{name}}" required>
                     </div>
-                      <div class="form-group">  
-                        <label  style="font-size:20px;"><b>Bio :</b></label> 
-                        <input type="text" class="form-control" name = "bio" id="bio_of_faculty" value = "{{entry.bio_of_faculty}}" required>    
+                      <div class="form-group">
+                        <label  style="font-size:20px;"><strong>Bio :</strong></label> 
+                        <input type="text" class="form-control" name = "bio" id="bio_of_faculty" value = "{{entry.bio_of_faculty}}" required>
                     </div>
-                    <div class="form-group">  
-                        <label  style="font-size:20px;"><b>Mail :</b></label> 
-                        <input type="text" class="form-control" name = "mail" id="mail_of_faculty" value = "{{entry.mail_of_faculty}}" required>    
+                    <div class="form-group">
+                        <label  style="font-size:20px;"><strong>Mail :</strong></label>
+                        <input type="text" class="form-control" name = "mail" id="mail_of_faculty" value = "{{entry.mail_of_faculty}}" required>
                     </div>
-                    <div class="form-group">  
-                        <label  style="font-size:20px;"><b>Position :</b></label> 
-                        <input type="text" class="form-control" name = "position" id="position" value = "{{entry.position}}" required>    
+                    <div class="form-group">
+                        <label  style="font-size:20px;"><strong>Position :</strong></label>
+                        <input type="text" class="form-control" name = "position" id="position" value = "{{entry.position}}" required>
                     </div>
-                    <div class="form-group">  
-                        <label  style="font-size:20px;"><b>Department :</b></label> 
-                        <input type="text" class="form-control" name = "department" id="department" value = "{{entry.department}}" required>    
+                    <div class="form-group">
+                        <label  style="font-size:20px;"><strong>Department :</strong></label>
+                        <input type="text" class="form-control" name = "department" id="department" value = "{{entry.department}}" required>
                     </div>
-                    <div class="form-group">  
-                        <label  style="font-size:20px;"><b>Location :</b></label> 
-                        <input type="text" class="form-control" name = "location" id="location" value = "{{entry.location}}" required>    
-                    </div>        
+                    <div class="form-group">
+                        <label  style="font-size:20px;"><strong>Location :</strong></label>
+                        <input type="text" class="form-control" name = "location" id="location" value = "{{entry.location}}" required>
+                    </div>
                     <button  type="submit" class="btn btn-primary" id="submit_btn" data-toggle="tooltip" data-placement="left" title="">Update</button>
                     <button type="reset" class="btn btn-primary" id="reset_btn">Reset</button>
                   </form>

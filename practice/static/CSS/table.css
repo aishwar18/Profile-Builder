@@ -50,7 +50,6 @@ table td a{
     color: white;
 }
 .filter_btn:hover{
-    cursor: pointer;
     border: 1px solid #D90429;
     background-color: #D90429;
     cursor: pointer;

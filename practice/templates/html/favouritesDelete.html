@@ -64,14 +64,14 @@
                   <div class = "text_su"><h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Delete</h3></div><br>
                   <form  action="favouritesDelete" method="post">
                     {% csrf_token %}
-                    <label  style="font-size:20px;"><b>Favourites :</b></label>
-                    {% for entry in areas %} 
+                    <label  style="font-size:20px;"><strong>Favourites :</strong></label>
+                    {% for entry in areas %}
                     <div class="form-group form-check">
                         <input name="aoi" value="{{entry}}" type="checkbox" class="form-check-input" id="aoi+{{entry.id}}">
                         <label class="form-check-label" for="aoi">{{entry}}</label>
-                    </div> 
+                    </div>
                     {% endfor %}
-                    
+
                     <button  type="submit" class="btn btn-primary" id="submit_btn" data-toggle="tooltip" data-placement="left" title="">Delete</button>
                     <button type="reset" class="btn btn-primary" id="reset_btn">Reset</button>
                   </form>

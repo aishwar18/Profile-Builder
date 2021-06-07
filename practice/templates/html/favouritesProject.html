@@ -65,13 +65,12 @@
                   <form>
                     {% csrf_token %}
                         {% for i in projects %}
-                            {% for j in i %}  
+                            {% for j in i %}
                                 {%for k in j%}
                                     {% if k in areas %}
-                                        <label  style = "text-transform:capitalize;font-size:20px;"><b>{{k}} :</b></label>
+                                        <label  style = "text-transform:capitalize;font-size:20px;"><strong>{{k}} :</strong></label>
                                     {% else %}
-                                        <div class="form-group">   
-                                            <!--<a style = "text-transform:capitalize;" href="{% url 'teacher_profile' 11 %}"> My Profile</a>-->  
+                                        <div class="form-group">
                                             <p style = "text-transform:capitalize;"><span class="fa fa-star"></span>&nbsp;&nbsp;&nbsp;&nbsp;{{k}}</p>
                                         </div>
                                     {% endif %}

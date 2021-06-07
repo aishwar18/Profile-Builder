@@ -65,9 +65,9 @@
                   <form>
                     {% csrf_token %}
 
-                    <label  style="font-size:20px;"><b>Favourites :</b></label>
-                    {% for entry in areas %}  
-                      <div class="form-group">       
+                    <label  style="font-size:20px;"><strong>Favourites :</strong></label>
+                    {% for entry in areas %}
+                      <div class="form-group">
                         <p><span class="fa fa-star"></span>&nbsp;&nbsp;&nbsp;&nbsp;{{entry}}</p>
                     </div>
                     {% endfor %}

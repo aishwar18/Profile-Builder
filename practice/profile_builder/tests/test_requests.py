@@ -177,7 +177,7 @@ class TestViews(TestCase):
         self.assertEquals(response.status_code,200)
         self.assertTemplateUsed(response, 'html/favourites.html')
 
-    '''def test_favouritesView_GET(self):
+    def test_favouritesView_GET(self):
         session = self.client.session
         session['username'] = 'krishna'
         session.save()
@@ -191,7 +191,7 @@ class TestViews(TestCase):
         session.save()
         response = self.client.post('/html/favouritesInsert')
         self.assertEquals(response.status_code,200)
-        self.assertTemplateUsed(response, 'html/favourites.html')'''
+        self.assertTemplateUsed(response, 'html/favourites.html')
 
     def test_admin_GET(self):
         response = self.client.get('/html/admin')
