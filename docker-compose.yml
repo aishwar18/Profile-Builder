@@ -6,9 +6,9 @@ services:
     volumes:
       - ./data/db:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=profilebuilder
+      - POSTGRES_DB=profilebuilderfinal
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=test
+      - POSTGRES_PASSWORD=pb321
   web:
     build: .
     command: python practice/manage.py runserver 0.0.0.0:8000
