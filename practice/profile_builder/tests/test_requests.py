@@ -24,7 +24,7 @@ class TestViews(TestCase):
         self.assertTemplateUsed(response, 'html/register.html')
 
     def test_project_signup_students_POST(self):
-        with open('media/images/img.png', 'rb') as img:
+        with open('media/images/pic.jpg', 'rb') as img:
             data={'psimg': img,
             'first_name': 'Krishna',
             'last_name': 'Sharma',
@@ -44,7 +44,7 @@ class TestViews(TestCase):
         self.assertTemplateUsed(response, 'index.html')
 
     def test_project_signup_teachers_POST(self):
-        with open('media/images/img.png', 'rb') as img:
+        with open('media/images/pic.jpg', 'rb') as img:
             data={'ptimg': img,
             'first_name': 'Krishna',
             'last_name': 'Sharma',
