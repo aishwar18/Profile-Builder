@@ -141,12 +141,6 @@ class ViewsTestCase(TestCase):
         session.save()
         response = self.client.get(reverse('areasDataDeleteResult'))
         self.assertEqual(response.status_code, 200)
-    def test_load_teachersDataView(self):
-        session = self.client.session
-        session['username'] = "aishwarya"
-        session.save()
-        response = self.client.get(reverse('teachersDataView'))
-        self.assertEqual(response.status_code, 200)
     def test_load_teachersDataInsertMain(self):
         response = self.client.get(reverse('teachersDataInsertMain'))
         self.assertEqual(response.status_code, 200)
