@@ -307,3 +307,4 @@ class admin_data_model_test(TestCase):
         self.assertTrue(isinstance(admin_data_test, admin_data))
         max_length = admin_data_test._meta.get_field('password').max_length
         self.assertEqual(max_length, 100)
+     
