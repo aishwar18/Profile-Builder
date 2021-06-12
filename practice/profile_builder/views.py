@@ -882,12 +882,12 @@ def teachersDataView(request):
             t = Teachers_data.objects.filter(name_of_faculty=name_of_faculty)
             id = t[0].id
             t=t[0]
-            return render(request,"html/TeachersDataViewResult.html",{'id':id,'name':name_of_faculty,'data':t})
+            return render(request,"html/teachersDataViewResult.html",{'id':id,'name':name_of_faculty,'data':t})
         else:
             return redirect('adminTeachers')
     else:
         items = Teachers_data.objects.all()
-        return render(request,"html/TeachersDataView.html",{'items':items})
+        return render(request,"html/teachersDataView.html",{'items':items})
 
 def teachersDataInsertMain(request):
     return render(request,"html/teachersDataInsert.html")
