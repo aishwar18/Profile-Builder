@@ -1,0 +1,41 @@
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+import time
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+PATH="C:\Program Files (x86)\chromedriver.exe"
+driver=webdriver.Chrome(PATH)
+driver.maximize_window()
+driver.get("http://127.0.0.1:8000/html/login")
+uname=driver.find_elements_by_name("email")
+uname[0].send_keys("adityasai0916@gmail.com")
+pwd=driver.find_elements_by_name("password")
+pwd[0].send_keys("SEproject1")
+link=driver.find_elements_by_class_name("login_button")
+link[0].click()
+rows=driver.find_element_by_id("maxRows")
+rows.click()
+time.sleep(3)
+print("5 rows checked")
+submit=driver.find_elements_by_xpath("//option[contains(@value ,'10')]")
+submit[0].click()
+time.sleep(3)
+print("10 rows checked")
+
+submit=driver.find_elements_by_xpath("//option[contains(@value ,'20')]")
+submit[0].click()
+time.sleep(3)
+print("20 rows checked")
+# submit=driver.find_elements_by_xpath("//option[contains(@value ,'50')]")
+# submit[0].click()
+# time.sleep(3)
+# print("50 rows checked")
+submit=driver.find_elements_by_xpath("//option[contains(@value ,'100')]")
+submit[0].click()
+time.sleep(3)
+print("100 rows checked")
+submit=driver.find_elements_by_xpath("//option[contains(@value ,'5000')]")
+submit[0].click()
+time.sleep(3)
+print("all rows checked")
+driver.quit()
